@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>{{ config.title }} - {% block title %}Home{% endblock %}</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="{% block description %}Home{% endblock %}">
+        <meta name="author" content="{{ config.extra.author }}">
+
+        {% include "partials/head.html" %}
+    </head>
+    <body>
+        <div class="mx-5 px-3 py-1 d-flex flex-column h-100" id="main">
+            {% include "partials/search_result.html" %}
+            <div>
+                {% include "partials/navbar.html" %}
+            </div>
+
+            <div class="mt-1 mb-2">
+                {% block body %}{% endblock %}
+            </div>
+
+            <footer class="py-2 mt-auto footer">
+                {% include "partials/footer.html" %}
+            </footer>
+        </div>
+    </body>
+</html>
