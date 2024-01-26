@@ -1,0 +1,314 @@
+/**
+ * colors:
+ * * body: https://coolors.co/0b1015-f6ae2d-44355b-fcfcfc-f8e5ee-fb6376
+ * */
+:root {
+  /* Colors */
+  --color0: #070A0D;
+  --color1: #0B1015;
+  --color2: #E23E58;
+  --color3: #82264F;
+  --color4: #d81e5b;
+  --color5: #EEE2DF;
+  --color6: #EB5E55;
+  --color7: #E23E58;
+  --color8: #101820;
+  --color9: #1c2a37;
+  --color10: #1A0B26;
+  --color11: #461E66;
+  --color12: #0d141a;
+  --color13: #633359;
+  --color14: #2E294E;
+  --color15: #274c77;
+
+  /* Border. */
+  --border-size: 1px;
+
+  /* Body. */
+  --body-background: var(--color1);
+  --body-foreground: var(--color5);
+
+  /* Narbar. */
+  --navbar-font: 'display';
+  --navbar-background: var(--color1);
+  --navbar-foreground: var(--color5);
+  --navbar-border-color: var(--color9);
+  --navbar-icon-foreground: var(--color5);
+  --brand-color: var(--color7);
+  --brand-font: 'monospace';
+
+  /* Footer. */
+  --footer-font: 'display';
+
+  /* Arcticle. */
+  --article-title-text-background: var(--color3);
+  --article-title-text-foreground: var(--color5);
+  --article-title-section-background: var(--color2);
+  --article-title-section-foreground: var(--color5);
+  --article-title-font: 'display';
+  --article-tag-foreground: var(--color6);
+  --article-body-font: 'display';
+  --article-tag-font: 'display';
+
+  /* Search */
+  --search-input-background: var(--color12);
+  --search-input-foreground: var(--color5);
+  --search-input-placeholder: var(--color9);
+  --search-button-background: var(--color9);
+  --search-input-border-color: var(--color9);
+
+  /* Modal */
+  --modal-panel-background: var(--color12);
+  --modal-panel-border: var(--color9);
+
+  /* Code. */
+  --mono-font: 'monospace';
+  --code-border-color: var(--color3);
+}
+
+/* Fonts */
+@font-face {
+  /* Display */
+  src: url("../fonts/Lexend-VariableFont_wght.ttf");
+  font-family: 'display';
+}
+
+@font-face {
+  /* Mono - code */
+  src: url("../fonts/JetBrainsMono-Medium.woff2");
+  font-family: 'monospace';
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  /* Mono - code */
+  src: url("../fonts/JetBrainsMono-MediumItalic.woff2");
+  font-family: 'monospace';
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
+  /* Mono - code */
+  src: url("../fonts/JetBrainsMono-Bold.woff2");
+  font-family: 'monospace';
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  /* Mono - code */
+  src: url("../fonts/JetBrainsMono-BoldItalic.woff2");
+  font-family: 'monospace';
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* Body */
+body {
+    background: var(--color0);
+}
+
+a,
+a:active,
+a:visited {
+  color: var(--body-foreground);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--color2);
+}
+
+a:hover {
+  color: var(--body-foreground);
+}
+
+hr {
+    color: var(--color5);
+}
+
+/* Main */
+#main {
+  background: var(--body-background);
+  color: var(--body-foreground);
+  font-family: var(--article-body-font), sans-serif;
+  font-size: medium;
+  font-weight: normal;
+}
+
+/* Navbar */
+.navbar svg {
+    fill: var(--navbar-icon-foreground);
+    height: 1.2em;
+}
+
+.navbar-dark {
+  background-color: var(--navbar-background) !important;
+  border-bottom: var(--border-size) solid var(--navbar-border-color);
+}
+
+.navbar-dark .nav-link {
+  color: var(--navbar-foreground) !important;
+  font-family: var(--mono-font), monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: normal;
+}
+
+.navbar-brand {
+  color: var(--brand-color) !important;
+  font-family: var(--brand-font), monospace;
+}
+
+.navbar-brand-zero {
+  background: var(--color14);
+  color: var(--color5);
+}
+
+.navbar-brand-to {
+  background: var(--color13);
+  color: var(--color5);
+}
+
+.navbar-brand-one {
+  background: var(--color14);
+  color: var(--color5);
+}
+
+/* Footer */
+.footer {
+  border-top: var(--border-size) solid var(--navbar-border-color);
+  font-family: var(--footer-font), monospace;
+}
+
+/* Badge */
+.badge {
+  font-family: var(--mono-font), monospace;
+}
+
+/* Modal */
+.modal-content {
+    background-color: var(--modal-panel-background);
+    border: var(--border-size) solid var(--modal-panel-border);
+}
+.modal-content .modal-header {
+    border-bottom: var(--border-size) solid var(--modal-panel-border);
+}
+
+/* Search */
+#search-box input, #search-box button {
+    border: var(--border-size) solid var(--search-input-border-color);
+    outline: none;
+    box-shadow: none;
+}
+
+#search {
+    background-color: var(--search-input-background);
+    color: var(--search-input-foreground);
+    font-family: var(--mono-font), monospace;
+}
+
+#search::placeholder {
+    color: var(--search-input-placeholder);
+}
+
+#search-btn {
+    background-color: var(--search-button-background);
+}
+
+/* Article */
+.article-title, h1, h2, h3 {
+  color: var(--article-title-text-foreground);
+  text-decoration: none;
+  font-family: var(--article-title-font), sans-serif;
+  font-weight: 400;
+  font-size: inherit;
+  text-transform: uppercase;
+}
+
+.article-title > .article-title-text {
+  background-color: var(--article-title-text-background);
+}
+
+.article-title > .article-title-section {
+  background-color: var(--article-title-section-background);
+  color: var(--article-title-section-foreground);
+}
+
+.article-title-box {
+    /* background-color: var(--color8); */
+}
+
+.article-body p {
+    font-family: var(--article-body-font), sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.article-tag {
+  color: var(--article-tag-foreground);
+  font-family: var(--article-tag-font), sans-serif;
+  font-weight: normal;
+}
+
+.article-toc {
+}
+
+/* Blockquote */
+blockquote {
+  padding-left: 5px;
+  line-height: 2;
+}
+
+blockquote.info {
+  background: var(--color8);
+  border-left: var(--border-size) solid var(--color9);
+}
+
+blockquote.important {
+  background: var(--color10);
+  border-left: var(--border-size) solid var(--color11);
+}
+
+/* Code */
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--mono-font), monospace;
+  font-size: 15px;
+}
+
+pre {
+  border: var(--border-size) solid var(--code-border-color);
+  padding: 10px;
+  line-height: 20px;
+}
+
+pre table {
+    width: 100%;
+}
+
+pre mark {
+    color: var(--color13);
+    display: block;
+}
+
+/** Line numbers. */
+pre table tbody tr td:first-child {
+    border-right: 1px solid var(--color9);
+    padding-right: 10px;
+    text-align: right;
+    color: var(--color14);
+    width: 30px;
+}
+
+/** Code lines. */
+pre table tbody tr td:nth-child(2) {
+    padding-left: 10px;
+}
+
+/* Image */
+.img-fluid {
+    border: var(--border-size) solid var(--color9);
+}

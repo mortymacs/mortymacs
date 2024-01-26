@@ -1,0 +1,84 @@
+{%- extends "base.html" %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.summary | spaceless | striptags }}{% endblock %}
+{% block body %}
+
+<div>
+  <div>
+    <div class="row">
+      <div class="col-md-10">
+        <div class="article-title m-0 p-0 d-inline-flex">
+          <h1 class="article-title-text px-2 py-1 my-0">
+          {% if page.title is matching(" - part \d+") %}
+            {% for part_num in range(start = 1, end = 5) %}
+              {% if page.title is matching(" - part " ~ part_num) %}
+                {{ page.title | replace(from = " - part " ~ part_num, to = "") }}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            {{ page.title }}
+          {% endif %}
+          </h1>
+          {% if page.extra.part %}
+          <h1 class="article-title-section px-2 py-1 my-0">Part {{ page.extra.part }}</h1>
+          {% endif %}
+        </div>
+      </div>
+      {% if page.date %}
+      <div>
+        <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>
+      </div>
+      {% endif %}
+    </div>
+    <div class="article-toc">
+    {% if page.toc %}
+        <h4 class="mt-3">Table of Contents</h4>
+        <ul>
+        {% for h1 in page.toc %}
+            <li>
+                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+                {% if h1.children %}
+                <ul>
+                {% for h2 in h1.children %}
+                <li>
+                    <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    <div class="article-body">
+      {{ page.content | safe }}
+    </div>
+    <div>
+      {% if page.extra.references %}
+      <h5>References:</h5>
+      <ul>
+        {% for ref in page.extra.references %}
+        <li><a href="{{ ref.1 }}" target="_blank">{{ ref.0 }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if page.extra.tags %}
+  <div>
+    {% for tag in page.extra.tags %}
+    <label class="badge p-0 article-tag fs-6 mx-1">#{{ tag }}</label>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if page.extra.comment %}
+  <div class="mb-3"></div>
+  <div class="giscus"></div>
+  {% endif %}
+</div>
+{% if page.extra.comment %}
+{% include "partials/comment.html" %}
+{% endif %}
+{% endblock %}

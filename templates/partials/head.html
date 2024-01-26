@@ -1,0 +1,31 @@
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="{{ get_url(path="img/favicon.png") }}">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="{{ get_url(path="css/bootstrap.min.css") }}">
+<link rel="stylesheet" href="{{ get_url(path="css/style.css") }}">
+
+<!-- Javascript -->
+<script src="{{ get_url(path="js/jquery.min.js") }}"></script>
+<script src="{{ get_url(path="js/bootstrap.min.js") }}"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="{{ get_url(path="img/logo.png") }}">
+<meta property="og:image:type" content="image/png" >
+
+<!-- Search -->
+<script async src="{{ get_url(path="elasticlunr.min.js") }}"></script>
+<script async src="{{ get_url(path="search_index.en.js") }}"></script>
+<script async src="{{ get_url(path="js/search.js") }}"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DPJYQNN1X6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DPJYQNN1X6');
+</script>

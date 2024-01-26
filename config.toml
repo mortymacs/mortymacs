@@ -1,0 +1,29 @@
+# General.
+base_url = "https://0t1.me"
+title = "ZeroToOne"
+
+# Language.
+default_language = "en"
+
+# Index content for search.
+build_search_index = true
+
+# RSS.
+generate_feed = true
+feed_filename = "rss.xml"
+
+# Performance.
+compile_sass = false
+minify_html = false
+
+[markdown]
+# Whether to do syntax highlighting
+highlight_code = true
+highlight_theme = "my-ayu-dark"
+extra_syntaxes_and_themes = ["highlight_themes"]
+render_emoji = true
+
+[extra]
+# Put all your custom variables here
+logo = "#include<0t1>"
+author = "Morteza (Mort) NourelahiAlamdari"
