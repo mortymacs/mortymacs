@@ -32,7 +32,7 @@ These are the tools I've configured and set up on my system.
 | Terminal Multiplexer | [`Tmux`](https://github.com/tmux/tmux) |
 | Editor/IDE | [`Neovim`](https://github.com/neovim/neovim) |
 | DB | [`Dbcli tools`](https://github.com/dbcli) |
-| Fonts | Display: [`Lexend`](https://github.com/googlefonts/lexend), [`VarizMatn`](https://github.com/rastikerdar/vazirmatn), Monospace: [`Ellograph`](https://connary.com/ellograph.html) |
+| Fonts | Display: [Lexend](https://github.com/googlefonts/lexend), [VarizMatn](https://github.com/rastikerdar/vazirmatn), Monospace: [JetbrainsMono](https://www.jetbrains.com/lp/mono/) |
 | File Manager | [`Broot`](https://github.com/Canop/broot) |
 | Launcher | [`Rofi`](https://github.com/davatorium/rofi) |
 | Browser | [`Firefox`](https://www.mozilla.org) |
