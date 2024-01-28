@@ -75,7 +75,7 @@
 
 @font-face {
   /* Mono - code */
-  src: url("../fonts/JetBrainsMono-Medium.woff2");
+  src: url("../fonts/CodeNewRomanNerdFont-Regular.otf");
   font-family: 'monospace';
   font-style: normal;
   font-weight: normal;
@@ -83,7 +83,7 @@
 
 @font-face {
   /* Mono - code */
-  src: url("../fonts/JetBrainsMono-MediumItalic.woff2");
+  src: url("../fonts/CodeNewRomanNerdFont-Italic.otf");
   font-family: 'monospace';
   font-style: italic;
   font-weight: normal;
@@ -91,23 +91,15 @@
 
 @font-face {
   /* Mono - code */
-  src: url("../fonts/JetBrainsMono-Bold.woff2");
+  src: url("../fonts/CodeNewRomanNerdFont-Bold.otf");
   font-family: 'monospace';
   font-style: normal;
-  font-weight: bold;
-}
-
-@font-face {
-  /* Mono - code */
-  src: url("../fonts/JetBrainsMono-BoldItalic.woff2");
-  font-family: 'monospace';
-  font-style: italic;
   font-weight: bold;
 }
 
 /* Body */
 body {
-    background: var(--color0);
+  background: var(--color0);
 }
 
 a,
