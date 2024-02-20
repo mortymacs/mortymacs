@@ -71,7 +71,7 @@
 
 @font-face {
     /* Mono - code */
-    src: url("../fonts/CodeNewRomanNerdFont-Regular.otf");
+    src: url("../fonts/JetBrainsMono-Regular.woff2");
     font-family: 'monospace';
     font-style: normal;
     font-weight: normal;
@@ -79,7 +79,7 @@
 
 @font-face {
     /* Mono - code */
-    src: url("../fonts/CodeNewRomanNerdFont-Italic.otf");
+    src: url("../fonts/JetBrainsMono-Italic.woff2");
     font-family: 'monospace';
     font-style: italic;
     font-weight: normal;
@@ -87,7 +87,7 @@
 
 @font-face {
     /* Mono - code */
-    src: url("../fonts/CodeNewRomanNerdFont-Bold.otf");
+    src: url("../fonts/JetBrainsMono-Bold.woff2");
     font-family: 'monospace';
     font-style: normal;
     font-weight: bold;
