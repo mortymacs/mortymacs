@@ -16,9 +16,11 @@
     --color13: #633359;
     --color14: #2E294E;
     --color15: #274c77;
+    --color16: #1a1c29;
 
     /* Border. */
     --border-size: 1px;
+    --border-color: var(--color16);
 
     /* Body. */
     --body-background: var(--color1);
@@ -70,7 +72,7 @@
 }
 
 @font-face {
-    /* Mono - code */
+    /* Mono */
     src: url("../fonts/DMMono-Medium.ttf");
     font-family: 'monospace';
     font-style: normal;
@@ -106,6 +108,7 @@ hr {
     font-family: var(--article-body-font), sans-serif;
     font-size: medium;
     font-weight: normal;
+    border: 1px solid var(--border-color);
 }
 
 /* Navbar */
