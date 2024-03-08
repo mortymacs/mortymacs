@@ -17,7 +17,7 @@ function search(searchDB, searchResultModal) {
                     '<div class="mt-' + top_margin + '">' +
                     '<a href="' + val.doc.id + '">' +
                     '<div class="article-title m-0 p-0 d-inline-flex">' +
-                    '<h1 class="article-title-text px-2 py-1 m-0">' +
+                    '<h1 class="article-title-text article-title-radius px-2 py-1 m-0">' +
                     val.doc.title +
                     '</h1>' +
                     '</div>' +

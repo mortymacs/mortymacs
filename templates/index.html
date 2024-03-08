@@ -9,7 +9,7 @@
     <div class="article-title-box py-0">
     <a href="{{ page.permalink }}">
       <div class="article-title m-0 p-0 d-inline-flex">
-        <h1 class="article-title-text px-2 py-1 my-0">
+        <h1 class="article-title-text {% if not page.extra.part %}article-title-radius{% endif %} px-2 py-1 my-0">
         {% if page.title is matching(" - part \d+") %}
           {% for part_num in range(start = 1, end = 5) %}
             {% if page.title is matching(" - part " ~ part_num) %}
@@ -21,7 +21,7 @@
         {% endif %}
         </h1>
         {% if page.extra.part %}
-        <h1 class="article-title-section px-2 py-1 my-0">Part {{ page.extra.part }}</h1>
+        <h1 class="article-title-section article-title-radius px-2 py-1 my-0">Part {{ page.extra.part }}</h1>
         {% endif %}
       </div>
     </a>

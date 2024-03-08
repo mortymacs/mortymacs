@@ -27,7 +27,7 @@
     --body-foreground: var(--color5);
 
     /* Narbar. */
-    --navbar-font: 'display';
+    --navbar-font: 'monospace';
     --navbar-background: var(--color1);
     --navbar-foreground: var(--color5);
     --navbar-border-color: var(--color9);
@@ -124,7 +124,7 @@ hr {
 
 .navbar-dark .nav-link {
     color: var(--navbar-foreground) !important;
-    font-family: var(--mono-font), monospace;
+    font-family: var(--navbar-font), monospace;
     font-weight: bold;
     text-transform: uppercase;
     font-size: normal;
@@ -228,6 +228,10 @@ h3 {
 }
 
 .article-toc {}
+
+.article-title-radius {
+    border-radius: 0 20px 20px 0;
+}
 
 /* Blockquote */
 blockquote {
