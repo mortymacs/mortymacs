@@ -1,63 +1,119 @@
 :root {
-    /* Colors */
-    --color0: #070A0D;
-    --color1: #0B1015;
-    --color2: #E23E58;
-    --color3: #82264F;
-    --color4: #d81e5b;
-    --color5: #EEE2DF;
-    --color6: #EB5E55;
-    --color7: #E23E58;
-    --color8: #101820;
-    --color9: #1c2a37;
-    --color10: #1A0B26;
-    --color11: #461E66;
-    --color12: #0d141a;
-    --color13: #633359;
-    --color14: #2E294E;
-    --color15: #274c77;
-    --color16: #1a1c29;
+    /* Colors - dark mode */
+    --color0-dark: #070A0D;  /* Body background. */
+    --color1-dark: #0B1015;  /* Main background. */
+    --color2-dark: #91473C;  /* Article part background. */
+    --color3-dark: #4B4040;  /* Article title background. */
+    --color4-dark: #F6F7EB;  /* Body foreground. */
+    --color5-dark: #EB5E55;  /* Article tags background. */
+    --color6-dark: #101820;  /* Quote [info] background. */
+    --color7-dark: #1a1c29;  /* Border foreground. */
+    --color8-dark: #1A0B26;  /* Quote [important] background */
+    --color9-dark: #461E66;  /* Quote [important] border foreground. */
+    --color10-dark: #0d141a; /* Modal and search box background. */
+    --color11-dark: #1a1c29; /* Main border foreground. */
+    --color12-dark: #393e41; /* Brand logo background. */
+    --color13-dark: #e94f37; /* Brand logo background. */
+    --color14-dark: #F6F7EB; /* Article title foreground. */
 
+    /* Colors - light mode */
+    --color0-light: #F6F7EB;  /* Body background. */
+    --color1-light: #F6F7EB;  /* Main background. */
+    --color2-light: #91473C;  /* Article part background. */
+    --color3-light: #9A7AA0;  /* Article title background. */
+    --color4-light: #101820;  /* Body foreground. */
+    --color5-light: #EB5E55;  /* Article tags background. */
+    --color6-light: #101820;  /* Quote [info] background. */
+    --color7-light: #E94F37;  /* Border foreground. */
+    --color8-light: #1A0B26;  /* Quote [important] background */
+    --color9-light: #461E66;  /* Quote [important] border foreground. */
+    --color10-light: #0d141a; /* Modal and search box background. */
+    --color11-light: #ede0d4; /* Main border foreground. */
+    --color12-light: #393e41; /* Brand logo background. */
+    --color13-light: #e94f37; /* Brand logo background. */
+    --color14-light: #F6F7EB; /* Article title foreground. */
+
+    /* Colors - default */
+    --color0: var(--color0-dark);
+    --color1: var(--color1-dark);
+    --color2: var(--color2-dark);
+    --color3: var(--color3-dark);
+    --color4: var(--color4-dark);
+    --color5: var(--color5-dark);
+    --color6: var(--color6-dark);
+    --color7: var(--color7-dark);
+    --color8: var(--color8-dark);
+    --color9: var(--color9-dark);
+    --color10: var(--color10-dark);
+    --color11: var(--color11-dark);
+    --color12: var(--color12-dark);
+    --color13: var(--color13-dark);
+    --color14: var(--color14-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color0: var(--color0-dark);
+        --color1: var(--color1-dark);
+        --color2: var(--color2-dark);
+        --color3: var(--color3-dark);
+        --color4: var(--color4-dark);
+        --color5: var(--color5-dark);
+        --color6: var(--color6-dark);
+        --color7: var(--color7-dark);
+        --color8: var(--color8-dark);
+        --color9: var(--color9-dark);
+        --color10: var(--color10-dark);
+        --color11: var(--color11-dark);
+        --color12: var(--color12-dark);
+        --color13: var(--color13-dark);
+        --color14: var(--color14-dark);
+    }
+}
+
+:root {
     /* Border. */
     --border-size: 1px;
-    --border-color: var(--color16);
+    --border-color: var(--color11);
 
     /* Body. */
     --body-background: var(--color1);
-    --body-foreground: var(--color5);
+    --body-foreground: var(--color4);
 
     /* Narbar. */
     --navbar-font: 'monospace';
     --navbar-background: var(--color1);
-    --navbar-foreground: var(--color5);
-    --navbar-border-color: var(--color9);
-    --navbar-icon-foreground: var(--color5);
-    --brand-color: var(--color7);
+    --navbar-foreground: var(--color4);
+    --navbar-border-color: var(--color7);
+    --navbar-icon-foreground: var(--color4);
+    --brand-color: var(--color6);
     --brand-font: 'monospace';
+    --brand-color1: var(--color12);
+    --brand-color2: var(--color13);
 
     /* Footer. */
     --footer-font: 'display';
 
     /* Arcticle. */
     --article-title-text-background: var(--color3);
-    --article-title-text-foreground: var(--color5);
+    --article-title-text-foreground: var(--color14);
     --article-title-section-background: var(--color2);
-    --article-title-section-foreground: var(--color5);
+    --article-title-section-foreground: var(--color14);
     --article-title-font: 'display';
-    --article-tag-foreground: var(--color6);
+    --article-tag-foreground: var(--color5);
     --article-body-font: 'display';
     --article-tag-font: 'display';
 
     /* Search */
-    --search-input-background: var(--color12);
-    --search-input-foreground: var(--color5);
-    --search-input-placeholder: var(--color9);
-    --search-button-background: var(--color9);
-    --search-input-border-color: var(--color9);
+    --search-input-background: var(--color10);
+    --search-input-foreground: var(--color4);
+    --search-input-placeholder: var(--color7);
+    --search-button-background: var(--color7);
+    --search-input-border-color: var(--color7);
 
     /* Modal */
-    --modal-panel-background: var(--color12);
-    --modal-panel-border: var(--color9);
+    --modal-panel-background: var(--color10);
+    --modal-panel-border: var(--color7);
 
     /* Code. */
     --mono-font: 'monospace';
@@ -98,7 +154,7 @@ a:hover {
 }
 
 hr {
-    color: var(--color5);
+    color: var(--color4);
 }
 
 /* Main */
@@ -136,18 +192,18 @@ hr {
 }
 
 .navbar-brand-zero {
-    background: var(--color14);
-    color: var(--color5);
+    background: var(--brand-color1);
+    color: var(--color4);
 }
 
 .navbar-brand-to {
-    background: var(--color13);
-    color: var(--color5);
+    background: var(--brand-color2);
+    color: var(--color4);
 }
 
 .navbar-brand-one {
-    background: var(--color14);
-    color: var(--color5);
+    background: var(--brand-color1);
+    color: var(--color4);
 }
 
 /* Footer */
@@ -229,10 +285,6 @@ h3 {
 
 .article-toc {}
 
-.article-title-radius {
-    border-radius: 0 20px 20px 0;
-}
-
 /* Blockquote */
 blockquote {
     padding-left: 5px;
@@ -240,13 +292,13 @@ blockquote {
 }
 
 blockquote.info {
-    background: var(--color8);
-    border-left: var(--border-size) solid var(--color9);
+    background: var(--color6);
+    border-left: var(--border-size) solid var(--color7);
 }
 
 blockquote.important {
-    background: var(--color10);
-    border-left: var(--border-size) solid var(--color11);
+    background: var(--color8);
+    border-left: var(--border-size) solid var(--color9);
 }
 
 /* Code */
@@ -275,7 +327,7 @@ pre mark {
 
 /** Line numbers. */
 pre table tbody tr td:first-child {
-    border-right: 1px solid var(--color9);
+    border-right: 1px solid var(--color7);
     padding-right: 10px;
     text-align: right;
     color: var(--color14);
@@ -289,5 +341,5 @@ pre table tbody tr td:nth-child(2) {
 
 /* Image */
 .img-fluid {
-    border: var(--border-size) solid var(--color9);
+    border: var(--border-size) solid var(--color7);
 }
