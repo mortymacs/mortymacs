@@ -27,7 +27,7 @@ These are the tools I've configured and set up on my system.
 | Status Bar | [`Polybar`](https://github.com/polybar/polybar) |
 | Notification | [`Dunst`](https://github.com/dunst-project/dunst) |
 | Terminal | [`Alacritty`](https://github.com/alacritty/alacritty) |
-| Shell | [`Zsh`](https://www.zsh.org) |
+| Shell | [Fish](https://fishshell.com) |
 | Shell Prompt | [`Starship`](https://github.com/starship/starship) |
 | Terminal Multiplexer | [`Tmux`](https://github.com/tmux/tmux) |
 | Editor/IDE | [`Neovim`](https://github.com/neovim/neovim) |
