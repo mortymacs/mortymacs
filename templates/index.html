@@ -5,34 +5,15 @@
 {% set blog = get_section(path="blog/_index.md") %}
 {% for page in blog.pages %}
 <div class="mb-3">
-  <div>
-    <div class="article-title-box py-0">
-    <a href="{{ page.permalink }}">
-      <div class="article-title m-0 p-0 d-inline-flex">
-        <h1 class="article-title-text {% if not page.extra.part %}rounded-end-pill{% endif %} px-2 py-1 my-0">
-        {% if page.title is matching(" - part \d+") %}
-          {% for part_num in range(start = 1, end = 5) %}
-            {% if page.title is matching(" - part " ~ part_num) %}
-              {{ page.title | replace(from = " - part " ~ part_num, to = "") }}
-            {% endif %}
-          {% endfor %}
-        {% else %}
-          {{ page.title }}
-        {% endif %}
-        </h1>
-        {% if page.extra.part %}
-        <h1 class="article-title-section rounded-end-pill px-2 py-1 my-0">Part {{ page.extra.part }}</h1>
-        {% endif %}
-      </div>
-    </a>
+    <div class="article-title fs-5">
+        <strong><a href="{{ page.permalink }}" class="text-capitalize">{{ page.title }}</a></strong>
     </div>
     <div>
-      <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>
+        <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>
     </div>
     <div class="article-body">
-      {{ page.summary | safe }}
+        {{ page.summary | safe }}
     </div>
-  </div>
 </div>
 {% endfor %}
 
