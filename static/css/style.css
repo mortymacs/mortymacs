@@ -81,6 +81,10 @@ hr {
     color: var(--color6);
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
 /* Navbar */
 .navbar-dark {
     background-color: var(--color1) !important;
