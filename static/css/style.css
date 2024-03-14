@@ -1,28 +1,29 @@
 :root {
-    /* Colors - dark mode */
-    --color0-0: #d9ed92;
+    /* Colors */
     /* Logo foreground. */
-    --color0-1: #101820;
+    --color0-0: #EE5622;
     /* Logo background. */
-    --color1: #070A0D;
+    --color0-1: #31263E;
     /* Body background. */
-    --color2: #ffffff;
+    --color1: #0B1015;
     /* Text foreground. */
-    --color3: #52b69a;
+    --color2: #ffffff;
     /* Title foreground. */
-    --color4: #76c893;
+    --color3: #ECA72C;
     /* Tags foreground. */
-    --color5-0: #231942;
+    --color4: #ECA72C;
     /* Note [info] background. */
-    --color5-1: #241e46;
+    --color5-0: #221E22;
     /* Note [important] background. */
-    --color6-0: #34a0a4;
+    --color5-1: #31263E;
     /* Border foreground. */
-    --color6-1: #3d405b;
+    --color6-0: #564256;
     /* Fade border foreground. */
-    --color7: #495057;
+    --color6-1: #3d405b;
     /* Fade text foreground. */
+    --color7: #495057;
     --border-size: 2px;
+    --font-0: 'monospace';
 }
 
 /* Fonts */
@@ -58,7 +59,7 @@
 body {
     background: var(--color1);
     color: var(--color2);
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
     font-size: large;
     font-weight: normal;
 }
@@ -83,12 +84,12 @@ hr {
 /* Navbar */
 .navbar-dark {
     background-color: var(--color1) !important;
-    border-bottom: var(--border-size) dashed var(--color6-0);
+    border-bottom: var(--border-size) solid var(--color6-0);
 }
 
 .navbar-dark .nav-link {
     color: var(--color2) !important;
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
     font-weight: bold;
     font-size: normal;
 }
@@ -96,34 +97,34 @@ hr {
 .navbar-brand {
     color: var(--color0-0) !important;
     background: var(--color0-1);
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
 }
 
 /* Footer */
 .footer {
-    border-top: var(--border-size) dashed var(--color6-0);
-    font-family: 'monospace', monospace;
+    border-top: var(--border-size) solid var(--color6-0);
+    font-family: var(--font-0), monospace;
 }
 
 /* Badge */
 .badge {
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
 }
 
 /* Modal */
 .modal-content {
     background-color: var(--color1);
-    border: var(--border-size) dashed var(--color6-0);
+    border: var(--border-size) solid var(--color6-0);
 }
 
 .modal-content .modal-header {
-    border-bottom: var(--border-size) dashed var(--color6-0);
+    border-bottom: var(--border-size) solid var(--color6-0);
 }
 
 /* Search */
 #search-box input {
     border: none;
-    border-bottom: var(--border-size) dashed var(--color6-1);
+    border-bottom: var(--border-size) solid var(--color6-1);
     outline: none;
     box-shadow: none;
 }
@@ -136,7 +137,7 @@ hr {
 #search {
     background-color: var(--color1);
     color: var(--color2);
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
 }
 
 #search::placeholder {
@@ -155,7 +156,7 @@ hr {
 
 .article-tag {
     color: var(--color4);
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
 }
 
 /* Blockquote */
@@ -177,12 +178,12 @@ code,
 kbd,
 pre,
 samp {
-    font-family: 'monospace', monospace;
+    font-family: var(--font-0), monospace;
     font-size: 17px;
 }
 
 pre {
-    border: var(--border-size) dashed var(--color6-1);
+    border: var(--border-size) solid var(--color6-1);
     padding: 10px;
     line-height: 20px;
 }
@@ -198,7 +199,7 @@ pre mark {
 
 /** Line numbers. */
 pre table tbody tr td:first-child {
-    border-right: 1px dashed var(--color6-1);
+    border-right: 1px solid var(--color6-1);
     padding-right: 10px;
     text-align: right;
     color: var(--color7);
@@ -212,5 +213,5 @@ pre table tbody tr td:nth-child(2) {
 
 /* Image */
 .img-fluid {
-    border: var(--border-size) dashed var(--color7);
+    border: var(--border-size) solid var(--color7);
 }

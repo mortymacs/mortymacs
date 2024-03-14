@@ -6,7 +6,7 @@
 {% for page in blog.pages %}
 <div class="mb-3">
     <div class="article-title fs-5">
-        <strong><a href="{{ page.permalink }}" class="text-capitalize">{{ page.title }}</a></strong>
+        <a href="{{ page.permalink }}" class="text-capitalize fw-bold">{{ page.title }}</a>
     </div>
     <div>
         <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>
