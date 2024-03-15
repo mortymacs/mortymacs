@@ -9,7 +9,9 @@
     /* Text foreground. */
     --color2: #ffffff;
     /* Title foreground. */
-    --color3: #ECA72C;
+    --color3-0: #ECA72C;
+    /* Sub title foreground. */
+    --color3-1: #17c3b2;
     /* Tags foreground. */
     --color4: #ECA72C;
     /* Note [info] background. */
@@ -85,6 +87,10 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
+h1, h2, h3, h4 {
+    color: var(--color3-1);
+}
+
 /* Navbar */
 .navbar-dark {
     background-color: var(--color1) !important;
@@ -135,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #search-box button {
     border: none;
-    color: var(--color3) !important;
+    color: var(--color3-0) !important;
 }
 
 #search {
@@ -154,7 +160,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Article */
 .article-title a {
-    color: var(--color3);
+    color: var(--color3-0);
     text-decoration: none;
 }
 
@@ -197,7 +203,7 @@ pre table {
 }
 
 pre mark {
-    color: var(--color3);
+    color: var(--color3-0);
     display: block;
 }
 
