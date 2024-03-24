@@ -22,6 +22,7 @@ These are the tools I've configured and set up on my system.
 |----------|------|
 | Distro | [NixOS](https://nixos.org/) |
 | Window Manager | [Sway](https://github.com/swaywm/sway) |
+| Status Bar | [i3status-rust](https://github.com/greshake/i3status-rust) |
 | Mako | [Mako](https://github.com/emersion/mako) |
 | Terminal | [Wezterm](https://wezfurlong.org/wezterm/index.html) |
 | Shell | [Fish](https://fishshell.com) |
@@ -35,7 +36,6 @@ These are the tools I've configured and set up on my system.
 | Browser | [Firefox](https://www.mozilla.org) |
 | GTK Theme | [Yaru](https://github.com/ubuntu/yaru) |
 | Icon | [Yaru](https://github.com/ubuntu/yaru) |
-| Wallpaper | [Unsplash](https://unsplash.com/photos/a-blurry-shot-of-a-city-street-lit-up-by-buildings-and-cars-at-night-BYu8ITUWMfc) |
 
 #### Screenshot
 
