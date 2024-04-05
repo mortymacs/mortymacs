@@ -24,11 +24,15 @@
     --color6-1: #3d405b;
     /* Fade text foreground. */
     --color7: #495057;
-    --border-size: 2px;
-    --font-0: 'monospace';
+    --border-size: 1px;
 }
 
 /* Fonts */
+@font-face {
+    src: url("../fonts/Sora-VariableFont_wght.ttf");
+    font-family: 'display';
+}
+
 @font-face {
     src: url("../fonts/JetBrainsMono-Regular.woff2");
     font-family: 'monospace';
@@ -61,7 +65,7 @@
 body {
     background: var(--color1);
     color: var(--color2);
-    font-family: var(--font-0), monospace;
+    font-family: "display", "sans-serif";
     font-size: large;
     font-weight: normal;
 }
@@ -83,11 +87,19 @@ hr {
     color: var(--color6);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: bold;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     color: var(--color3-1);
 }
 
@@ -99,7 +111,7 @@ h1, h2, h3, h4 {
 
 .navbar-dark .nav-link {
     color: var(--color2) !important;
-    font-family: var(--font-0), monospace;
+    font-family: "display", sans-serif;
     font-weight: bold;
     font-size: normal;
 }
@@ -107,18 +119,17 @@ h1, h2, h3, h4 {
 .navbar-brand {
     color: var(--color0-0) !important;
     background: var(--color0-1);
-    font-family: var(--font-0), monospace;
+    font-family: "monospace", monospace;
 }
 
 /* Footer */
 .footer {
     border-top: var(--border-size) solid var(--color6-0);
-    font-family: var(--font-0), monospace;
 }
 
 /* Badge */
 .badge {
-    font-family: var(--font-0), monospace;
+    font-family: "monospace", monospace;
 }
 
 /* Modal */
@@ -147,7 +158,7 @@ h1, h2, h3, h4 {
 #search {
     background-color: var(--color1);
     color: var(--color2);
-    font-family: var(--font-0), monospace;
+    font-family: "monospace", monospace;
 }
 
 #search::placeholder {
@@ -166,7 +177,7 @@ h1, h2, h3, h4 {
 
 .article-tag {
     color: var(--color4);
-    font-family: var(--font-0), monospace;
+    font-family: "monospace", monospace;
 }
 
 /* Blockquote */
@@ -188,7 +199,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: var(--font-0), monospace;
+    font-family: "monospace", monospace;
     font-size: 17px;
 }
 
