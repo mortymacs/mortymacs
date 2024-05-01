@@ -14,9 +14,9 @@ You can find it on GitHub at the following [link](https://github.com/mortymacs/d
     <img src="https://img.shields.io/badge/license-Creative%20Commons%20Attribution--ShareAlike%204.0-green?style=flat-square" alt="license">
 </p>
 
-#### Tools
+My environment config. I tried to keep it minimal and simple as much as I could.
 
-These are the tools I've configured and set up on my system.
+## General config
 
 | Category | Tool |
 |----------|------|
@@ -24,13 +24,13 @@ These are the tools I've configured and set up on my system.
 | Window Manager | [Sway](https://github.com/swaywm/sway) |
 | Status Bar | [i3status-rust](https://github.com/greshake/i3status-rust) |
 | Mako | [Mako](https://github.com/emersion/mako) |
-| Terminal | [Wezterm](https://wezfurlong.org/wezterm/index.html) |
+| Terminal | [Alacritty](https://alacritty.org) |
 | Shell | [Fish](https://fishshell.com) |
 | Shell Prompt | [Starship](https://github.com/starship/starship) |
 | Terminal Multiplexer | [Tmux](https://github.com/tmux/tmux) |
 | Editor/IDE | [Neovim](https://github.com/neovim/neovim) |
 | DB | [dbcli tools](https://github.com/dbcli) |
-| Fonts | Display: [Lexend](https://github.com/googlefonts/lexend), [VarizMatn](https://github.com/rastikerdar/vazirmatn), Monospace: [JetbrainsMono Nerd Font](https://www.nerdfonts.com) |
+| Fonts | Display: [Lexend](https://github.com/googlefonts/lexend), [VarizMatn](https://github.com/rastikerdar/vazirmatn), Monospace: [CodeNewRoman Nerd Font](https://www.nerdfonts.com) |
 | File Manager | [Broot](https://github.com/Canop/broot) |
 | Launcher | [Rofi-Wayland](https://github.com/lbonn/rofi) |
 | Browser | [Firefox](https://www.mozilla.org) |
