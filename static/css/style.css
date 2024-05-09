@@ -1,5 +1,6 @@
 :root {
-    /* Colors */
+    /* Colors:
+     * https://coolors.co/151e29-0b1015-d6d5c9-885a89-b27092 */
     /* Logo foreground. */
     --color0-0: #EE5622;
     /* Logo background. */
@@ -7,7 +8,7 @@
     /* Body background. */
     --color1: #0B1015;
     /* Text foreground. */
-    --color2: #ffffff;
+    --color2: #D6D5C9;
     /* Title foreground. */
     --color3-0: #ECA72C;
     /* Sub title foreground. */
@@ -35,28 +36,28 @@
 
 @font-face {
     src: url("../fonts/JetBrainsMono-Regular.woff2");
-    font-family: 'monospace';
+    font-family: "monospace";
     font-style: normal;
     font-weight: normal;
 }
 
 @font-face {
     src: url("../fonts/JetBrainsMono-Italic.woff2");
-    font-family: 'monospace';
+    font-family: "monospace";
     font-weight: normal;
     font-style: italic;
 }
 
 @font-face {
     src: url("../fonts/JetBrainsMono-Bold.woff2");
-    font-family: 'monospace';
+    font-family: "monospace";
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     src: url("../fonts/JetBrainsMono-BoldItalic.woff2");
-    font-family: 'monospace';
+    font-family: "monospace";
     font-weight: bold;
     font-style: italic;
 }
