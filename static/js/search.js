@@ -15,10 +15,10 @@ function search(searchDB, searchResultModal) {
                 }
                 searchResultBox.append(
                     '<div class="mt-' + top_margin + '">' +
-                    '<div class="article-title fs-3">' +
-                    '<strong><a href="' + val.doc.id + '" class="text-capitalize">' +
+                    '<div class="article-title">' +
+                    '<a href="' + val.doc.id + '" class="text-capitalize fw-bold">' +
                     val.doc.title +
-                    '</a></strong>' +
+                    '</a>' +
                     '</div>' +
                     '<div class="article-body">' +
                     val.doc.body.substring(1, 150) + '...' +

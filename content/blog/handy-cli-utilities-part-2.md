@@ -5,6 +5,7 @@ draft = false
 path = "blog/2023/11/18/handy-cli-utilities-part-2"
 lang = "en"
 [extra]
+category = "TOOLS"
 part = 2
 tags = ["cli", "tui", "utilities"]
 comment = true

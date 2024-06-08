@@ -5,6 +5,7 @@ draft = false
 path = "blog/2023/12/21/enforce-adherence-of-derived-classes-to-parent-signatures-in-python"
 lang = "en"
 [extra]
+category = "CODE"
 tags = ["python", "classes", "oop"]
 comment = true
 +++
@@ -16,6 +17,7 @@ The challenge arises when a derived class doesn't follow the expected signature 
 <!-- more -->
 
 Abstract class:
+
 ```python,linenos
 from abc import ABC, abstractmethod
 

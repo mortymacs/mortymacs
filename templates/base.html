@@ -9,18 +9,18 @@
 
         {% include "partials/head.html" %}
     </head>
-    <body>
-        <div class="mx-5 px-3 py-0 d-flex flex-column h-100" id="main">
+    <body class="m-3">
+        <div class="d-flex flex-column h-100" id="main">
             {% include "partials/search_result.html" %}
             <div>
                 {% include "partials/navbar.html" %}
             </div>
 
-            <div class="mt-1 mb-2">
+            <div class="mt-1">
                 {% block body %}{% endblock %}
             </div>
 
-            <footer class="py-2 mt-auto footer">
+            <footer class="footer">
                 {% include "partials/footer.html" %}
             </footer>
         </div>
