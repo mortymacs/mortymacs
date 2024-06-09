@@ -121,15 +121,24 @@ h4 {
 
 /* Footer */
 .footer {
-background:#242b38;
+    background: #242b38;
 }
 
 .footer .mode {
-    background:#973C64;
+    background: #973C64;
 }
 
 .footer .copyright-2 svg {
     fill: #F5E2C8;
+}
+
+.footer .git-status {
+    border-left: 1px solid #33465B;
+    border-right: 1px solid #33465B;
+
+    svg {
+        fill: #F5E2C8;
+    }
 }
 
 .footer .links a svg {
