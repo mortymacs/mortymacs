@@ -16,7 +16,9 @@ comment = false
 888       888 "Y88888P" 888   T88b   888
 </pre>
 
-Hi, this is Mort!<br>
-I am a dedicated developer and open-source enthusiast with a robust technical background, specializing in Go, Lua, and Python programming languages, as well as the GNU/Linux platform.
+Hi, I'm Mort!<br>
+I'm a passionate software engineer and open-source enthusiast with a robust technical background.
+I specialize in GNU/Linux, Go, Python, and Lua. My love for coding shows in every line I write, and I'm always up for a challenge.
+I thrive on contributing to the open-source community.
 
 You can find my updated resume at [here](https://github.com/mortymacs/resume/releases/download/latest/Morteza.NourelahiAlamdari.pdf).
