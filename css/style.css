@@ -1,0 +1,272 @@
+:root {
+    /* Colors:
+    * https://coolors.co/2e294e-633359-973c64-ed4a4a-2e2e3a-f5e2c8-33465b-18212b-0b1015-03b5aa
+    */
+    /* Logo foreground. */
+    --color0-0: #EA526F;
+    /* Logo background. */
+    --color0-1: #361134;
+    /* Body background. */
+    --color1: #0B1015;
+    /* Text foreground. */
+    --color2: #f5e2c8;
+    /* Title foreground. */
+    --color3-0: #ECA72C;
+    /* Sub title foreground. */
+    --color3-1: #17c3b2;
+    /* Tags foreground. */
+    --color4: #ECA72C;
+    /* Note [info] background. */
+    --color5-0: #221E22;
+    /* Note [important] background. */
+    --color5-1: #31263E;
+    /* Border foreground. */
+    --color6-0: #564256;
+    /* Fade border foreground. */
+    --color6-1: #3d405b;
+    /* Fade text foreground. */
+    --color7: #495057;
+    --border-size: 1px;
+}
+
+/* Fonts */
+@font-face {
+    src: url("../fonts/JetBrainsMono-Regular.woff2");
+    font-family: "monospace";
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    src: url("../fonts/JetBrainsMono-Italic.woff2");
+    font-family: "monospace";
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    src: url("../fonts/JetBrainsMono-Bold.woff2");
+    font-family: "monospace";
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    src: url("../fonts/JetBrainsMono-BoldItalic.woff2");
+    font-family: "monospace";
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Body */
+body {
+    background: var(--color1);
+    color: var(--color2);
+    font-family: "monospace", monospace;
+    font-size: large;
+    font-weight: 500;
+}
+
+a,
+a:active,
+a:visited {
+    color: var(--color2);
+}
+
+a:hover {
+    color: var(--color2);
+}
+
+hr {
+    color: var(--color6);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--color3-1);
+}
+
+/* Navbar */
+.navbar-dark {
+    background-color: #2E294E;
+}
+
+.navbar-brand {
+    background-color: #48294e;
+    color: #ea526f !important;
+    padding: 2.5px;
+    margin: 0;
+}
+
+.navbar-dark .nav-link {
+    color: var(--color2) !important;
+    font-family: "monospace", monospace;
+    font-weight: bold;
+    font-size: normal;
+    text-transform: uppercase;
+    padding: 3px;
+    margin: 1px;
+}
+
+/* Footer */
+.footer {
+    background: #242b38;
+}
+
+.footer .mode {
+    background: #973C64;
+}
+
+.footer .copyright-2 svg {
+    fill: #F5E2C8;
+}
+
+.footer .git-status {
+    border-left: 1px solid #33465B;
+    border-right: 1px solid #33465B;
+
+    svg {
+        fill: #F5E2C8;
+    }
+}
+
+.footer .links a svg {
+    fill: #03b5aa;
+}
+
+/* Badge */
+.badge {
+    font-family: "monospace", monospace;
+}
+
+/* Modal */
+.modal-content {
+    background-color: var(--color1);
+    border: var(--border-size) solid var(--color6-0);
+}
+
+.modal-content .modal-header {
+    border-bottom: var(--border-size) solid var(--color6-0);
+}
+
+/* Search */
+#search-box input {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+#search-box button {
+    border: none;
+    color: var(--color3-0) !important;
+}
+
+#search {
+    background-color: var(--color1);
+    color: var(--color2);
+    font-family: "monospace", monospace;
+}
+
+#search::placeholder {
+    color: var(--color7);
+}
+
+#search-btn {
+    background-color: var(--color1);
+}
+
+/* Article */
+.article-title a {
+    color: #F5E2C8;
+    text-decoration: none;
+    background-color: #2e2e3a;
+    padding: 2px 5px 2px 5px;
+}
+
+.article-tag {
+    color: var(--color4);
+    font-family: "monospace", monospace;
+}
+
+/* Category */
+.article-title .category {
+    padding: 2px 5px 2px 5px;
+}
+
+.article-title .tools {
+    background-color: #633359;
+    color: #FFE5D4;
+}
+
+.article-title .code {
+    background-color: #0E6B6B;
+    color: #FFE5D4;
+}
+
+/* Blockquote */
+blockquote {
+    padding-left: 5px;
+    line-height: 2;
+}
+
+blockquote.info {
+    background: var(--color5-0);
+}
+
+blockquote.important {
+    background: var(--color5-1);
+}
+
+/* Code */
+#main code,
+#main kbd,
+#main pre,
+#main samp {
+    font-family: "monospace", monospace;
+    font-size: 17px;
+}
+
+#main pre {
+    border: var(--border-size) solid var(--color6-1);
+    padding: 10px;
+    line-height: 20px;
+}
+
+#main pre table {
+    width: 100%;
+}
+
+#main pre mark {
+    color: var(--color3-0);
+    display: block;
+}
+
+/** Line numbers. */
+#main pre table tbody tr td:first-child {
+    border-right: 1px solid var(--color6-1);
+    padding-right: 10px;
+    text-align: right;
+    color: var(--color7);
+    width: 30px;
+}
+
+/** Code lines. */
+#main pre table tbody tr td:nth-child(2) {
+    padding-left: 10px;
+}
+
+/* Image */
+.img-fluid {
+    border: var(--border-size) solid var(--color7);
+}

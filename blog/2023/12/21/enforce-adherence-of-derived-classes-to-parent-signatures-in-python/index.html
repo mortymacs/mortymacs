@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>ZeroToOne - Enforce adherence of derived classes to parent signatures in Python</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="When we&#x27;re developing an object oriented systems in Python, there are often instances where we have to create abstract classes.
+These classes define a basic structure that we expect other parts of the code to implement.
+or instance, in the context of databases, we create an abstract class that contains fundamental structure for a database class.
+The derived classes then need to implement the abstract methods to form a complete structure.
+The challenge arises when a derived class doesn&#x27;t follow the expected signature of the abstract class.
+">
+        <meta name="author" content="Morteza (Mort) NourelahiAlamdari">
+
+        <!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://0t1.me/img/favicon.png">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://0t1.me/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://0t1.me/css/style.css">
+
+<!-- Javascript -->
+<script src="https://0t1.me/js/jquery.min.js"></script>
+<script src="https://0t1.me/js/bootstrap.min.js"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="https://0t1.me/img/logo.png">
+<meta property="og:image:type" content="image/png" >
+
+<!-- Search -->
+<script async src="https://0t1.me/elasticlunr.min.js"></script>
+<script async src="https://0t1.me/search_index.en.js"></script>
+<script async src="https://0t1.me/js/search.js"></script>
+
+    </head>
+    <body class="m-3">
+        <div class="d-flex flex-column h-100" id="main">
+            <div id="search-result" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h6 class="modal-title">Search Result</h6>
+                <button type="button" class="btn-close rounded-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="search-result-box" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark p-0 mb-2">
+    <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
+        data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="top-navbar">
+        <ul class="navbar-nav me-auto">
+            <a class="navbar-brand fw-bold px-3" title="Home" href="https:&#x2F;&#x2F;0t1.me">#!/bin/mort</a>
+            <li class="nav-item">
+                <a class="nav-link" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/dotfiles">Dotfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                    target="_blank">Appointment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/about">About</a>
+            </li>
+        </ul>
+        <div class="d-flex px-2" role="search">
+            <div class="input-group" id="search-box">
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0" type="search"
+                    placeholder="Search" aria-label="Search">
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0"> Enter</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            </div>
+
+            <div class="mt-1">
+                
+
+<div class="mb-3">
+    <div class="article-title">
+        <a href="https:&#x2F;&#x2F;0t1.me&#x2F;blog&#x2F;2023&#x2F;12&#x2F;21&#x2F;enforce-adherence-of-derived-classes-to-parent-signatures-in-python&#x2F;" class="text-capitalize p-1 fw-bold">Enforce adherence of derived classes to parent signatures in Python</a><label class="fw-bold code category">#CODE</label>
+    </div>
+    <div>
+        <small class="fst-italic">Thursday, Dec 21, 2023</small>
+    </div>
+    <div class="article-toc">
+    
+    </div>
+    <div class="article-body">
+        <p>When we're developing an object oriented systems in Python, there are often instances where we have to create <a href="https://en.wikipedia.org/wiki/Abstract_type">abstract classes</a>.
+These classes define a basic structure that we expect other parts of the code to implement.
+or instance, in the context of databases, we create an abstract class that contains fundamental structure for a database class.
+The derived classes then need to implement the abstract methods to form a complete structure.
+The challenge arises when a derived class doesn't follow the expected signature of the abstract class.</p>
+<span id="continue-reading"></span>
+<p>Abstract class:</p>
+<pre data-linenos data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">from </span><span>abc </span><span style="color:#ff7733;">import </span><span>ABC</span><span style="color:#bfbab0cc;">, </span><span>abstractmethod
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">Database</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">ABC</span><span>):
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">setup</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span></td></tr><tr><td>5</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;setup step&quot;</span><span>)
+</span></td></tr><tr><td>6</td><td><span>
+</span></td></tr><tr><td>7</td><td><span>    </span><span style="color:#bfbab0cc;">@</span><span style="color:#ffb454;">abstractmethod
+</span></td></tr><tr><td>8</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">connect</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">bool</span><span>:
+</span></td></tr><tr><td>9</td><td><span>        </span><span style="color:#ff7733;">pass
+</span></td></tr><tr><td>10</td><td><span>
+</span></td></tr><tr><td>11</td><td><span>    </span><span style="color:#bfbab0cc;">@</span><span style="color:#ffb454;">abstractmethod
+</span></td></tr><tr><td>12</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">query</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">list</span><span>[</span><span style="font-style:italic;color:#39bae6;">dict</span><span>]:
+</span></td></tr><tr><td>13</td><td><span>        </span><span style="color:#ff7733;">pass
+</span></td></tr></tbody></table></code></pre>
+<p>Derived classes:</p>
+<pre data-linenos data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">from </span><span>database </span><span style="color:#ff7733;">import </span><span>Database
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">PostgreSQL</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">Database</span><span>):
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">connect</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">bool</span><span>:
+</span></td></tr><tr><td>5</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;PostgreSQL trying to establish a connection&quot;</span><span>)
+</span></td></tr><tr><td>6</td><td><span>        </span><span style="color:#ff7733;">return </span><span style="color:#f29718;">True
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">query</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">list</span><span>[</span><span style="font-style:italic;color:#39bae6;">dict</span><span>]:
+</span></td></tr><tr><td>9</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;running PostgreSQL query&quot;</span><span>)
+</span></td></tr><tr><td>10</td><td><span>        </span><span style="color:#ff7733;">return </span><span>[{</span><span style="color:#c2d94c;">&quot;data&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;something&quot;</span><span>}]
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MySQL</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">Database</span><span>):
+</span></td></tr><tr><td>13</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">connect</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">bool</span><span>:
+</span></td></tr><tr><td>14</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;MySQL trying to establish a connection&quot;</span><span>)
+</span></td></tr><tr><td>15</td><td><span>        </span><span style="color:#ff7733;">return </span><span style="color:#f29718;">True
+</span></td></tr><tr><td>16</td><td><span>
+</span></td></tr><tr><td>17</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">query</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">list</span><span>[</span><span style="font-style:italic;color:#39bae6;">dict</span><span>]:
+</span></td></tr><tr><td>18</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;running MySQL query&quot;</span><span>)
+</span></td></tr><tr><td>19</td><td><span>        </span><span style="color:#ff7733;">return </span><span>[{</span><span style="color:#c2d94c;">&quot;data&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;something else&quot;</span><span>}]
+</span></td></tr></tbody></table></code></pre>
+<p>Test:</p>
+<pre data-linenos data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">from </span><span>database </span><span style="color:#ff7733;">import </span><span>MySQL
+</span></td></tr><tr><td>2</td><td><span style="color:#ffb454;">MySQL</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>()
+</span></td></tr><tr><td>3</td><td><span>output </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">MySQL</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#c2d94c;">&quot;where 1&quot;</span><span>)
+</span></td></tr><tr><td>4</td><td><span style="color:#f07178;">print</span><span>(output)
+</span></td></tr></tbody></table></code></pre>
+<p>Output:</p>
+<pre data-lang="bashe" style="background-color:#070a0d;color:#fcfcfc;" class="language-bashe "><code class="language-bashe" data-lang="bashe"><span>$ python test.py
+</span><span>MySQL trying to establish a connection
+</span><span>running MySQL query
+</span><span>[{&#39;data&#39;: &#39;something else&#39;}]
+</span></code></pre>
+<p>In this particular scenario, everything functions smoothly without any issues.
+However, as a project expands and more individuals become involved, there is a possibility that some might not follow the
+established standards exactly.
+Python itself doesn't prevent this.</p>
+<p>Consider this implementation of the MySQL class, which completely deviates from the signatures of the abstract class:</p>
+<pre data-linenos data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">from </span><span>database </span><span style="color:#ff7733;">import </span><span>Database
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">class </span><span style="color:#59c2ff;">MySQL</span><span>(</span><span style="text-decoration:underline;color:#59c2ff;">Database</span><span>):
+</span></td></tr><tr><td>13</td><td><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">connect</span><span>(</span><span style="color:#f29718;">self</span><span>):
+</span></td></tr><tr><td>14</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;MySQL trying to establish a connection&quot;</span><span>)
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">16</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">def </span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#f29718;">self</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">query</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">limit</span><span>):
+</span></mark></td></tr><tr><td>17</td><td><span>        </span><span style="color:#f07178;">print</span><span>(</span><span style="color:#c2d94c;">&quot;running MySQL query&quot;</span><span>)
+</span></td></tr><tr><td><mark style="background-color:#101820;">18</mark></td><td><mark style="background-color:#101820;"><span>        </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&quot;something else&quot;
+</span></mark></td></tr></tbody></table></code></pre>
+<p>Python test:</p>
+<pre data-linenos data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">from </span><span>database </span><span style="color:#ff7733;">import </span><span>MySQL
+</span></td></tr><tr><td>2</td><td><span style="color:#ffb454;">MySQL</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">connect</span><span>()
+</span></td></tr><tr><td>3</td><td><span>output </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">MySQL</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">query</span><span>(</span><span style="color:#c2d94c;">&quot;where 1&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">100</span><span>)
+</span></td></tr><tr><td>4</td><td><span style="color:#f07178;">print</span><span>(output)
+</span></td></tr></tbody></table></code></pre>
+<p>Output:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> python test.py
+</span><span style="color:#ffb454;">MySQL</span><span> trying to establish a connection
+</span><span style="color:#ffb454;">running</span><span> MySQL query
+</span><span style="color:#ffb454;">something</span><span> else
+</span></code></pre>
+<p>As you can see, Python didn't check the signature at all.</p>
+<p>Allowing this structure to merge into your codebase would violate the established standards.</p>
+<p>Now, can we compel everyone to adhere to the abstract class signatures?
+This is where the <a href="https://github.com/mortymacs/abcmeta"><code>abcmeta</code></a> project comes into play.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> pip install abcmeta
+</span></code></pre>
+<p>The only thing needs to be changed in your code, is in your abstract class file:</p>
+<p>from:</p>
+<pre data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>abc </span><span style="color:#ff7733;">import </span><span>ABC</span><span style="color:#bfbab0cc;">, </span><span>abstractmethod
+</span></code></pre>
+<p>to:</p>
+<pre data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>abcmeta </span><span style="color:#ff7733;">import </span><span>ABC</span><span style="color:#bfbab0cc;">, </span><span>abstractmethod
+</span></code></pre>
+<p>This library then examines and ensures that all signatures align with the abstract class.</p>
+<p>Now, let's run the previous example and see what will happen:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> python test_db.py
+</span><span style="color:#ffb454;">Traceback</span><span> (most recent call last)</span><span style="color:#f07178;">:
+</span><span>  </span><span style="color:#ffb454;">File </span><span style="color:#c2d94c;">&quot;/home/mort/project/test.py&quot;</span><span>, line 1, in </span><span style="color:#f29668;">&lt;</span><span>module</span><span style="color:#f29668;">&gt;
+</span><span>    </span><span style="color:#ffb454;">from</span><span> database import MySQL
+</span><span>  </span><span style="color:#ffb454;">File </span><span style="color:#c2d94c;">&quot;/home/mort/project/database.py&quot;</span><span>, line 13, in </span><span style="color:#f29668;">&lt;</span><span>module</span><span style="color:#f29668;">&gt;
+</span><span>    </span><span style="color:#ffb454;">class</span><span> MySQL(Database)</span><span style="color:#f07178;">:
+</span><span>  </span><span style="color:#ffb454;">File </span><span style="color:#c2d94c;">&quot;&lt;frozen abc&gt;&quot;</span><span>, line 106, in __new__
+</span><span>  </span><span style="color:#ffb454;">File </span><span style="color:#c2d94c;">&quot;/home/mort/project/.venv/lib/python3.12/site-packages/abcmeta/__init__.py&quot;</span><span>, line 198, in __init_subclass__
+</span><span>    </span><span style="color:#ffb454;">raise</span><span> AttributeError(</span><span style="color:#c2d94c;">&quot;\n{}&quot;</span><span>.format(</span><span style="color:#c2d94c;">&quot;\n\n&quot;</span><span>.join(errors)))
+</span><span style="color:#ffb454;">AttributeError:
+</span><span style="color:#ffb454;">1:</span><span> incorrect signature.
+</span><span style="color:#ffb454;">Signature</span><span> of the derived method is not the same as parent class:
+</span><span style="color:#ffb454;">-</span><span> connect(self) </span><span style="color:#ffb454;">-</span><span style="color:#f29668;">&gt;</span><span> bool
+</span><span style="color:#ffb454;">?</span><span>              --------
+</span><span>
+</span><span style="color:#ffb454;">+</span><span> connect(self)
+</span><span style="color:#ffb454;">Derived</span><span> method expected to return in </span><span style="color:#c2d94c;">&#39;&lt;class &#39;</span><span>bool</span><span style="color:#c2d94c;">&#39;&gt;&#39;</span><span> type, but returns </span><span style="color:#c2d94c;">&#39;typing.Any&#39;
+</span><span>
+</span><span style="color:#ffb454;">2:</span><span> incorrect signature.
+</span><span style="color:#ffb454;">Signature</span><span> of the derived method is not the same as parent class:
+</span><span style="color:#ffb454;">-</span><span> query(self, query: str) </span><span style="color:#ffb454;">-</span><span style="color:#f29668;">&gt;</span><span> list</span><span style="color:#ff7733;">[</span><span>dict</span><span style="color:#ff7733;">]
+</span><span style="color:#ffb454;">+</span><span> query(self, query, limit)
+</span><span style="color:#ffb454;">Derived</span><span> method expected to return in </span><span style="color:#c2d94c;">&#39;list[dict]&#39;</span><span> type, but returns </span><span style="color:#c2d94c;">&#39;typing.Any&#39;
+</span></code></pre>
+<p>The error message clarifies that the signature differs from that of the abstract class, and explains with all details.</p>
+<blockquote class="important">
+    <p>Additionally, it's important to know that <code>abcmeta</code> utilizes <a href="https://docs.python.org/3/reference/datamodel.html" target="_blank">metaclasses</a>
+implying that it examines the class when the class is defined!</p>
+</blockquote>
+<p>Therefore, if you modify the test code to something like this:</p>
+<pre data-lang="python" style="background-color:#070a0d;color:#fcfcfc;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#ff7733;">from </span><span>database </span><span style="color:#ff7733;">import </span><span>MySQL
+</span></code></pre>
+<p>Then you'll get the same error result.</p>
+<p>So, by using these kinds of libraries in Python, we can proactively avoid future errors by forcing derived classes to follow
+the abstract class signatures, similar to <a href="https://en.wikipedia.org/wiki/Strong_and_weak_typing">strong-typed</a> programming languags.</p>
+
+    </div>
+    <div>
+        
+    </div>
+    
+    <div>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#python</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#classes</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#oop</label>
+        
+    </div>
+    
+    
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    
+</div>
+
+<script src="https://giscus.app/client.js"
+        data-repo="mortymacs/mortymacs"
+        data-repo-id="R_kgDOLJ_j-Q"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOLJ_j-c4Ccuug"
+        data-mapping="url"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+
+            <footer class="footer">
+                <div class="d-flex">
+    <div class="p-1 px-2 fw-bold mode">NORMAL</div>
+    <div class="p-1 px-2 copyright-1">
+        Morteza NourelahiAlamdari. All rights reserved.
+    </div>
+    <div class="p-1 px-2 flex-fill text-end copyright-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="1em">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288H584.4L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320H199.3L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z" />
+        </svg>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+    </div>
+    <div class="p-1 px-2 text-end git-status">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+            height="1em"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+        </svg>
+        origin/main
+    </div>
+    <div class="p-1 px-2 text-end links">
+        <a class="px-1 text-body" title="Github" href="https://github.com/mortymacs" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            </svg>
+        </a>
+        <a class="px-1 text-body" title="LinkedIn" href="https://www.linkedin.com/in/mortymacs/" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+            </svg>
+        </a>
+        <a class="px-1 text-body" title="RSS" href="https:&#x2F;&#x2F;0t1.me/rss.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+            </svg>
+        </a>
+        <a class="px-1 text-body" title="Sitemap" href="https:&#x2F;&#x2F;0t1.me/sitemap.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z" />
+            </svg>
+        </a>
+    </div>
+</div>
+
+            </footer>
+        </div>
+    </body>
+</html>
