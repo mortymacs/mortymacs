@@ -146,7 +146,7 @@ h4 {
 
 /* Modal */
 .modal-content {
-    background-color: var(--color0);
+    background-color: var(--color1);
     border: var(--border-size) solid var(--color7);
 }
 
