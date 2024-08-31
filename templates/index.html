@@ -5,8 +5,10 @@
 {% set blog = get_section(path="blog/_index.md") %}
 {% for page in blog.pages %}
 <div class="mb-3">
-    <div class="article-title">
-        <a href="{{ page.permalink }}" class="text-capitalize p-1 fw-bold">{{ page.title }}</a><label class="fw-bold {{ page.extra.category | lower }} category">#{{ page.extra.category }}</label>
+    <div>
+        <div class="article-title d-inline">
+            <a href="{{ page.permalink }}" class="text-capitalize p-1 fw-bold">{{ page.title }}</a><label class="fw-bold {{ page.extra.category | lower }} category">#{{ page.extra.category }}</label>
+        </div>
     </div>
     <div>
         <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>

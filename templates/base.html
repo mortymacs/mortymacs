@@ -9,20 +9,19 @@
 
         {% include "partials/head.html" %}
     </head>
-    <body class="m-3">
-        <div class="d-flex flex-column h-100" id="main">
+    <body class="p-3 d-flex flex-column min-vh-100">
+        <div class="d-flex flex-column flex-grow-1" id="main">
             {% include "partials/search_result.html" %}
             <div>
                 {% include "partials/navbar.html" %}
             </div>
 
-            <div class="mt-1">
+            <div class="mt-1 flex-grow-1">
                 {% block body %}{% endblock %}
             </div>
-
-            <footer class="footer">
-                {% include "partials/footer.html" %}
-            </footer>
         </div>
+        <footer class="footer mt-auto">
+            {% include "partials/footer.html" %}
+        </footer>
     </body>
 </html>

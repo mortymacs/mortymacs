@@ -2,30 +2,16 @@
     /* Colors:
     * https://coolors.co/2e294e-633359-973c64-ed4a4a-2e2e3a-f5e2c8-33465b-18212b-0b1015-03b5aa
     */
-    /* Logo foreground. */
-    --color0-0: #EA526F;
-    /* Logo background. */
-    --color0-1: #361134;
-    /* Body background. */
+    --color0: #FFFFFF;
     --color1: #0B1015;
-    /* Text foreground. */
-    --color2: #f5e2c8;
-    /* Title foreground. */
-    --color3-0: #ECA72C;
-    /* Sub title foreground. */
-    --color3-1: #17c3b2;
-    /* Tags foreground. */
-    --color4: #ECA72C;
-    /* Note [info] background. */
-    --color5-0: #221E22;
-    /* Note [important] background. */
-    --color5-1: #31263E;
-    /* Border foreground. */
-    --color6-0: #564256;
-    /* Fade border foreground. */
-    --color6-1: #3d405b;
-    /* Fade text foreground. */
+    --color2: #CF3034;
+    --color3: #121920;
+    --color4: #18212B;
+    --color5: #F07F2D;
+    --color6: #293D54;
     --color7: #495057;
+    --color8: #973C64;
+    --color9: #6DC5C5;
     --border-size: 1px;
 }
 
@@ -58,11 +44,25 @@
     font-style: italic;
 }
 
+@font-face {
+    src: url("../fonts/BricolageGrotesque_48pt-Regular.ttf");
+    font-family: "display";
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    src: url("../fonts/BricolageGrotesque_48pt-Bold.ttf");
+    font-family: "display";
+    font-weight: bold;
+    font-style: normal;
+}
+
 /* Body */
 body {
     background: var(--color1);
-    color: var(--color2);
-    font-family: "monospace", monospace;
+    color: var(--color0);
+    font-family: "display", sans-serif;
     font-size: large;
     font-weight: 500;
 }
@@ -70,15 +70,11 @@ body {
 a,
 a:active,
 a:visited {
-    color: var(--color2);
+    color: var(--color9);
 }
 
 a:hover {
-    color: var(--color2);
-}
-
-hr {
-    color: var(--color6);
+    color: var(--color9);
 }
 
 h1,
@@ -94,24 +90,25 @@ h1,
 h2,
 h3,
 h4 {
-    color: var(--color3-1);
+    color: var(--color0);
 }
 
 /* Navbar */
 .navbar-dark {
-    background-color: #2E294E;
+    background-color: var(--color3);
 }
 
 .navbar-brand {
-    background-color: #48294e;
-    color: #ea526f !important;
+    background-color: var(--color4);
+    color: var(--color5) !important;
+    font-family: "monospace", monospace;
     padding: 2.5px;
     margin: 0;
 }
 
 .navbar-dark .nav-link {
-    color: var(--color2) !important;
-    font-family: "monospace", monospace;
+    color: var(--color0) !important;
+    font-family: "display", sans-serif;
     font-weight: bold;
     font-size: normal;
     text-transform: uppercase;
@@ -121,28 +118,25 @@ h4 {
 
 /* Footer */
 .footer {
-    background: #242b38;
-}
-
-.footer .mode {
-    background: #973C64;
+    border-top: var(--border-size) solid var(--color7);
 }
 
 .footer .copyright-2 svg {
-    fill: #F5E2C8;
+    fill: var(--color0);
 }
 
 .footer .git-status {
-    border-left: 1px solid #33465B;
-    border-right: 1px solid #33465B;
+    border-left: 1px solid var(--color7);
+    border-right: 1px solid var(--color7);
+    font-family: "monospace", monospace;
 
     svg {
-        fill: #F5E2C8;
+        fill: var(--color0);
     }
 }
 
 .footer .links a svg {
-    fill: #03b5aa;
+    fill: var(--color0);
 }
 
 /* Badge */
@@ -152,12 +146,12 @@ h4 {
 
 /* Modal */
 .modal-content {
-    background-color: var(--color1);
-    border: var(--border-size) solid var(--color6-0);
+    background-color: var(--color0);
+    border: var(--border-size) solid var(--color7);
 }
 
 .modal-content .modal-header {
-    border-bottom: var(--border-size) solid var(--color6-0);
+    border-bottom: var(--border-size) solid var(--color7);
 }
 
 /* Search */
@@ -169,64 +163,85 @@ h4 {
 
 #search-box button {
     border: none;
-    color: var(--color3-0) !important;
+    color: var(--color5) !important;
+    background-color: var(--color4);
 }
 
 #search {
-    background-color: var(--color1);
-    color: var(--color2);
+    background-color: var(--color4);
+    color: var(--color5);
     font-family: "monospace", monospace;
+    font-weight: bold;
 }
 
 #search::placeholder {
-    color: var(--color7);
-}
-
-#search-btn {
-    background-color: var(--color1);
+    color: var(--color5);
 }
 
 /* Article */
 .article-title a {
-    color: #F5E2C8;
+    color: var(--color0);
     text-decoration: none;
-    background-color: #2e2e3a;
+    background-color: var(--color2);
     padding: 2px 5px 2px 5px;
 }
 
 .article-tag {
-    color: var(--color4);
+    color: var(--color5);
     font-family: "monospace", monospace;
+    font-weight: bold;
 }
 
 /* Category */
 .article-title .category {
-    padding: 2px 5px 2px 5px;
+    padding: 1px 5px 2px 5px;
 }
 
 .article-title .tools {
-    background-color: #633359;
-    color: #FFE5D4;
+    background-color: var(--color6);
+    color: var(--color0);
 }
 
 .article-title .code {
-    background-color: #0E6B6B;
-    color: #FFE5D4;
+    background-color: var(--color6);
+    color: var(--color0);
 }
 
 /* Blockquote */
 blockquote {
-    padding-left: 5px;
-    line-height: 2;
+    margin-top: 1.5em;
+    padding-left: 0.7em;
+    padding-top: 0.7em;
+    position: relative;
+    border: var(--border-size) solid var(--color8);
 }
 
-blockquote.info {
-    background: var(--color5-0);
+blockquote.info::before {
+    content: "Note";
+    position: absolute;
+    top: -1em;
+    left: 0.5em;
+    background-color: var(--color8);
+    color: var(--color0);
+    border: var(--border-size) solid var(--color8);
+    padding: 0 0.5em;
+    font-weight: bold;
+    font-size: 1em;
 }
 
-blockquote.important {
-    background: var(--color5-1);
+blockquote.important::before {
+    content: "Warning";
+    position: absolute;
+    top: -1em;
+    left: 0.5em;
+    background-color: var(--color8);
+    color: var(--color0);
+    border: var(--border-size) solid var(--color8);
+    padding: 0 0.5em;
+    font-weight: bold;
+    font-size: 1em;
 }
+
 
 /* Code */
 #main code,
@@ -234,11 +249,10 @@ blockquote.important {
 #main pre,
 #main samp {
     font-family: "monospace", monospace;
-    font-size: 17px;
 }
 
 #main pre {
-    border: var(--border-size) solid var(--color6-1);
+    border: var(--border-size) solid var(--color7);
     padding: 10px;
     line-height: 20px;
 }
@@ -248,13 +262,13 @@ blockquote.important {
 }
 
 #main pre mark {
-    color: var(--color3-0);
+    color: var(--color1);
     display: block;
 }
 
 /** Line numbers. */
 #main pre table tbody tr td:first-child {
-    border-right: 1px solid var(--color6-1);
+    border-right: 1px solid var(--color7);
     padding-right: 10px;
     text-align: right;
     color: var(--color7);

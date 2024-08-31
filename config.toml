@@ -17,7 +17,6 @@ compile_sass = false
 minify_html = false
 
 [markdown]
-# Whether to do syntax highlighting
 highlight_code = true
 highlight_theme = "my-ayu-dark"
 extra_syntaxes_and_themes = ["highlight_themes"]
