@@ -6,7 +6,6 @@ path = "blog/2024/09/01/practical-awk"
 lang = "en"
 [extra]
 category = "TOOLS"
-part = 2
 tags = ["cli", "awk", "utilities"]
 comment = true
 +++
