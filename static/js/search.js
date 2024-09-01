@@ -21,7 +21,7 @@ function search(searchDB, searchResultModal) {
                     '</a>' +
                     '</div>' +
                     '<div class="article-body">' +
-                    val.doc.body.substring(1, 150) + '...' +
+                    val.doc.body.substring(0, 150) + '...' +
                     '</div>' +
                     '</div>'
                 );
