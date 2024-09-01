@@ -273,6 +273,10 @@ blockquote.important::before {
     width: 100%;
 }
 
+#main pre table tbody tr td {
+    padding: 0;
+}
+
 #main pre mark {
     color: var(--color0);
     display: block;
