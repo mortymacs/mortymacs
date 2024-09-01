@@ -5,7 +5,10 @@
 
 <div class="mb-3">
     <div class="article-title">
-        <a href="{{ page.permalink }}" class="text-capitalize p-1 fw-bold">{{ page.title }}</a><label class="fw-bold {{ page.extra.category | lower }} category">#{{ page.extra.category }}</label>
+        <a href="{{ page.permalink }}" class="text-capitalize p-1 fw-bold">
+            {{ page.title }}
+            <label class="fw-bold {{ page.extra.category | lower }} category">#{{ page.extra.category }}</label>
+        </a>
     </div>
     <div>
         <small class="fst-italic">{{ page.date | date(format="%A, %b %e, %Y") }}</small>
