@@ -596,9 +596,10 @@ Origin,Status,Title,ContentType,IP,Country,City,PhoneCode
 ```
 
 We need to include a header in our output file, so we should add a `print` statement in the `BEGIN` section:
-```awk
+```awk,linenos,hl_lines=4
 BEGIN {
     FS = ","
+    OFS = ""
     print "Origin,Status,Title,ContentType,IP,Country,City,PhoneCode"
 }
 ```
