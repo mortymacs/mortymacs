@@ -195,7 +195,7 @@ h4 {
 /* Category */
 .article-title .category {
     padding: 1px 5px 2px 5px;
-    font-family: "monospace", monospace;
+    /* font-family: "monospace", monospace; */
 }
 
 .article-title .tools {
