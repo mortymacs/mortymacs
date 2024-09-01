@@ -211,15 +211,28 @@ h4 {
 blockquote {
     margin-top: 1.5em;
     padding-left: 0.7em;
-    padding-top: 0.7em;
+    padding-top: 0.5em;
     position: relative;
     border: var(--border-size) solid var(--color8);
+}
+
+blockquote.quote::before {
+    content: "Quote";
+    position: absolute;
+    top: -0.8em;
+    left: 0.5em;
+    background-color: var(--color8);
+    color: var(--color0);
+    border: var(--border-size) solid var(--color8);
+    padding: 0 0.5em;
+    font-weight: bold;
+    font-size: 1em;
 }
 
 blockquote.info::before {
     content: "Note";
     position: absolute;
-    top: -1em;
+    top: -0.8em;
     left: 0.5em;
     background-color: var(--color8);
     color: var(--color0);
@@ -230,9 +243,9 @@ blockquote.info::before {
 }
 
 blockquote.important::before {
-    content: "Warning";
+    content: "Important";
     position: absolute;
-    top: -1em;
+    top: -0.8em;
     left: 0.5em;
     background-color: var(--color8);
     color: var(--color0);
@@ -241,7 +254,6 @@ blockquote.important::before {
     font-weight: bold;
     font-size: 1em;
 }
-
 
 /* Code */
 #main code,
@@ -262,7 +274,7 @@ blockquote.important::before {
 }
 
 #main pre mark {
-    color: var(--color1);
+    color: var(--color0);
     display: block;
 }
 
