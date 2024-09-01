@@ -587,6 +587,8 @@ https://gnu.org,OK,The GNU Operating System and the Free Software Movement,text/
 https://0t1.me,OK,ZeroToOne - Home,text/html,188.114.97.0,Canada,Toronto,+1
 ```
 
+#### Finalization
+
 Now that we have the results we're looking for, the only remaining step is to prepare it for output.
 
 As we wanted to achieve this output structure:
