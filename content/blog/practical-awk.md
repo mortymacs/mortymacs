@@ -707,7 +707,7 @@ function find_location_phone_code(country) {
 }
 ```
 
-Finally, run the script and store the results in `_output.csv`.
+Finally, run the script and store the results in _output.csv_.
 You can use [csview](https://github.com/wfxr/csview) to present the CSV file.
 
 ```bash
