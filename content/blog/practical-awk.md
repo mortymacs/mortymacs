@@ -436,7 +436,7 @@ curl -s http://ip-api.com/json/{IP} | jq -r '.country + "," + .city'
 Now, let's add this inside the AWK file:
 
 _pipeline.awk_
-```awk,linenos,hl_lines=28-36,hl_lines=45,hl_lines=47
+```awk,linenos,hl_lines=28-36,hl_lines=49,hl_lines=51
 #!/usr/bin/awk -f
 
 BEGIN {
