@@ -17,8 +17,10 @@ comment = false
 </pre>
 
 Hi, I'm Mort!<br>
-I'm a passionate software engineer and open-source enthusiast with a robust technical background.
-I specialize in GNU/Linux, Go, Python, and Lua. My love for coding shows in every line I write, and I'm always up for a challenge.
-I thrive on contributing to the open-source community.
+A passionate developer with 15 years of experience and a deep enthusiasm for open
+source. I have a strong technical background, particularly in C, C++, Go, Python, Lua, and Nix
+programming languages, as well as the GNU/Linux platform.
 
 You can find my updated resume at [here](https://github.com/mortymacs/resume/releases/download/latest/Morteza.NourelahiAlamdari.pdf).
+
+Feel free to contact me at [mailto:m@0t1.me](m@0t1.me)
