@@ -16,7 +16,7 @@ function search(searchDB, searchResultModal) {
                 searchResultBox.append(
                     '<div class="mt-' + top_margin + '">' +
                     '<div class="article-title">' +
-                    '<a href="' + val.doc.id + '" class="text-capitalize fw-bold">' +
+                    '<a href="' + val.doc.id + '" class="text-capitalize fw-bold d-inline-block px-2">' +
                     val.doc.title +
                     '</a>' +
                     '</div>' +
