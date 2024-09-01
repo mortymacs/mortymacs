@@ -16,10 +16,10 @@ While the [first article](/blog/2023/10/21/handy-cli-utilities-part-1/) covered 
 this one will focus on topics like searching within files and directories, along with project management.
 <!-- more -->
 
-#### File and directory
+### File and directory
 To effectively manage files and directories, it's beneficial to utilize a well-designed CLI tool that presents information in a clear and easily understandable format.
 
-##### [exa](https://github.com/ogham/exa)
+#### [exa](https://github.com/ogham/exa)
 Exa is the `ls` command replacement.
 It displays a list of files and directories, akin to the `ls` command, but with added features such as colorized outputs,
 Git integration, icons, support for a tree view, and more.
@@ -42,7 +42,7 @@ To simplify usage and avoid the need to remember all the flags, you can create a
 alias l="exa --git -lh --octal-permissions --color-scale --icons"
 ```
 
-##### [z](https://github.com/rupa/z) / [zoxide](https://github.com/ajeetdsouza/zoxide)
+#### [z](https://github.com/rupa/z) / [zoxide](https://github.com/ajeetdsouza/zoxide)
 If you're seeking a convenient way to navigate to a directory without specifying the entire path, consider using `z` or `zoxide`.
 There have been many instances where I needed to swiftly jump into a directory with a distinctive name, and these solutions proved helpful.
 
@@ -55,11 +55,11 @@ $ z dot
 mort/.../dotfiles $
 ```
 
-#### Search & Lookup
+### Search & Lookup
 Enhancing productivity in the terminal involves finding the best matches in files and directories.
 In this section, we'll discuss some of the ones I find most useful.
 
-##### [fzf](https://github.com/junegunn/fzf)
+#### [fzf](https://github.com/junegunn/fzf)
 You might be familiar with it, fzf is a fuzzy finder designed to assist you in swiftly and interactively locating your desired file or directory path.
 
 ```bash
@@ -102,12 +102,12 @@ You can leverage `fzf` to perform text searches, such as finding the PID of a pr
 $ procs | fzf
 ```
 
-##### [mcfly](https://github.com/cantino/mcfly)
+#### [mcfly](https://github.com/cantino/mcfly)
 
 For those accustomed to using `ctrl-r` to search their terminal history, consider using `mcfly` for a more convenient and enhanced experience.
 Personally, I opt for `fzf` to search my history.
 
-##### [ripgrep-all](https://github.com/phiresky/ripgrep-all)
+#### [ripgrep-all](https://github.com/phiresky/ripgrep-all)
 
 Many individuals utilize `ripgrep` for recursive searches, and to extend the search capabilities to include PDFs, Ebooks, archived, compressed,
 and other file types, you can make use of the `ripgrep-all` package.
@@ -119,7 +119,7 @@ main.go
 59:func main() {
 ```
 
-##### [bat-extras](https://github.com/eth-p/bat-extras)
+#### [bat-extras](https://github.com/eth-p/bat-extras)
 `bat-extras` encompasses various commands related to `bat`.
 One notable example is `batgrep`, which combines `ripgrep` and the `bat` command to enhance the output for a better experience:
 
@@ -141,7 +141,7 @@ $ batgrep -i main
 
 Once installed, you can utilize its commands, such as `batman` and `batdiff`.
 
-##### [ast-grep](https://ast-grep.github.io)
+#### [ast-grep](https://ast-grep.github.io)
 This is one of my favorite tools that facilitates searching in your source codes for more precise results based on
 the [Abstract Syntax Tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 For example, consider a scenario where you have a collection of code containing the word "func" (indicating a Golang function definition)
@@ -174,12 +174,12 @@ $ ast-grep -p 'func $A($B)'
 
 As the result indicates, `ast-grep` is a perfect choiece for these use cases.
 
-#### Projects
+### Projects
 Now, let's delve into project management in the terminal, which requires a combination of several commands.
 If you believe that simply using "mkdir" or "git clone" will suffice, I would advise against it, as it can become chaotic
 when dealing with numerous projects, making maintenance a challenging task.
 
-##### [ghq](https://github.com/x-motemen/ghq)
+#### [ghq](https://github.com/x-motemen/ghq)
 The `ghq` tool aids in project management by simplifying the workspace path introduction.
 When you need to clone a project, you can provide the URL to `ghq`, and it automatically clones the project to the appropriate path.
 `ghq` allows you to view a list of projects, create a new repository, and can be seamlessly combined with other tools we've discussed to swiftly
@@ -225,7 +225,7 @@ mort/.../neovim $ pwd
 STherefore, it's essential to set it to your workspace path. What I've done was <code>export GHQ_ROOT="$HOME/Workspaces"</code>.
 {% end %}
 
-#### Conclusion
+### Conclusion
 In this article, we delved into displaying files and directories with enhanced, human-readable information through colorized output.
 We discussed how to locate a file or directory using fzf, and also explored a method for finding a function in our project with context,
 avoiding unrelated results.

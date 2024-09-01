@@ -15,10 +15,10 @@ I wanted to share the collection of tools I use regularly. This blog post is div
 I'll walk you through my shortcuts and aliases.
 <!-- more -->
 
-#### File
+### File
 Let's begin our exploration of tools designed for reading and parsing files.
 
-##### [bat](https://github.com/sharkdp/bat)
+#### [bat](https://github.com/sharkdp/bat)
 
 Bat functions similarly to the `cat` command, offering additional features such as syntax highlighting,
 Git integration, and more. It's used just like the `cat` command:
@@ -40,7 +40,7 @@ You can set up an alias to substitute your regular `cat` command with `bat`:
 alias cat=bat
 ```
 
-##### [jq](https://jqlang.github.io/jq/) / xq  / [yq](https://github.com/kislyuk/yq) / [htmlq](https://github.com/mgdm/htmlq) / [jless](https://jless.io/) / [fq](https://github.com/wader/fq)
+#### [jq](https://jqlang.github.io/jq/) / xq  / [yq](https://github.com/kislyuk/yq) / [htmlq](https://github.com/mgdm/htmlq) / [jless](https://jless.io/) / [fq](https://github.com/wader/fq)
 
 Let's employ an API to retrieve our present location details, such as country, city, and more.
 
@@ -149,7 +149,7 @@ $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
 
 **Binary:**<br>
 
-##### [fq](https://github.com/wader/fq)
+#### [fq](https://github.com/wader/fq)
 
 We can get a binary file information with the similar way in the `jq` command.
 In this example, we're going to get all tags of a binary file and requesting for one of them:
@@ -175,7 +175,7 @@ $ fq .boxes session2.mp4
 *         |until 0x231b4e8d.7 (end) (5098014)                               |                      |
 ```
 
-##### [hexyl](https://github.com/sharkdp/hexyl)
+#### [hexyl](https://github.com/sharkdp/hexyl)
 
 For reading a binary file, hexyl is the go-to tool:
 
@@ -206,7 +206,7 @@ $ hexyl --base binary session2.mp4
 +--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
 ```
 
-##### [tokei](https://github.com/XAMPPRocky/tokei)
+#### [tokei](https://github.com/XAMPPRocky/tokei)
 
 In order to get an aggregated information about source codes, you need Tokei:
 
@@ -256,10 +256,10 @@ $ tokei -o json | jq '.Go.reports[].name'
 "./cmd/list.go"
 ```
 
-#### Process
+### Process
 Now, let's move to list of commands to work with processes:
 
-##### [procs](https://github.com/dalance/procs)
+#### [procs](https://github.com/dalance/procs)
 
 I opted for `procs` over `ps` mainly because it displays the bound ports of each process.
 Configuration can be done through a TOML file.
@@ -275,7 +275,7 @@ PID:   User             | State Nice CPU MEM   VmSize    VmRSS | TCP          UD
 1568   mort             | S        0 0.0 0.6   3.534G 182.824M | [8080]       []                 0     0 |        | test-app                                                                    >
 ```
 
-##### [btop](https://github.com/aristocratos/btop)
+#### [btop](https://github.com/aristocratos/btop)
 
 This is part of my morning routine—running this command every day to keep an eye on my system.
 
@@ -294,7 +294,7 @@ theme_background = False
 update_ms = 1000
 ```
 
-##### [kmon](https://github.com/orhun/kmon)
+#### [kmon](https://github.com/orhun/kmon)
 
 Similar to `btop`, but only for monitoring the Kernel.
 
@@ -310,7 +310,7 @@ kmon aims to gather them in a single terminal window and facilitate the usage as
 Recently, while using kmon, I noticed an error in my Linux kernel related to writing to a pipe.
 This could serve as a starting point to investigate and identify the root cause of the issue.
 
-##### [ctop](https://github.com/bcicen/ctop)
+#### [ctop](https://github.com/bcicen/ctop)
 
 Similar to `btop` or `kmon`, but only for monitoring the containers.
 
@@ -324,13 +324,13 @@ connectors for other container and cluster systems are planned for future releas
 I don't use this tool often since I primarily employ Docker for testing and deploying local services.
 However, when needed, it proves helpful in easily monitoring container usage.
 
-##### [sysz](https://github.com/joehillen/sysz)
+#### [sysz](https://github.com/joehillen/sysz)
 
 This tool combines `fzf` and systemctl, simplifying the process for users to manage daemons effortlessly.
 Utilizing `fzf` allows for quickly locating the desired daemon and promptly taking action through `systemctl` commands.<br>
 For instance, you can swiftly locate and restart the Docker service using this tool.
 
-#### Conclusion
+### Conclusion
 
 Numerous CLI tools are available on the internet to help you accomplish your objectives.<br>
 If you're aware of other tools worth exploring, please share them with me.
