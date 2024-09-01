@@ -183,7 +183,6 @@ h4 {
     color: var(--color0);
     text-decoration: none;
     background-color: var(--color2);
-    padding-right: 0px !important;
 }
 
 .article-tag {
@@ -194,7 +193,6 @@ h4 {
 
 /* Category */
 .article-title .category {
-    padding: 1px 5px 2px 5px;
     /* font-family: "monospace", monospace; */
 }
 
