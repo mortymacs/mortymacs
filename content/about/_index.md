@@ -21,6 +21,4 @@ A passionate developer with 15 years of experience and a deep enthusiasm for ope
 source. I have a strong technical background, particularly in C, C++, Go, Python, Lua, and Nix
 programming languages, as well as the GNU/Linux platform.
 
-You can find my updated resume at [here](https://github.com/mortymacs/resume/releases/download/latest/Morteza.NourelahiAlamdari.pdf).
-
 Feel free to contact me at [m@0t1.me](mailto:m@0t1.me)
