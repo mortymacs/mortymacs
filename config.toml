@@ -12,6 +12,12 @@ build_search_index = true
 generate_feed = true
 feed_filename = "rss.xml"
 
+# Sitemap.xml.
+generate_sitemap = true
+
+# Robots.txt.
+generate_robots_txt = true
+
 # Performance.
 compile_sass = false
 minify_html = false
@@ -21,6 +27,8 @@ highlight_code = true
 highlight_theme = "my-ayu-dark"
 extra_syntaxes_and_themes = ["highlight_themes"]
 render_emoji = true
+external_links_target_blank = true
+smart_punctuation = true
 
 [extra]
 # Put all your custom variables here
