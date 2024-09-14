@@ -42,7 +42,7 @@ end
 Now, you can use it easily:
 
 ```bash
-gitignore go > .gitignore
+$ gitignore go > .gitignore
 ```
 
 ### Commands
@@ -112,15 +112,29 @@ That’s where cherry-picking can be really useful.
 ``` bash
 $ git fetch --all
 $ git checkout main
-$ git chery-pick e98cd3903bbe8066fe0240acfc2cdbc33075bb50
+$ git cherry-pick ef003e4facea1f33b2020fadc2ea844933e176b3
+[master 31c2135] Fix memory leak
+ Date: Sat Sep 14 16:59:58 2024 +0200
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 ```
 
-#### [Git Add Patch](https://git-scm.com/docs/git-add)
+Let's review what we have so far:
+```gitlog
+$ git log
+commit 31c2135dbbfbf623978aa0372c336c1c033f75d4 (HEAD -> master)
+Author: Morteza NourelahiAlamdari <m@0t1.me>
+Date:   Sat Sep 14 16:59:58 2024 +0200
+
+    Fix memory leak
+....
+```
+
+#### [Add Patch](https://git-scm.com/docs/git-add)
 
 
 Sometimes, when making changes to a file, you might only want to commit a few specific lines rather than the entire file.
 In the past, I’d use `git stash`, manually apply the changes I wanted, and then add the file.
-Now, though, I can use `git commit -e` or `git commit -p` to selectively stage only the lines I want to commit, skipping the rest of the file.
+Now, though, I can use `git add -p` to selectively stage only the lines I want to commit, skipping the rest of the file.
 
 ```bash
 $ git add -p
