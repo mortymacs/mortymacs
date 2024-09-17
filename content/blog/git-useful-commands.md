@@ -53,8 +53,6 @@ Sometimes you might need to add a note about a commit or mention something relat
 For instance, you might want to note that a commit was tested by X, Y, and Z.
 In such cases, you can use `git note` to add this additional information.
 
-For example, I wanna add a note on a commit that says it needs a better implementation due to resource restriction:
-
 For example, if you want to add a note to a commit indicating that it needs a better implementation due to resource constraints:
 ```bash
 $ git notes add 9cc33538u8 -m "it needs a better implementation due to resource constraints"
