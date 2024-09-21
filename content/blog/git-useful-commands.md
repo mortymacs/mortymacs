@@ -433,7 +433,7 @@ Changes to be committed:
 	new file:   /path/to/deleted-file
 ```
 
-Here's an interesting thread on Stack Overflow about restoring a deleted folder in a Git repository: https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo
+Here's an interesting thread on Stack Overflow about restoring a deleted folder in a Git repository: [https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo](https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo)
 
 ### Conclusion
 
