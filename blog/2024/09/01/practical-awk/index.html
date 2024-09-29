@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>ZeroToOne - Practical AWK</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="Sometimes, we need to run a series of commands or API calls, gather their outputs, and store them in an organized way.
+For example, imagine we have a CSV file and want to use multiple cURL commands to fetch information about the data in it.
+Then, we might need to clean up and format the results from each step and use them as inputs for other cURL calls or commands.
+In this article, I’ll show how to handle these real-life scenarios using a powerful tool called AWK.
+">
+        <meta name="author" content="Morteza (Mort) NourelahiAlamdari">
+
+        <!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://0t1.me/img/favicon.png">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://0t1.me/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://0t1.me/css/style.css">
+
+<!-- Javascript -->
+<script src="https://0t1.me/js/jquery.min.js"></script>
+<script src="https://0t1.me/js/bootstrap.min.js"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="https://0t1.me/img/logo.png">
+<meta property="og:image:type" content="image/png" >
+
+<!-- Search -->
+<script async src="https://0t1.me/elasticlunr.min.js"></script>
+<script async src="https://0t1.me/search_index.en.js"></script>
+<script async src="https://0t1.me/js/search.js"></script>
+
+    </head>
+    <body class="p-3 d-flex flex-column min-vh-100">
+        <div class="d-flex flex-column flex-grow-1" id="main">
+            <div id="search-result" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h6 class="modal-title">Search Result</h6>
+                <button type="button" class="btn-close rounded-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="search-result-box" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark p-0 mb-2">
+    <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
+        data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="top-navbar">
+        <ul class="navbar-nav me-auto">
+            <a class="navbar-brand fw-bold px-3" title="Home" href="https:&#x2F;&#x2F;0t1.me">#!/bin/mort</a>
+            <li class="nav-item">
+                <a class="nav-link" title="Blog" href="https:&#x2F;&#x2F;0t1.me/blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/dotfiles">Dotfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                    target="_blank">Appointment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/about">About</a>
+            </li>
+        </ul>
+        <div class="d-flex px-2" role="search">
+            <div class="input-group" id="search-box">
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0" type="search"
+                    placeholder="Search" aria-label="Search">
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0"> Enter</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            </div>
+
+            <div class="mt-1 flex-grow-1">
+                
+
+<div class="mb-3">
+    <div class="article-title d-inline">
+        <a href="https:&#x2F;&#x2F;0t1.me&#x2F;blog&#x2F;2024&#x2F;09&#x2F;01&#x2F;practical-awk&#x2F;" class="text-capitalize fw-bold px-2 d-inline-block">
+            Practical AWK
+        </a><label class="fw-bold tools category px-2 d-inline-block">#TOOLS</label>
+    </div>
+    <div>
+        <small class="fst-italic">Sunday, Sep  1, 2024</small>
+    </div>
+    <div class="article-toc">
+    
+        <h4 class="mt-3">Table of Contents</h4>
+        <ul>
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/01/practical-awk/#what-is-awk">What is AWK</a>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/01/practical-awk/#let-s-get-started">Let’s get started!</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#prepration">Prepration</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step1-fetch-status">Step1 (Fetch Status)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step2-fetch-title">Step2 (Fetch Title)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step3-fetch-content-type">Step3 (Fetch Content-Type)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step4-find-ip-address">Step4 (Find IP Address)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step5-find-geo-location">Step5 (Find GEO Location)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#step6-find-phone-code">Step6 (Find Phone Code)</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/01/practical-awk/#finalization">Finalization</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/01/practical-awk/#conclusion">Conclusion</a>
+                
+        
+        </ul>
+    
+    </div>
+    <div class="article-body">
+        <p>Sometimes, we need to run a series of commands or API calls, gather their outputs, and store them in an organized way.
+For example, imagine we have a CSV file and want to use multiple cURL commands to fetch information about the data in it.
+Then, we might need to clean up and format the results from each step and use them as inputs for other cURL calls or commands.
+In this article, I’ll show how to handle these real-life scenarios using a powerful tool called AWK.</p>
+<span id="continue-reading"></span><h3 id="what-is-awk">What is AWK</h3>
+<p>Based of <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/AWK">Wikipedia</a>:
+<blockquote class="quote">
+    <p><p>AWK is a domain-specific language designed for text processing and typically used as a data extraction and reporting tool.
+Like sed and grep, it is a filter, and is a standard feature of most Unix-like operating systems.</p>
+</p>
+</blockquote>
+</p>
+<p>Let’s say you have a sample file like this:</p>
+<pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>a 10 30
+</span><span>b 2  25
+</span><span>c 15 5
+</span></code></pre>
+<p>And you want to filter the output with this query: “Get the sum of the second and third columns for all records where the third column is greater than or equal to 10.”
+You can easily do this with AWK:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">awk </span><span style="color:#c2d94c;">&#39;$3 &gt;= 10 { print $1, $2 + $3}&#39;</span><span> input.txt
+</span></code></pre>
+<p>And the output will be:</p>
+<pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>a 40
+</span><span>b 27
+</span></code></pre>
+<h3 id="let-s-get-started">Let’s get started!</h3>
+<p>In our scenario, we have a CSV file, and we want to go through multiple steps to process the data.</p>
+<p>Sample input CSV file:</p>
+<p><em>input.csv</em></p>
+<pre data-lang="csv" style="background-color:#070a0d;color:#fcfcfc;" class="language-csv "><code class="language-csv" data-lang="csv"><span style="color:#ff7733;">Origin
+</span><span style="color:#ff7733;">https://www.gnu.org
+</span><span style="color:#ff7733;">https://0t1.me
+</span></code></pre>
+<p>Sample output CSV file:</p>
+<p><em>output.csv</em></p>
+<pre data-lang="csv" style="background-color:#070a0d;color:#fcfcfc;" class="language-csv "><code class="language-csv" data-lang="csv"><span style="color:#ff7733;">Origin</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Status</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Title</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">ContentType</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">IP</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Country</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">City</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">PhoneCode
+</span><span style="color:#ff7733;">https://gnu.org</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">OK</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">The GNU Operating System and the Free Software Movement</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">text/html</span><span style="color:#f29668;">,</span><span style="color:#f29718;">209.51.188.116</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">United States</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Boston</span><span style="color:#f29668;">,</span><span style="color:#f29718;">+1
+</span><span style="color:#ff7733;">https://0t1.me</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">OK</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">ZeroToOne </span><span style="color:#f29718;">- </span><span style="color:#ff7733;">Home</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">text/html</span><span style="color:#f29668;">,</span><span style="color:#f29718;">104.21.84.218</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Canada</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Toronto</span><span style="color:#f29668;">,</span><span style="color:#f29718;">+1
+</span></code></pre>
+<p>We need to follow these steps to achieve the output:</p>
+<ol>
+<li>Check the website status by looking at the HTTP code.</li>
+<li>Retrieve the website’s title by parsing the <code>&lt;title&gt;</code> tag.</li>
+<li>Get the website’s content type by reading the <code>Content-Type</code> header.</li>
+<li>Find the website’s IP address.</li>
+<li>Use the IP address from step 4 to determine the geo location.</li>
+<li>Use the geo location from step 5 to find the phone code for that area.</li>
+</ol>
+<pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>+-------------+     +------------+     +------------------+     +---------------+     +-----------------+     +---------------+
+</span><span>| FetchStatus | --&gt; | FetchTitle | --&gt; | FetchContentType | --&gt; | FindIPAddress | --&gt; | FindGeoLocation | --&gt; | FindPhoneCode |
+</span><span>+-------------+     +------------+     +------------------+     +---------------+     +-----------------+     +---------------+
+</span></code></pre>
+<p>To create a final clean code, we should define each step as a separate function.
+This makes the code more readable and easier to maintain.</p>
+<h4 id="prepration">Prepration</h4>
+<p>First, we need to create an AWK file with a different delimiter since the input is a CSV file:</p>
+<p>We’ll set <code>FS</code> to <code>&quot;,&quot;</code> to parse based on commas, and <code>OFS</code> to an empty string to ensure the output has no extra spaces around each element.</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Now, we need to ignore the first line as well, since it’s the header line:</p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span>{
+</span></td></tr><tr><td><mark style="background-color:#101820;">9</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">10</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">11</mark></td><td><mark style="background-color:#101820;"><span>        </span><span style="color:#ff7733;">next
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">12</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td>13</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Next, we need a normalizer to clean up our input addresses and prepare them for processing:</p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">8</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">9</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/www</span><span style="color:#ff7733;">.</span><span style="color:#95e6cb;">/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>origin) </span><span style="font-style:italic;color:#5c6773;"># remove www from the origin.
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">10</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">return </span><span>origin
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">11</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>12</td><td><span>
+</span></td></tr><tr><td>13</td><td><span>{
+</span></td></tr><tr><td>14</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>15</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>16</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>17</td><td><span>    }
+</span></td></tr><tr><td>18</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">19</mark></td><td><mark style="background-color:#101820;"><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></mark></td></tr><tr><td>20</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">21</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin
+</span></mark></td></tr><tr><td>22</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Also, make sure to grant execute permission to the file:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> chmox u+x ./pipeline.awk
+</span></code></pre>
+<p>Now, let’s run our code by passing the input file to make sure it works as expected:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> ./pipeline.awk input.csv
+</span></code></pre>
+<p>And the output will be just what we expected, showing only the Origins column:</p>
+<pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>https://gnu.org
+</span><span>https://0t1.me
+</span></code></pre>
+<blockquote class="info">
+    <p><p>Sometimes, the path to your <code>awk</code> might be different from what’s mentioned in this article.
+To make the script work, you can call the <code>awk</code> command directly:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> awk</span><span style="color:#f29718;"> -f</span><span> ./pipeline.awk input.csv
+</span></code></pre>
+</p>
+</blockquote>
+<p>Now, let’s get started with the flow.</p>
+<h4 id="step1-fetch-status">Step1 (Fetch Status)</h4>
+<p>Based on the flow, we need to fetch the website’s status. To do this, we can use a <code>curl</code> command to get the HTTP code of the website:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s -w </span><span style="color:#c2d94c;">&#39;%{http_code}&#39;</span><span> URL</span><span style="color:#f29718;"> -o</span><span> /dev/null
+</span></code></pre>
+<p>We use <code>-s</code> to make <code>curl</code> silent, and <code>-o</code> to discard the website content.
+Without these options, <code>curl</code> would print the entire content, which could interfere with our other processing logic.</p>
+<p>Now, let’s implement this inside the AWK file:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">12</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">13</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -w &#39;%{http_code}&#39; -L &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; -o /dev/null&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">14</mark></td><td><mark style="background-color:#101820;"><span>    command | </span><span style="color:#ff7733;">getline </span><span>status_code
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">15</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">16</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">17</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>(status_code </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;200&quot;</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">18</mark></td><td><mark style="background-color:#101820;"><span>        </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&quot;OK&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">19</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">20</mark></td><td><mark style="background-color:#101820;"><span>    return </span><span style="color:#c2d94c;">&quot;ERR&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">21</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>22</td><td><span>
+</span></td></tr><tr><td>23</td><td><span>{
+</span></td></tr><tr><td>24</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>25</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>26</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>27</td><td><span>    }
+</span></td></tr><tr><td>28</td><td><span>
+</span></td></tr><tr><td>29</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td><mark style="background-color:#101820;">30</mark></td><td><mark style="background-color:#101820;"><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></mark></td></tr><tr><td>31</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">32</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status
+</span></mark></td></tr><tr><td>33</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<blockquote class="important">
+    <p><p>Don’t forget to include <code>&quot;,&quot;</code> (comma) between variables in the <code>print</code> statement, as we want the output in CSV format!</p>
+</p>
+</blockquote>
+<p>Let’s run it to see the results:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> ./pipeline.awk input.csv
+</span><span style="color:#ffb454;">https://gnu.org,OK
+</span><span style="color:#ffb454;">https://0t1.me,OK
+</span></code></pre>
+<p>Great! Now let’s move on to the next step: fetching the title of the website.</p>
+<h4 id="step2-fetch-title">Step2 (Fetch Title)</h4>
+<p>To complete this step, we need a tool to process HTML content. Here, we use <a rel="noopener" target="_blank" href="https://github.com/mgdm/htmlq">htmlq</a> for that purpose.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">curl</span><span style="color:#f29718;"> -s</span><span> URL </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">htmlq</span><span> title</span><span style="color:#f29718;"> -t
+</span></code></pre>
+<p>Now, let’s add this inside the AWK file:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>13</td><td><span>    ...
+</span></td></tr><tr><td>14</td><td><span>}
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">16</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">17</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -L &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; | htmlq title -t&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">18</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>title) </span><span style="color:#f29668;">&gt; </span><span style="color:#f29718;">0</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">19</mark></td><td><mark style="background-color:#101820;"><span>        </span><span style="color:#f07178;">gsub</span><span>(</span><span style="color:#95e6cb;">/,/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot; &quot;</span><span style="color:#bfbab0cc;">, </span><span>title)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">20</mark></td><td><mark style="background-color:#101820;"><span>    } else {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">21</mark></td><td><mark style="background-color:#101820;"><span>        title </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;couldn&#39;t fetch it&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">22</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">23</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">24</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">25</mark></td><td><mark style="background-color:#101820;"><span>    return title
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">26</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>27</td><td><span>
+</span></td></tr><tr><td>28</td><td><span>{
+</span></td></tr><tr><td>29</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>30</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>31</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>32</td><td><span>    }
+</span></td></tr><tr><td>33</td><td><span>
+</span></td></tr><tr><td>34</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>35</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td><mark style="background-color:#101820;">36</mark></td><td><mark style="background-color:#101820;"><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></mark></td></tr><tr><td>37</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">38</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title
+</span></mark></td></tr><tr><td>39</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>To parse various types of website content, you’ll need different tools.
+For more information about these tools, check out my other post: <a rel="noopener" target="_blank" href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#jq-xq-yq-htmlq-jless-fq">Handy Command-Line Utilities - Part 1</a>.</p>
+<h4 id="step3-fetch-content-type">Step3 (Fetch Content-Type)</h4>
+<p>Now, let’s fetch the website’s <code>Content-Type</code> value using <code>curl</code>, <code>grep</code> and <code>cut</code>:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">curl</span><span style="color:#f29718;"> -s -L -I</span><span> URL </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">grep</span><span style="color:#f29718;"> -i </span><span style="color:#c2d94c;">&#39;^Content-Type: &#39; </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">cut</span><span style="color:#f29718;"> -d</span><span style="color:#c2d94c;">&#39; &#39;</span><span style="color:#f29718;"> -f2
+</span></code></pre>
+<p>We use the <code>-I</code> flag to fetch only the headers.</p>
+<p>Inside the AWK file:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>13</td><td><span>    ...
+</span></td></tr><tr><td>14</td><td><span>}
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td>16</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>17</td><td><span>    ...
+</span></td></tr><tr><td>18</td><td><span>}
+</span></td></tr><tr><td>19</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">20</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">21</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -L -I &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; | grep -i &#39;^Content-Type: &#39; | cut -d&#39; &#39; -f2&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">22</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>content_type) </span><span style="color:#f29668;">&gt; </span><span style="color:#f29718;">0</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">23</mark></td><td><mark style="background-color:#101820;"><span>        </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/;/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">24</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">25</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">26</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">27</mark></td><td><mark style="background-color:#101820;"><span>    return content_type
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">28</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>29</td><td><span>
+</span></td></tr><tr><td>30</td><td><span>{
+</span></td></tr><tr><td>31</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>32</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>33</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>34</td><td><span>    }
+</span></td></tr><tr><td>35</td><td><span>
+</span></td></tr><tr><td>36</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>37</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td>38</td><td><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></td></tr><tr><td><mark style="background-color:#101820;">39</mark></td><td><mark style="background-color:#101820;"><span>    content_type </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(origin)
+</span></mark></td></tr><tr><td>40</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">41</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type
+</span></mark></td></tr><tr><td>42</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<h4 id="step4-find-ip-address">Step4 (Find IP Address)</h4>
+<p>Now, it’s time to find the IP address of the website. There are several options for this, but I’ve chosen the <code>dig</code> command.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">dig</span><span> +short HOST
+</span></code></pre>
+<p>Since the <code>dig</code> command requires the HOST, not the full website address, we need to remove the <code>http</code> and <code>https</code> prefixes.
+AWK has the <code>sub</code> function for finding and replacing strings based on regex. Let’s use it to implement our function:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>13</td><td><span>    ...
+</span></td></tr><tr><td>14</td><td><span>}
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td>16</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>17</td><td><span>    ...
+</span></td></tr><tr><td>18</td><td><span>}
+</span></td></tr><tr><td>19</td><td><span>
+</span></td></tr><tr><td>20</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>21</td><td><span>    ...
+</span></td></tr><tr><td>22</td><td><span>}
+</span></td></tr><tr><td>23</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">24</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_website_ip</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">25</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/http</span><span style="color:#ff7733;">(</span><span style="color:#95e6cb;">s</span><span style="color:#ff7733;">)</span><span style="color:#f29668;">?</span><span style="color:#95e6cb;">:\/\//</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>origin) </span><span style="font-style:italic;color:#5c6773;"># remove Origin&#39;s prefix
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">26</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;dig +short &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39;&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">27</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>ip) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">28</mark></td><td><mark style="background-color:#101820;"><span>        ip </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;-&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">29</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">30</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">31</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">32</mark></td><td><mark style="background-color:#101820;"><span>    return ip
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">33</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>34</td><td><span>
+</span></td></tr><tr><td>35</td><td><span>{
+</span></td></tr><tr><td>36</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>37</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>38</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>39</td><td><span>    }
+</span></td></tr><tr><td>40</td><td><span>
+</span></td></tr><tr><td>41</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>42</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td>43</td><td><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></td></tr><tr><td>44</td><td><span>    content_type </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(origin)
+</span></td></tr><tr><td><mark style="background-color:#101820;">45</mark></td><td><mark style="background-color:#101820;"><span>    ip </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_website_ip</span><span>(origin)
+</span></mark></td></tr><tr><td>46</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">47</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>ip
+</span></mark></td></tr><tr><td>48</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Let’s run it to see the results:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> awk</span><span style="color:#f29718;"> -f</span><span> ./pipeline.awk input.csv
+</span><span style="color:#ffb454;">https://gnu.org,OK,The</span><span> GNU Operating System and the Free Software Movement,text/html,209.51.188.116
+</span><span style="color:#ffb454;">https://0t1.me,OK,ZeroToOne</span><span> - Home,text/html,188.114.97.0
+</span></code></pre>
+<p>Awesome! We’ve got some results now!</p>
+<p>Let’s move on to the next step: finding the location of the IP address we obtained with the <code>dig</code> command.</p>
+<h4 id="step5-find-geo-location">Step5 (Find GEO Location)</h4>
+<p>Here, I’ll use the ip-api service: <code>http://ip-api.com/json/{IP}</code>.</p>
+<p>The output of this URL is in JSON format. So, we can use the <a rel="noopener" target="_blank" href="https://github.com/jqlang/jq"><code>jq</code></a> command to parse it:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/json/{IP} </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jq</span><span style="color:#f29718;"> -r </span><span style="color:#c2d94c;">&#39;.country + &quot;,&quot; + .city&#39;
+</span></code></pre>
+<p>Now, let’s add this inside the AWK file:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>13</td><td><span>    ...
+</span></td></tr><tr><td>14</td><td><span>}
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td>16</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>17</td><td><span>    ...
+</span></td></tr><tr><td>18</td><td><span>}
+</span></td></tr><tr><td>19</td><td><span>
+</span></td></tr><tr><td>20</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>21</td><td><span>    ...
+</span></td></tr><tr><td>22</td><td><span>}
+</span></td></tr><tr><td>23</td><td><span>
+</span></td></tr><tr><td>24</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_website_ip</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>25</td><td><span>    ...
+</span></td></tr><tr><td>26</td><td><span>}
+</span></td></tr><tr><td>27</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">28</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_ip_location</span><span>(</span><span style="color:#f29718;">ip</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">29</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s http://ip-api.com/json/&#39;&quot; </span><span>ip </span><span style="color:#c2d94c;">&quot;&#39; | jq -r &#39;.country + </span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">,</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;"> + .city&#39;&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">30</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>location) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">31</mark></td><td><mark style="background-color:#101820;"><span>        location </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;unknown&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">32</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">33</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">34</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">35</mark></td><td><mark style="background-color:#101820;"><span>    return location
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">36</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>37</td><td><span>
+</span></td></tr><tr><td>38</td><td><span>{
+</span></td></tr><tr><td>39</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>40</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>41</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>42</td><td><span>    }
+</span></td></tr><tr><td>43</td><td><span>
+</span></td></tr><tr><td>44</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>45</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td>46</td><td><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></td></tr><tr><td>47</td><td><span>    content_type </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(origin)
+</span></td></tr><tr><td>48</td><td><span>    ip </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_website_ip</span><span>(origin)
+</span></td></tr><tr><td><mark style="background-color:#101820;">49</mark></td><td><mark style="background-color:#101820;"><span>    location </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_ip_location</span><span>(ip)
+</span></mark></td></tr><tr><td>50</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">51</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>ip</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>location
+</span></mark></td></tr><tr><td>52</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Now, let’s see the output:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> ./pipeline.awk input.csv
+</span><span style="color:#ffb454;">https://gnu.org,OK,The</span><span> GNU Operating System and the Free Software Movement,text/html,209.51.188.116,United States
+</span><span style="color:#ffb454;">,Boston
+</span><span style="color:#ffb454;">https://0t1.me,OK,ZeroToOne</span><span> - Home,text/html,188.114.97.0,Canada,Toronto
+</span></code></pre>
+<h4 id="step6-find-phone-code">Step6 (Find Phone Code)</h4>
+<p>The last step in the flow is to find the phone code for that location.
+I’ll get this information from the <a rel="noopener" target="_blank" href="https://www.countrycode.org/">countrycode.org</a> website by parsing the HTML output:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">curl</span><span style="color:#f29718;"> -s</span><span> https://www.countrycode.org/{country} </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">htmlq </span><span style="color:#c2d94c;">&#39;h2.text-center&#39;</span><span style="color:#f29718;"> -t
+</span></code></pre>
+<p>Before implementing this logic, we need to parse the location to extract only the country name and convert it to lowercase, as the website requires.
+AWK’s built-in <code>split</code> and <code>tolower</code> functions can help us achieve this.</p>
+<p>So, let’s implement the step:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>}
+</span></td></tr><tr><td>7</td><td><span>
+</span></td></tr><tr><td>8</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>9</td><td><span>    ...
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>13</td><td><span>    ...
+</span></td></tr><tr><td>14</td><td><span>}
+</span></td></tr><tr><td>15</td><td><span>
+</span></td></tr><tr><td>16</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>17</td><td><span>    ...
+</span></td></tr><tr><td>18</td><td><span>}
+</span></td></tr><tr><td>19</td><td><span>
+</span></td></tr><tr><td>20</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>21</td><td><span>    ...
+</span></td></tr><tr><td>22</td><td><span>}
+</span></td></tr><tr><td>23</td><td><span>
+</span></td></tr><tr><td>24</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_website_ip</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>25</td><td><span>    ...
+</span></td></tr><tr><td>26</td><td><span>}
+</span></td></tr><tr><td>27</td><td><span>
+</span></td></tr><tr><td>28</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_ip_location</span><span>(</span><span style="color:#f29718;">ip</span><span>) {
+</span></td></tr><tr><td>29</td><td><span>    ...
+</span></td></tr><tr><td>30</td><td><span>}
+</span></td></tr><tr><td>31</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">32</mark></td><td><mark style="background-color:#101820;"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_location_phone_code</span><span>(</span><span style="color:#f29718;">country</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">33</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">if </span><span>(country </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;United States&quot;</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">34</mark></td><td><mark style="background-color:#101820;"><span>        country </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;usa&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">35</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">36</mark></td><td><mark style="background-color:#101820;"><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s &#39;https://www.countrycode.org/&quot; </span><span style="color:#f07178;">tolower</span><span>(country) </span><span style="color:#c2d94c;">&quot;&#39; | htmlq &#39;h2.text-center&#39; -t&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">37</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>phone_code) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">38</mark></td><td><mark style="background-color:#101820;"><span>        phone_code </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;unknown&quot;
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">39</mark></td><td><mark style="background-color:#101820;"><span>    }
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">40</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">41</mark></td><td><mark style="background-color:#101820;"><span>
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">42</mark></td><td><mark style="background-color:#101820;"><span>    return phone_code
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">43</mark></td><td><mark style="background-color:#101820;"><span>}
+</span></mark></td></tr><tr><td>44</td><td><span>
+</span></td></tr><tr><td>45</td><td><span>{
+</span></td></tr><tr><td>46</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>47</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>48</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>49</td><td><span>    }
+</span></td></tr><tr><td>50</td><td><span>
+</span></td></tr><tr><td>51</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>52</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td>53</td><td><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></td></tr><tr><td>54</td><td><span>    content_type </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(origin)
+</span></td></tr><tr><td>55</td><td><span>    ip </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_website_ip</span><span>(origin)
+</span></td></tr><tr><td>56</td><td><span>    location </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_ip_location</span><span>(ip)
+</span></td></tr><tr><td><mark style="background-color:#101820;">57</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#f07178;">split</span><span>(location</span><span style="color:#bfbab0cc;">, </span><span>location_parts</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span>)
+</span></mark></td></tr><tr><td><mark style="background-color:#101820;">58</mark></td><td><mark style="background-color:#101820;"><span>    phone_code </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_location_phone_code</span><span>(location_parts</span><span style="color:#f29668;">[</span><span style="color:#f29718;">1</span><span style="color:#f29668;">]</span><span>)
+</span></mark></td></tr><tr><td>59</td><td><span>
+</span></td></tr><tr><td><mark style="background-color:#101820;">60</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>ip</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>location</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>phone_code
+</span></mark></td></tr><tr><td>61</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Let’s run it:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> ./pipeline.awk input.csv
+</span><span style="color:#ffb454;">https://gnu.org,OK,The</span><span> GNU Operating System and the Free Software Movement,text/html,209.51.188.116,United States
+</span><span style="color:#ffb454;">,Boston,+1
+</span><span style="color:#ffb454;">https://0t1.me,OK,ZeroToOne</span><span> - Home,text/html,188.114.97.0,Canada,Toronto,+1
+</span></code></pre>
+<h4 id="finalization">Finalization</h4>
+<p>Now that we have the results we’re looking for, the only remaining step is to prepare it for output.</p>
+<p>As we wanted to achieve this output structure:</p>
+<pre data-lang="csv" style="background-color:#070a0d;color:#fcfcfc;" class="language-csv "><code class="language-csv" data-lang="csv"><span style="color:#ff7733;">Origin</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Status</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Title</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">ContentType</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">IP</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">Country</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">City</span><span style="color:#f29668;">,</span><span style="color:#ff7733;">PhoneCode
+</span></code></pre>
+<p>We need to include a header in our output file, so we should add a <code>print</code> statement in the <code>BEGIN</code> section:</p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>2</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>3</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td><mark style="background-color:#101820;">4</mark></td><td><mark style="background-color:#101820;"><span>    </span><span style="color:#ff7733;">print </span><span style="color:#c2d94c;">&quot;Origin,Status,Title,ContentType,IP,Country,City,PhoneCode&quot;
+</span></mark></td></tr><tr><td>5</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>So, all in one place:</p>
+<p><em>pipeline.awk</em></p>
+<pre data-linenos data-lang="awk" style="background-color:#070a0d;color:#fcfcfc;" class="language-awk "><code class="language-awk" data-lang="awk"><table><tbody><tr><td>1</td><td><span style="font-style:italic;color:#5c6773;">#!/usr/bin/awk -f
+</span></td></tr><tr><td>2</td><td><span>
+</span></td></tr><tr><td>3</td><td><span style="color:#f29718;">BEGIN </span><span>{
+</span></td></tr><tr><td>4</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">FS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;,&quot;
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="font-style:italic;color:#39bae6;">OFS </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;&quot;
+</span></td></tr><tr><td>6</td><td><span>    </span><span style="color:#ff7733;">print </span><span style="color:#c2d94c;">&quot;Origin,Status,Title,ContentType,IP,Country,City,PhoneCode&quot;
+</span></td></tr><tr><td>7</td><td><span>}
+</span></td></tr><tr><td>8</td><td><span>
+</span></td></tr><tr><td>9</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>10</td><td><span>    </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/www</span><span style="color:#ff7733;">.</span><span style="color:#95e6cb;">/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>origin) </span><span style="font-style:italic;color:#5c6773;"># remove www from the origin.
+</span></td></tr><tr><td>11</td><td><span>    </span><span style="color:#ff7733;">return </span><span>origin
+</span></td></tr><tr><td>12</td><td><span>}
+</span></td></tr><tr><td>13</td><td><span>
+</span></td></tr><tr><td>14</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">get_website_status</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>15</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -w &#39;%{http_code}&#39; -L &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; -o /dev/null&quot;
+</span></td></tr><tr><td>16</td><td><span>    command | </span><span style="color:#ff7733;">getline </span><span>status_code
+</span></td></tr><tr><td>17</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>18</td><td><span>
+</span></td></tr><tr><td>19</td><td><span>    </span><span style="color:#ffb454;">if </span><span>(status_code </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;200&quot;</span><span>) {
+</span></td></tr><tr><td>20</td><td><span>        </span><span style="color:#ff7733;">return </span><span style="color:#c2d94c;">&quot;OK&quot;
+</span></td></tr><tr><td>21</td><td><span>    }
+</span></td></tr><tr><td>22</td><td><span>    return </span><span style="color:#c2d94c;">&quot;ERR&quot;
+</span></td></tr><tr><td>23</td><td><span>}
+</span></td></tr><tr><td>24</td><td><span>
+</span></td></tr><tr><td>25</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_title</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>26</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -L &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; | htmlq title -t&quot;
+</span></td></tr><tr><td>27</td><td><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>title) </span><span style="color:#f29668;">&gt; </span><span style="color:#f29718;">0</span><span>) {
+</span></td></tr><tr><td>28</td><td><span>        </span><span style="color:#f07178;">gsub</span><span>(</span><span style="color:#95e6cb;">/,/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot; &quot;</span><span style="color:#bfbab0cc;">, </span><span>title)
+</span></td></tr><tr><td>29</td><td><span>    } else {
+</span></td></tr><tr><td>30</td><td><span>        title </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;couldn&#39;t fetch it&quot;
+</span></td></tr><tr><td>31</td><td><span>    }
+</span></td></tr><tr><td>32</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>33</td><td><span>
+</span></td></tr><tr><td>34</td><td><span>    return title
+</span></td></tr><tr><td>35</td><td><span>}
+</span></td></tr><tr><td>36</td><td><span>
+</span></td></tr><tr><td>37</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>38</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s -L -I &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39; | grep -i &#39;^Content-Type: &#39; | cut -d&#39; &#39; -f2&quot;
+</span></td></tr><tr><td>39</td><td><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>content_type) </span><span style="color:#f29668;">&gt; </span><span style="color:#f29718;">0</span><span>) {
+</span></td></tr><tr><td>40</td><td><span>        </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/;/</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type)
+</span></td></tr><tr><td>41</td><td><span>    }
+</span></td></tr><tr><td>42</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>43</td><td><span>
+</span></td></tr><tr><td>44</td><td><span>    return content_type
+</span></td></tr><tr><td>45</td><td><span>}
+</span></td></tr><tr><td>46</td><td><span>
+</span></td></tr><tr><td>47</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_website_ip</span><span>(</span><span style="color:#f29718;">origin</span><span>) {
+</span></td></tr><tr><td>48</td><td><span>    </span><span style="color:#f07178;">sub</span><span>(</span><span style="color:#95e6cb;">/http</span><span style="color:#ff7733;">(</span><span style="color:#95e6cb;">s</span><span style="color:#ff7733;">)</span><span style="color:#f29668;">?</span><span style="color:#95e6cb;">:\/\//</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#bfbab0cc;">, </span><span>origin) </span><span style="font-style:italic;color:#5c6773;"># remove Origin&#39;s prefix
+</span></td></tr><tr><td>49</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;dig +short &#39;&quot; </span><span>origin </span><span style="color:#c2d94c;">&quot;&#39;&quot;
+</span></td></tr><tr><td>50</td><td><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>ip) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></td></tr><tr><td>51</td><td><span>        ip </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;-&quot;
+</span></td></tr><tr><td>52</td><td><span>    }
+</span></td></tr><tr><td>53</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>54</td><td><span>
+</span></td></tr><tr><td>55</td><td><span>    return ip
+</span></td></tr><tr><td>56</td><td><span>}
+</span></td></tr><tr><td>57</td><td><span>
+</span></td></tr><tr><td>58</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_ip_location</span><span>(</span><span style="color:#f29718;">ip</span><span>) {
+</span></td></tr><tr><td>59</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s http://ip-api.com/json/&#39;&quot; </span><span>ip </span><span style="color:#c2d94c;">&quot;&#39; | jq -r &#39;.country + </span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">,</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;"> + .city&#39;&quot;
+</span></td></tr><tr><td>60</td><td><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>location) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></td></tr><tr><td>61</td><td><span>        location </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;unknown&quot;
+</span></td></tr><tr><td>62</td><td><span>    }
+</span></td></tr><tr><td>63</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>64</td><td><span>
+</span></td></tr><tr><td>65</td><td><span>    return location
+</span></td></tr><tr><td>66</td><td><span>}
+</span></td></tr><tr><td>67</td><td><span>
+</span></td></tr><tr><td>68</td><td><span style="color:#ff7733;">function </span><span style="color:#ffb454;">find_location_phone_code</span><span>(</span><span style="color:#f29718;">country</span><span>) {
+</span></td></tr><tr><td>69</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(country </span><span style="color:#f29668;">== </span><span style="color:#c2d94c;">&quot;United States&quot;</span><span>) {
+</span></td></tr><tr><td>70</td><td><span>        country </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;usa&quot;
+</span></td></tr><tr><td>71</td><td><span>    }
+</span></td></tr><tr><td>72</td><td><span>    command </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;curl -s &#39;https://www.countrycode.org/&quot; </span><span style="color:#f07178;">tolower</span><span>(country) </span><span style="color:#c2d94c;">&quot;&#39; | htmlq &#39;h2.text-center&#39; -t&quot;
+</span></td></tr><tr><td>73</td><td><span>    </span><span style="color:#ffb454;">if </span><span>((command | </span><span style="color:#ff7733;">getline </span><span>phone_code) </span><span style="color:#f29668;">== </span><span style="color:#f29718;">0</span><span>) {
+</span></td></tr><tr><td>74</td><td><span>        phone_code </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;unknown&quot;
+</span></td></tr><tr><td>75</td><td><span>    }
+</span></td></tr><tr><td>76</td><td><span>    </span><span style="color:#ff7733;">close</span><span>(command)
+</span></td></tr><tr><td>77</td><td><span>
+</span></td></tr><tr><td>78</td><td><span>    return phone_code
+</span></td></tr><tr><td>79</td><td><span>}
+</span></td></tr><tr><td>80</td><td><span>
+</span></td></tr><tr><td>81</td><td><span>{
+</span></td></tr><tr><td>82</td><td><span>    </span><span style="font-style:italic;color:#5c6773;"># Ignore the header line.
+</span></td></tr><tr><td>83</td><td><span>    </span><span style="color:#ff7733;">if </span><span>(</span><span style="font-style:italic;color:#39bae6;">NR </span><span style="color:#f29668;">== </span><span style="color:#f29718;">1</span><span>) {
+</span></td></tr><tr><td>84</td><td><span>        </span><span style="color:#ff7733;">next
+</span></td></tr><tr><td>85</td><td><span>    }
+</span></td></tr><tr><td>86</td><td><span>
+</span></td></tr><tr><td>87</td><td><span>    origin </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">normalize_origin</span><span>(</span><span style="font-style:italic;color:#39bae6;">$1</span><span>)
+</span></td></tr><tr><td>88</td><td><span>    status </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">get_website_status</span><span>(origin)
+</span></td></tr><tr><td>89</td><td><span>    title </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_title</span><span>(origin)
+</span></td></tr><tr><td>90</td><td><span>    content_type </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">fetch_website_content_type</span><span>(origin)
+</span></td></tr><tr><td>91</td><td><span>    ip </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_website_ip</span><span>(origin)
+</span></td></tr><tr><td>92</td><td><span>    location </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_ip_location</span><span>(ip)
+</span></td></tr><tr><td>93</td><td><span>    </span><span style="color:#f07178;">split</span><span>(location</span><span style="color:#bfbab0cc;">, </span><span>location_parts</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span>)
+</span></td></tr><tr><td>94</td><td><span>    phone_code </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">find_location_phone_code</span><span>(location_parts</span><span style="color:#f29668;">[</span><span style="color:#f29718;">1</span><span style="color:#f29668;">]</span><span>)
+</span></td></tr><tr><td>95</td><td><span>
+</span></td></tr><tr><td>96</td><td><span>    </span><span style="color:#ff7733;">print </span><span>origin</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>status</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>title</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>content_type</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>ip</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>location</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;,&quot;</span><span style="color:#bfbab0cc;">, </span><span>phone_code
+</span></td></tr><tr><td>97</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+<p>Finally, run the script and store the results in <em>output.csv</em>.
+You can use <a rel="noopener" target="_blank" href="https://github.com/wfxr/csview">csview</a> to present the CSV file.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> ./pipeline.awk input.csv </span><span style="color:#f29668;">&gt;</span><span> output.csv
+</span><span style="color:#ffb454;">$</span><span> csview</span><span style="color:#f29718;"> -s</span><span> ascii2 output.csv
+</span><span>      </span><span style="color:#ffb454;">Origin      </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Status </span><span style="color:#f29668;">|                          </span><span style="color:#ffb454;">Title                          </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">ContentType </span><span style="color:#f29668;">|       </span><span style="color:#ffb454;">IP       </span><span style="color:#f29668;">|    </span><span style="color:#ffb454;">Country    </span><span style="color:#f29668;">|  </span><span style="color:#ffb454;">City   </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">PhoneCode
+</span><span> </span><span style="color:#ffb454;">-----------------+--------+---------------------------------------------------------+-------------+----------------+---------------+---------+-----------
+</span><span>  </span><span style="color:#ffb454;">https://gnu.org </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">OK     </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">The</span><span> GNU Operating System and the Free Software Movement </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">text/html   </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">209.51.188.116 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">United</span><span> States </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Boston  </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">+1
+</span><span>  </span><span style="color:#ffb454;">https://0t1.me  </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">OK     </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">ZeroToOne</span><span> - Home                                        </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">text/html   </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">188.114.97.0   </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Canada        </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Toronto </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">+1
+</span></code></pre>
+<h3 id="conclusion">Conclusion</h3>
+<p>As we’ve seen, AWK is a very handy and useful tool for working with data.
+If you have a series of data processing tasks, you can use AWK to achieve the desired output.
+For example, in one of my real cases, I needed to call multiple APIs to gather information, such as fetching user details and then retrieving user-registered processes, and etc.</p>
+<p>I hope you find this article useful!</p>
+
+    </div>
+    <div>
+        
+    </div>
+    
+    <div>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#cli</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#awk</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#utilities</label>
+        
+    </div>
+    
+    
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    
+</div>
+
+<script src="https://giscus.app/client.js"
+        data-repo="mortymacs/mortymacs"
+        data-repo-id="R_kgDOLJ_j-Q"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOLJ_j-c4Ccuug"
+        data-mapping="url"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+        </div>
+        <footer class="footer mt-auto">
+            <div class="d-flex">
+    <div class="p-1 px-2 copyright-1">
+        &copy;Morteza NourelahiAlamdari. All rights reserved.
+    </div>
+    <div class="p-1 px-2 flex-fill text-end copyright-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="1em">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288H584.4L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320H199.3L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z" />
+        </svg>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+    </div>
+    <div class="p-1 px-2 text-end git-status">
+        <a class="px-1" href="https://github.com/mortymacs/mortymacs" title="Git" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                height="1em"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                    d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+            </svg>
+            origin/main
+        </a>
+    </div>
+    <div class="p-1 px-2 text-end links">
+        <a class="px-1" title="Github" href="https://github.com/mortymacs" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            </svg></a>
+        <a class="px-1 text-body" title="LinkedIn" href="https://www.linkedin.com/in/mortymacs/" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+            </svg></a>
+        <a class="px-1 text-body" title="RSS" href="https:&#x2F;&#x2F;0t1.me/rss.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+            </svg></a>
+        <a class="px-1 text-body" title="Sitemap" href="https:&#x2F;&#x2F;0t1.me/sitemap.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z" />
+            </svg></a>
+    </div>
+</div>
+
+        </footer>
+    </body>
+</html>
