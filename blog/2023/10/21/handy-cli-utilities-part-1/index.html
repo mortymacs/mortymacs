@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>ZeroToOne - handy command-line utilities - part 1</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="As I heavily depend on the terminal for a range of activities such as browsing, handling files, coding, and converting videos,
+I wanted to share the collection of tools I use regularly. This blog post is divided into three sections, and in the final part,
+I’ll walk you through my shortcuts and aliases.
+">
+        <meta name="author" content="Morteza (Mort) NourelahiAlamdari">
+
+        <!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://0t1.me/img/favicon.png">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://0t1.me/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://0t1.me/css/style.css">
+
+<!-- Javascript -->
+<script src="https://0t1.me/js/jquery.min.js"></script>
+<script src="https://0t1.me/js/bootstrap.min.js"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="https://0t1.me/img/logo.png">
+<meta property="og:image:type" content="image/png" >
+
+<!-- Search -->
+<script async src="https://0t1.me/elasticlunr.min.js"></script>
+<script async src="https://0t1.me/search_index.en.js"></script>
+<script async src="https://0t1.me/js/search.js"></script>
+
+    </head>
+    <body class="p-3 d-flex flex-column min-vh-100">
+        <div class="d-flex flex-column flex-grow-1" id="main">
+            <div id="search-result" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h6 class="modal-title">Search Result</h6>
+                <button type="button" class="btn-close rounded-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="search-result-box" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark p-0 mb-2">
+    <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
+        data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="top-navbar">
+        <ul class="navbar-nav me-auto">
+            <a class="navbar-brand fw-bold px-3" title="Home" href="https:&#x2F;&#x2F;0t1.me">#!/bin/mort</a>
+            <li class="nav-item">
+                <a class="nav-link" title="Blog" href="https:&#x2F;&#x2F;0t1.me/blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/dotfiles">Dotfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                    target="_blank">Appointment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/about">About</a>
+            </li>
+        </ul>
+        <div class="d-flex px-2" role="search">
+            <div class="input-group" id="search-box">
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0" type="search"
+                    placeholder="Search" aria-label="Search">
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0"> Enter</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            </div>
+
+            <div class="mt-1 flex-grow-1">
+                
+
+<div class="mb-3">
+    <div class="article-title d-inline">
+        <a href="https:&#x2F;&#x2F;0t1.me&#x2F;blog&#x2F;2023&#x2F;10&#x2F;21&#x2F;handy-cli-utilities-part-1&#x2F;" class="text-capitalize fw-bold px-2 d-inline-block">
+            handy command-line utilities - part 1
+        </a><label class="fw-bold tools category px-2 d-inline-block">#TOOLS</label>
+    </div>
+    <div>
+        <small class="fst-italic">Saturday, Oct 21, 2023</small>
+    </div>
+    <div class="article-toc">
+    
+        <h4 class="mt-3">Table of Contents</h4>
+        <ul>
+        
+            <li>
+                <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#file">File</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#bat">bat</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#jq-xq-yq-htmlq-jless-fq">jq &#x2F; xq  &#x2F; yq &#x2F; htmlq &#x2F; jless &#x2F; fq</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#fq">fq</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#hexyl">hexyl</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#tokei">tokei</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#process">Process</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#procs">procs</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#btop">btop</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#kmon">kmon</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#ctop">ctop</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#sysz">sysz</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#conclusion">Conclusion</a>
+                
+        
+        </ul>
+    
+    </div>
+    <div class="article-body">
+        <p>As I heavily depend on the terminal for a range of activities such as browsing, handling files, coding, and converting videos,
+I wanted to share the collection of tools I use regularly. This blog post is divided into three sections, and in the final part,
+I’ll walk you through my shortcuts and aliases.</p>
+<span id="continue-reading"></span><h3 id="file">File</h3>
+<p>Let’s begin our exploration of tools designed for reading and parsing files.</p>
+<h4 id="bat"><a rel="noopener" target="_blank" href="https://github.com/sharkdp/bat">bat</a></h4>
+<p>Bat functions similarly to the <code>cat</code> command, offering additional features such as syntax highlighting,
+Git integration, and more. It’s used just like the <code>cat</code> command:</p>
+<pre data-lang="cpp" style="background-color:#070a0d;color:#fcfcfc;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span>$ bat main</span><span style="color:#f29668;">.</span><span>cpp
+</span><span style="color:#f29668;">-------+--------------------------------------------------------------------------------------------
+</span><span>       </span><span style="color:#f29668;">|</span><span> File</span><span style="color:#f29668;">:</span><span> main</span><span style="color:#f29668;">.</span><span>cpp
+</span><span style="color:#f29668;">-------+--------------------------------------------------------------------------------------------
+</span><span>   1   </span><span style="color:#f29668;">|</span><span> #include &lt;iostream&gt;
+</span><span>   </span><span style="color:#f29718;">2   </span><span style="color:#f29668;">| </span><span style="color:#ff7733;">using namespace</span><span> std</span><span style="color:#bfbab0cc;">;
+</span><span>   3   </span><span style="color:#f29668;">| </span><span style="color:#ff7733;">int </span><span style="color:#ffb454;">main</span><span>() {
+</span><span>   </span><span style="color:#f29718;">4   </span><span style="color:#f29668;">|</span><span>     std</span><span style="color:#f29668;">::</span><span>cout </span><span style="color:#f29668;">&lt;&lt; </span><span style="color:#c2d94c;">&quot;Hello World!&quot; </span><span style="color:#f29668;">&lt;&lt;</span><span> std</span><span style="color:#f29668;">::</span><span>endl</span><span style="color:#bfbab0cc;">;
+</span><span>   </span><span style="color:#f29718;">5   </span><span style="color:#f29668;">| </span><span>}
+</span><span style="color:#f29668;">-------+--------------------------------------------------------------------------------------------
+</span></code></pre>
+<p>You can set up an alias to substitute your regular <code>cat</code> command with <code>bat</code>:</p>
+<pre data-lang="zsh" style="background-color:#070a0d;color:#fcfcfc;" class="language-zsh "><code class="language-zsh" data-lang="zsh"><span style="color:#f07178;">alias </span><span style="color:#ffb454;">cat</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">bat
+</span></code></pre>
+<h4 id="jq-xq-yq-htmlq-jless-fq"><a rel="noopener" target="_blank" href="https://jqlang.github.io/jq/">jq</a> / xq  / <a rel="noopener" target="_blank" href="https://github.com/kislyuk/yq">yq</a> / <a rel="noopener" target="_blank" href="https://github.com/mgdm/htmlq">htmlq</a> / <a rel="noopener" target="_blank" href="https://jless.io/">jless</a> / <a rel="noopener" target="_blank" href="https://github.com/wader/fq">fq</a></h4>
+<p>Let’s employ an API to retrieve our present location details, such as country, city, and more.</p>
+<p>The API that we’re going to use is: <a rel="noopener" target="_blank" href="http://ip-api.com">http://ip-api.com</a></p>
+<p><strong>JSON:</strong><br>
+To get the result in JSON format, we need to call <code>http://ip-api.com/json</code> address.
+So, for example, we want to show the country, city, and region name of the current machine:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/json </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jq </span><span style="color:#c2d94c;">&quot;.country,.city,.regionName&quot;
+</span><span style="color:#c2d94c;">&quot;Netherlands&quot;
+</span><span style="color:#c2d94c;">&quot;Amsterdam&quot;
+</span><span style="color:#c2d94c;">&quot;North Holland&quot;
+</span></code></pre>
+<p><strong>XML:</strong><br>
+To the same data result in XML format, we need to call <code>http://ip-api.com/xml/{IP}</code> address.
+Like the previous call but in XML format:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/xml/188.114.97.0 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">xq </span><span style="color:#c2d94c;">&quot;.query.country,.query.city,.query.regionName&quot;
+</span><span style="color:#c2d94c;">&quot;Netherlands&quot;
+</span><span style="color:#c2d94c;">&quot;Amsterdam&quot;
+</span><span style="color:#c2d94c;">&quot;North Holland&quot;
+</span></code></pre>
+<p><strong>YAML:</strong><br>
+It’s similar to the <code>jq</code> command:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/json </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">yq </span><span style="color:#c2d94c;">&quot;.country,.city,.regionName&quot;
+</span><span style="color:#c2d94c;">&quot;Netherlands&quot;
+</span><span style="color:#c2d94c;">&quot;Amsterdam&quot;
+</span><span style="color:#c2d94c;">&quot;North Holland&quot;
+</span></code></pre>
+<p><strong>HTML:</strong><br>
+In this case, we’re planning to retrieve a webpage and extract both the <code>title</code> and an element identified by its ID.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> https://0t1.me </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">htmlq</span><span> title
+</span><span style="color:#f29668;">&lt;</span><span>title</span><span style="color:#f29668;">&gt;</span><span>ZERO/TO/ONE </span><span style="color:#ffb454;">-</span><span> Home</span><span style="color:#f29668;">&lt;</span><span>/title</span><span style="color:#f29668;">&gt;
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> https://0t1.me </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">htmlq </span><span style="color:#c2d94c;">&#39;#search&#39;
+</span><span style="color:#f29668;">&lt;</span><span>input aria-label</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Search&quot; </span><span>class</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;form-control form-control-sm focus-ring-dark&quot; </span><span>id</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;search&quot; </span><span>placeholder</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;Search&quot; </span><span>type</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">&quot;search&quot;</span><span style="color:#f29668;">&gt;
+</span></code></pre>
+<p>For a more interactive experience when dealing with large JSON and YAML files, it’s advisable to use <code>jless</code>.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/json </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jless
+</span><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;status&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;success&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;country&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Netherlands&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;countryCode&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;NL&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;region&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;NH&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;regionName&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;North Holland&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;city&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Amsterdam&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;zip&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;1065&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;lat&quot;</span><span style="color:#ffb454;">:</span><span> 52.3584,
+</span><span>  </span><span style="color:#c2d94c;">&quot;lon&quot;</span><span style="color:#ffb454;">:</span><span> 4.8295,
+</span><span>  </span><span style="color:#c2d94c;">&quot;timezone&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Europe/Amsterdam&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;isp&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;T-Mobile Thuis WBA Services&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;org&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;as&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;AS50266 tmobile thuis&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;query&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;87.210.88.217&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/json </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jless</span><span style="color:#f29718;"> --yaml
+</span><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;status&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;success&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;country&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Netherlands&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;countryCode&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;NL&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;region&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;NH&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;regionName&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;North Holland&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;city&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Amsterdam&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;zip&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;1065&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;lat&quot;</span><span style="color:#ffb454;">:</span><span> 52.3584,
+</span><span>  </span><span style="color:#c2d94c;">&quot;lon&quot;</span><span style="color:#ffb454;">:</span><span> 4.8295,
+</span><span>  </span><span style="color:#c2d94c;">&quot;timezone&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;Europe/Amsterdam&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;isp&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;T-Mobile Thuis WBA Services&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;org&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;as&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;AS50266 tmobile thuis&quot;</span><span>,
+</span><span>  </span><span style="color:#c2d94c;">&quot;query&quot;</span><span style="color:#ffb454;">: </span><span style="color:#c2d94c;">&quot;87.210.88.217&quot;
+</span><span>}
+</span></code></pre>
+<p>You can make it work with XML as well, by piping the result of XML to <code>xq</code>:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> curl</span><span style="color:#f29718;"> -s</span><span> http://ip-api.com/xml/188.114.97.0 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">xq</span><span> . </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jless
+</span><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;query&quot;</span><span style="color:#ffb454;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;status&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;success&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;country&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;Netherlands&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;countryCode&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;NL&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;region&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;NH&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;regionName&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;North Holland&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;city&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;Amsterdam&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;zip&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;1012&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;lat&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;52.3759&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;lon&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;4.8975&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;timezone&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;Europe/Amsterdam&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;isp&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;Cloudflare, Inc.&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;org&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;CloudFlare, Inc.&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;as&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;AS13335 Cloudflare, Inc.&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;query&quot;</span><span>: </span><span style="color:#c2d94c;">&quot;188.114.97.0&quot;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p><strong>Binary:</strong><br></p>
+<h4 id="fq"><a rel="noopener" target="_blank" href="https://github.com/wader/fq">fq</a></h4>
+<p>We can get a binary file information with the similar way in the <code>jq</code> command.
+In this example, we’re going to get all tags of a binary file and requesting for one of them:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> fq . session2.mp4
+</span><span>          </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00</span><span> 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">0123456789abcdef012345</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">.{</span><span>}</span><span style="color:#f07178;">:</span><span> session2.mp4 (mp4)
+</span><span style="color:#ffb454;">0x00000000</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00</span><span> 00 00 20 66 74 79 70 69 73 6f 6d 00 00 02 00 69 73 6f 6d 69 73</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">...</span><span> ftypisom....isomis</span><span style="color:#f29668;">|  </span><span style="color:#ffb454;">boxes[0:4]:
+</span><span style="color:#ffb454;">*         </span><span style="color:#f29668;">|</span><span style="color:#ff7733;">until </span><span style="color:#ffb454;">0x231b4e8d.7</span><span> (end) (</span><span style="color:#ffb454;">588992142</span><span>)                             </span><span style="color:#f29668;">|                      |
+</span><span style="color:#ffb454;">0x0000002c</span><span style="color:#f29668;">|            </span><span style="color:#ffb454;">00</span><span> 00 03 06 06 05 ff ff ff 02 dc 45 e9 bd e6 d9 48 b7</span><span style="color:#f29668;">|    </span><span style="color:#ffb454;">...........E....H.</span><span style="color:#f29668;">|  </span><span style="color:#ffb454;">tracks[0:2]:
+</span><span style="color:#ffb454;">0x00000042</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">96</span><span> 2c d8 20 d9 23 ee ef 78 32 36 34 20 2d 20 63 6f 72 65 20 31 36</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">.,.</span><span> .#..x264 - core 16</span><span style="color:#f29668;">|
+</span><span style="color:#ffb454;">*         </span><span style="color:#f29668;">|</span><span style="color:#ff7733;">until </span><span style="color:#ffb454;">0x231b4e8d.7</span><span> (end) (</span><span style="color:#ffb454;">588992094</span><span>)                             </span><span style="color:#f29668;">|                      |
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> fq .boxes session2.mp4
+</span><span>          </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00</span><span> 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">0123456789abcdef012345</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">.boxes[0:4]:
+</span><span style="color:#ffb454;">0x00000000</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00</span><span> 00 00 20 66 74 79 70 69 73 6f 6d 00 00 02 00 69 73 6f 6d 69 73</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">...</span><span> ftypisom....isomis</span><span style="color:#f29668;">|  </span><span style="color:#ffb454;">[0]{</span><span>}</span><span style="color:#f07178;">:</span><span> box
+</span><span style="color:#ffb454;">0x00000016</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">6f</span><span> 32 61 76 63 31 6d 70 34 31                                    </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">o2avc1mp41            </span><span style="color:#f29668;">|
+</span><span style="color:#ffb454;">0x00000016</span><span style="color:#f29668;">|                              </span><span style="color:#ffb454;">00</span><span> 00 00 08 66 72 65 65            </span><span style="color:#f29668;">|          </span><span style="color:#ffb454;">....free    </span><span style="color:#f29668;">|  </span><span style="color:#ffb454;">[1]{</span><span>}</span><span style="color:#f07178;">:</span><span> box
+</span><span style="color:#ffb454;">0x00000016</span><span style="color:#f29668;">|                                                      </span><span style="color:#ffb454;">22</span><span> cd 84 48</span><span style="color:#f29668;">|                  </span><span style="color:#c2d94c;">&quot;..H|  [2]{}: box
+</span><span style="color:#c2d94c;">0x0000002c|6d 64 61 74 00 00 03 06 06 05 ff ff ff 02 dc 45 e9 bd e6 d9 48 b7|mdat...........E....H.|
+</span><span style="color:#c2d94c;">*         |until 0x22cd846f.7 (583894088)                                   |                      |
+</span><span style="color:#c2d94c;">0x22cd846c|            00 4d ca 1e 6d 6f 6f 76 00 00 00 6c 6d 76 68 64 00 00|    .M..moov...lmvhd..|  [3]{}: box
+</span><span style="color:#c2d94c;">0x22cd8482|00 00 00 00 00 00 00 00 00 00 00 00 03 e8 00 6f d1 a0 00 01 00 00|...............o......|
+</span><span style="color:#c2d94c;">*         |until 0x231b4e8d.7 (end) (5098014)                               |                      |
+</span></code></pre>
+<h4 id="hexyl"><a rel="noopener" target="_blank" href="https://github.com/sharkdp/hexyl">hexyl</a></h4>
+<p>For reading a binary file, hexyl is the go-to tool:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> hexyl session2.mp4
+</span><span style="color:#ffb454;">+--------+-------------------------+-------------------------+--------+--------+
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000000</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">00</span><span> 00 00 20 66 74 79 70 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">69</span><span> 73 6f 6d 00 00 02 00 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">***</span><span> ftyp</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">isom**.*</span><span style="color:#f29668;">|
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000010</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">69</span><span> 73 6f 6d 69 73 6f 32 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">61</span><span> 76 63 31 6d 70 34 31 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">isomiso2</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">avc1mp41</span><span style="color:#f29668;">|
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000020</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">00</span><span> 00 00 08 66 72 65 65 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">22</span><span> cd 84 48 6d 64 61 74 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">***.free</span><span style="color:#f29668;">|</span><span style="color:#c2d94c;">&quot;xxHmdat|
+</span><span style="color:#c2d94c;">|00000030| 00 00 03 06 06 05 ff ff | ff 02 dc 45 e9 bd e6 d9 |**....xx|x.xExxxx|
+</span><span style="color:#c2d94c;">|00000040| 48 b7 96 2c d8 20 d9 23 | ee ef 78 32 36 34 20 2d |Hxx,x x#|xxx264 -|
+</span><span style="color:#c2d94c;">|00000050| 20 63 6f 72 65 20 31 36 | 31 20 72 33 30 32 37 20 | core 16|1 r3027 |
+</span><span style="color:#c2d94c;">|00000060| 34 31 32 31             |                         |4121    |        |
+</span><span style="color:#c2d94c;">+--------+-------------------------+-------------------------+--------+--------+
+</span></code></pre>
+<p>You can change the base to binary:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> hexyl</span><span style="color:#f29718;"> --base</span><span> binary session2.mp4
+</span><span style="color:#ffb454;">+--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000000</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">00000000</span><span> 00000000 00000000 00100000 01100110 01110100 01111001 01110000 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">01101001</span><span> 01110011 01101111 01101101 00000000 00000000 00000010 00000000 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">***</span><span> ftyp</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">isom**.*</span><span style="color:#f29668;">|
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000010</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">01101001</span><span> 01110011 01101111 01101101 01101001 01110011 01101111 00110010 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">01100001</span><span> 01110110 01100011 00110001 01101101 01110000 00110100 00110001 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">isomiso2</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">avc1mp41</span><span style="color:#f29668;">|
+</span><span style="color:#f29668;">|</span><span style="color:#ffb454;">00000020</span><span style="color:#f29668;">| </span><span style="color:#ffb454;">00000000</span><span> 00000000 00000000 00001000 01100110 01110010 01100101 01100101 </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">00100010</span><span> 11001101 10000100 01001000 01101101 01100100 01100001 01110100 </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">***.free</span><span style="color:#f29668;">|</span><span style="color:#c2d94c;">&quot;xxHmdat|
+</span><span style="color:#c2d94c;">|00000030| 00000000 00000000 00000011 00000110 00000110 00000101 11111111 11111111 | 11111111 00000010 11011100 01000101 11101001 10111101 11100110 11011001 |**....xx|x.xExxxx|
+</span><span style="color:#c2d94c;">|00000040| 01001000 10110111 10010110 00101100 11011000 00100000 11011001 00100011 | 11101110 11101111 01111000 00110010 00110110 00110100 00100000 00101101 |Hxx,x x#|xxx264 -|
+</span><span style="color:#c2d94c;">|00000050| 00100000 01100011 01101111 01110010 01100101 00100000 00110001 00110110 | 00110001 00100000 01110010 00110011 00110000 00110010 00110111 00100000 | core 16|1 r3027 |
+</span><span style="color:#c2d94c;">|00000060| 00110100 00110001 00110010 00110001                                     |                                                                         |4121    |        |
+</span><span style="color:#c2d94c;">+--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
+</span></code></pre>
+<h4 id="tokei"><a rel="noopener" target="_blank" href="https://github.com/XAMPPRocky/tokei">tokei</a></h4>
+<p>In order to get an aggregated information about source codes, you need Tokei:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> tokei
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">==============================================================================
+</span><span> </span><span style="color:#ffb454;">Language</span><span>            Files        Lines         Code     Comments       Blanks
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">==============================================================================
+</span><span> </span><span style="color:#ffb454;">Go</span><span>                     22         1661         1222          188          251
+</span><span> </span><span style="color:#ffb454;">Makefile</span><span>                1            8            7            0            1
+</span><span> </span><span style="color:#ffb454;">TOML</span><span>                    2          142           40           81           21
+</span><span> </span><span style="color:#ffb454;">YAML</span><span>                    1           46           42            0            4
+</span><span style="color:#ffb454;">-------------------------------------------------------------------------------
+</span><span> </span><span style="color:#ffb454;">Markdown</span><span>                1           30            0           22            8
+</span><span> </span><span style="color:#f29668;">|</span><span style="color:#ffb454;">-</span><span> BASH                 1            2            2            0            0
+</span><span> (</span><span style="color:#ffb454;">Total</span><span>)                             32            2           22            8
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">==============================================================================
+</span><span> </span><span style="color:#ffb454;">Total</span><span>                  27         1887         1311          291          285
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">==============================================================================
+</span></code></pre>
+<p>You can use it with <code>-o</code> flag to define the output format.
+For example, we want to get only list of Golang files:</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> tokei</span><span style="color:#f29718;"> -o</span><span> json </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">jq </span><span style="color:#c2d94c;">&#39;.Go.reports[].name&#39;
+</span><span style="color:#c2d94c;">&quot;./cmd/mark.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/root.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/update.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/today.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/util/util.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/workspace/workspace.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/task/task.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/add.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/task/status.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/render/color.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/render/text.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/recurring/recurring.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/render/table.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/config/config.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/project/project.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/tui.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/storage/file.go&quot;
+</span><span style="color:#c2d94c;">&quot;./internal/dto/deserialize.go&quot;
+</span><span style="color:#c2d94c;">&quot;./main.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/show.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/delete.go&quot;
+</span><span style="color:#c2d94c;">&quot;./cmd/list.go&quot;
+</span></code></pre>
+<h3 id="process">Process</h3>
+<p>Now, let’s move to list of commands to work with processes:</p>
+<h4 id="procs"><a rel="noopener" target="_blank" href="https://github.com/dalance/procs">procs</a></h4>
+<p>I opted for <code>procs</code> over <code>ps</code> mainly because it displays the bound ports of each process.
+Configuration can be done through a TOML file.</p>
+<pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> procs
+</span><span style="color:#ffb454;">PID:</span><span>   User             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">State</span><span> Nice CPU MEM   VmSize    VmRSS </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">TCP</span><span>          UDP             Read Write </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Docker </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">Command
+</span><span style="color:#ffb454;">1535</span><span>   mort             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 0.0 0.0   5.645M   3.855M </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">[]           </span><span style="color:#ff7733;">[]</span><span>                 0     0 </span><span style="color:#f29668;">|        | </span><span style="color:#ffb454;">/nix/store/rap2690k6sw4rd3b5zgqp4yx3lc3clqh-dbus-1.14.8/bin/dbus-daemon
+</span><span style="color:#ffb454;">1540</span><span>   root             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 0.0 0.1 531.027M  16.500M </span><span style="color:#f29668;">|                                         |        | </span><span style="color:#ffb454;">/nix/store/il17dg6g69gnj10zy6d7vq22z39wy1ri-udisks-2.9.4/libexec/udisks2
+</span><span style="color:#ffb454;">1561</span><span>   mort             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 0.0 0.1 574.078M  44.125M </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">[]           </span><span style="color:#ff7733;">[]</span><span>                 0     0 </span><span style="color:#f29668;">|        | </span><span style="color:#ffb454;">nm-applet
+</span><span style="color:#ffb454;">1562</span><span>   mort             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 7.2 0.0 612.559M  14.125M </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">[]           </span><span style="color:#ff7733;">[]</span><span>                 0     0 </span><span style="color:#f29668;">|        | </span><span style="color:#ffb454;">polybar</span><span> main</span><span style="color:#f29718;"> --log</span><span style="color:#f29668;">=</span><span>error
+</span><span style="color:#ffb454;">1567</span><span>   mort             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 0.0 0.0 299.582M   5.500M </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">[]           </span><span style="color:#ff7733;">[]</span><span>                 0     0 </span><span style="color:#f29668;">|        | </span><span style="color:#ffb454;">xss-lock</span><span style="color:#f29668;"> --</span><span> XSECURELOCK_FONT=sans xsecurelock
+</span><span style="color:#ffb454;">1568</span><span>   mort             </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">S</span><span>        0 0.0 0.6   3.534G 182.824M </span><span style="color:#f29668;">| </span><span style="color:#ffb454;">[8080]       </span><span style="color:#ff7733;">[]</span><span>                 0     0 </span><span style="color:#f29668;">|        | </span><span style="color:#ffb454;">test-app                                                                    </span><span style="color:#f29668;">&gt;
+</span></code></pre>
+<h4 id="btop"><a rel="noopener" target="_blank" href="https://github.com/aristocratos/btop">btop</a></h4>
+<p>This is part of my morning routine—running this command every day to keep an eye on my system.</p>
+<p>Based on the documentation:
+<blockquote class="info">
+    <p><p>Resource monitor that shows usage and stats for processor, memory, disks, network and processes.</p>
+</p>
+</blockquote>
+</p>
+<p>You can configure your btop by putting the config file in the <code>~/.config/btop/btop.conf</code> path.</p>
+<p>For example, this is my config file:</p>
+<pre data-lang="toml" style="background-color:#070a0d;color:#fcfcfc;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#59c2ff;">color_theme </span><span>= </span><span style="color:#c2d94c;">&quot;tokyo-night&quot;
+</span><span style="color:#59c2ff;">rounded_corners </span><span>= </span><span style="color:#ff3333;">False
+</span><span style="color:#59c2ff;">theme_background </span><span>= </span><span style="color:#ff3333;">False
+</span><span style="color:#59c2ff;">update_ms </span><span>= </span><span style="color:#f29718;">1000
+</span></code></pre>
+<h4 id="kmon"><a rel="noopener" target="_blank" href="https://github.com/orhun/kmon">kmon</a></h4>
+<p>Similar to <code>btop</code>, but only for monitoring the Kernel.</p>
+<p>Based on the documentation:
+<blockquote class="info">
+    <p><p><code>kmon</code> provides a text-based user interface for managing the Linux kernel modules and monitoring the kernel activities.
+By managing, it means loading, unloading, blacklisting and showing the information of a module.
+These updates in the kernel modules, logs about the hardware and other kernel messages can be tracked with the real-time
+activity monitor in kmon. Since the usage of different tools like dmesg and kmod are required for these tasks in Linux,
+kmon aims to gather them in a single terminal window and facilitate the usage as much as possible while keeping the functionality.</p>
+</p>
+</blockquote>
+</p>
+<p>Recently, while using kmon, I noticed an error in my Linux kernel related to writing to a pipe.
+This could serve as a starting point to investigate and identify the root cause of the issue.</p>
+<h4 id="ctop"><a rel="noopener" target="_blank" href="https://github.com/bcicen/ctop">ctop</a></h4>
+<p>Similar to <code>btop</code> or <code>kmon</code>, but only for monitoring the containers.</p>
+<p>Based on the documentation:
+<blockquote class="info">
+    <p><p><code>ctop</code> provides a concise and condensed overview of real-time metrics for multiple containers,
+as well as a single container view for inspecting a specific container. <code>ctop</code> comes with built-in support for Docker and runC;
+connectors for other container and cluster systems are planned for future releases.</p>
+</p>
+</blockquote>
+</p>
+<p>I don’t use this tool often since I primarily employ Docker for testing and deploying local services.
+However, when needed, it proves helpful in easily monitoring container usage.</p>
+<h4 id="sysz"><a rel="noopener" target="_blank" href="https://github.com/joehillen/sysz">sysz</a></h4>
+<p>This tool combines <code>fzf</code> and systemctl, simplifying the process for users to manage daemons effortlessly.
+Utilizing <code>fzf</code> allows for quickly locating the desired daemon and promptly taking action through <code>systemctl</code> commands.<br>
+For instance, you can swiftly locate and restart the Docker service using this tool.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Numerous CLI tools are available on the internet to help you accomplish your objectives.<br>
+If you’re aware of other tools worth exploring, please share them with me.
+I’m getting ready to put together the second part of this post.</p>
+
+    </div>
+    <div>
+        
+    </div>
+    
+    <div>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#cli</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#tui</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#utilities</label>
+        
+    </div>
+    
+    
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    
+</div>
+
+<script src="https://giscus.app/client.js"
+        data-repo="mortymacs/mortymacs"
+        data-repo-id="R_kgDOLJ_j-Q"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOLJ_j-c4Ccuug"
+        data-mapping="url"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+        </div>
+        <footer class="footer mt-auto">
+            <div class="d-flex">
+    <div class="p-1 px-2 copyright-1">
+        &copy;Morteza NourelahiAlamdari. All rights reserved.
+    </div>
+    <div class="p-1 px-2 flex-fill text-end copyright-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="1em">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288H584.4L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320H199.3L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z" />
+        </svg>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+    </div>
+    <div class="p-1 px-2 text-end git-status">
+        <a class="px-1" href="https://github.com/mortymacs/mortymacs" title="Git" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                height="1em"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                    d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+            </svg>
+            origin/main
+        </a>
+    </div>
+    <div class="p-1 px-2 text-end links">
+        <a class="px-1" title="Github" href="https://github.com/mortymacs" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            </svg></a>
+        <a class="px-1 text-body" title="LinkedIn" href="https://www.linkedin.com/in/mortymacs/" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+            </svg></a>
+        <a class="px-1 text-body" title="RSS" href="https:&#x2F;&#x2F;0t1.me/rss.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+            </svg></a>
+        <a class="px-1 text-body" title="Sitemap" href="https:&#x2F;&#x2F;0t1.me/sitemap.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z" />
+            </svg></a>
+    </div>
+</div>
+
+        </footer>
+    </body>
+</html>
