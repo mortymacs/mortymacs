@@ -22,6 +22,7 @@ Let's begin our exploration of tools designed for reading and parsing files.
 
 Bat functions similarly to the `cat` command, offering additional features such as syntax highlighting,
 Git integration, and more. It's used just like the `cat` command:
+{% code() %}
 ```cpp
 $ bat main.cpp
 -------+--------------------------------------------------------------------------------------------
@@ -34,11 +35,14 @@ $ bat main.cpp
    5   | }
 -------+--------------------------------------------------------------------------------------------
 ```
+{% end %}
 
 You can set up an alias to substitute your regular `cat` command with `bat`:
+{% code() %}
 ```zsh
 alias cat=bat
 ```
+{% end %}
 
 #### [jq](https://jqlang.github.io/jq/) / xq  / [yq](https://github.com/kislyuk/yq) / [htmlq](https://github.com/mgdm/htmlq) / [jless](https://jless.io/) / [fq](https://github.com/wader/fq)
 
@@ -49,34 +53,41 @@ The API that we're going to use is: [http://ip-api.com](http://ip-api.com)
 **JSON:**<br>
 To get the result in JSON format, we need to call `http://ip-api.com/json` address.
 So, for example, we want to show the country, city, and region name of the current machine:
+{% code() %}
 ```bash
 $ curl -s http://ip-api.com/json | jq ".country,.city,.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
+{% end %}
 
 **XML:**<br>
 To the same data result in XML format, we need to call `http://ip-api.com/xml/{IP}` address.
 Like the previous call but in XML format:
+{% code() %}
 ```bash
 $ curl -s http://ip-api.com/xml/188.114.97.0 | xq ".query.country,.query.city,.query.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
+{% end %}
 
 **YAML:**<br>
 It's similar to the `jq` command:
+{% code() %}
 ```bash
 $ curl -s http://ip-api.com/json | yq ".country,.city,.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
+{% end %}
 
 **HTML:**<br>
 In this case, we're planning to retrieve a webpage and extract both the `title` and an element identified by its ID.
+{% code() %}
 ```bash
 $ curl -s https://0t1.me | htmlq title
 <title>ZERO/TO/ONE - Home</title>
@@ -84,8 +95,10 @@ $ curl -s https://0t1.me | htmlq title
 $ curl -s https://0t1.me | htmlq '#search'
 <input aria-label="Search" class="form-control form-control-sm focus-ring-dark" id="search" placeholder="Search" type="search">
 ```
+{% end %}
 
 For a more interactive experience when dealing with large JSON and YAML files, it's advisable to use `jless`.
+{% code() %}
 ```bash
 $ curl -s http://ip-api.com/json | jless
 {
@@ -123,8 +136,10 @@ $ curl -s http://ip-api.com/json | jless --yaml
   "query": "87.210.88.217"
 }
 ```
+{% end %}
 
 You can make it work with XML as well, by piping the result of XML to `xq`:
+{% code() %}
 ```bash
 $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
 {
@@ -146,6 +161,7 @@ $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
   }
 }
 ```
+{% end %}
 
 **Binary:**<br>
 
@@ -153,6 +169,7 @@ $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
 
 We can get a binary file information with the similar way in the `jq` command.
 In this example, we're going to get all tags of a binary file and requesting for one of them:
+{% code() %}
 ```bash
 $ fq . session2.mp4
           |00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15|0123456789abcdef012345|.{}: session2.mp4 (mp4)
@@ -174,11 +191,13 @@ $ fq .boxes session2.mp4
 0x22cd8482|00 00 00 00 00 00 00 00 00 00 00 00 03 e8 00 6f d1 a0 00 01 00 00|...............o......|
 *         |until 0x231b4e8d.7 (end) (5098014)                               |                      |
 ```
+{% end %}
 
 #### [hexyl](https://github.com/sharkdp/hexyl)
 
 For reading a binary file, hexyl is the go-to tool:
 
+{% code() %}
 ```bash
 $ hexyl session2.mp4
 +--------+-------------------------+-------------------------+--------+--------+
@@ -191,8 +210,10 @@ $ hexyl session2.mp4
 |00000060| 34 31 32 31             |                         |4121    |        |
 +--------+-------------------------+-------------------------+--------+--------+
 ```
+{% end %}
 
 You can change the base to binary:
+{% code() %}
 ```bash
 $ hexyl --base binary session2.mp4
 +--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
@@ -205,11 +226,13 @@ $ hexyl --base binary session2.mp4
 |00000060| 00110100 00110001 00110010 00110001                                     |                                                                         |4121    |        |
 +--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
 ```
+{% end %}
 
 #### [tokei](https://github.com/XAMPPRocky/tokei)
 
 In order to get an aggregated information about source codes, you need Tokei:
 
+{% code() %}
 ```bash
 $ tokei
 ===============================================================================
@@ -227,9 +250,11 @@ $ tokei
  Total                  27         1887         1311          291          285
 ===============================================================================
 ```
+{% end %}
 
 You can use it with `-o` flag to define the output format.
 For example, we want to get only list of Golang files:
+{% code() %}
 ```bash
 $ tokei -o json | jq '.Go.reports[].name'
 "./cmd/mark.go"
@@ -255,6 +280,7 @@ $ tokei -o json | jq '.Go.reports[].name'
 "./cmd/delete.go"
 "./cmd/list.go"
 ```
+{% end %}
 
 ### Process
 Now, let's move to list of commands to work with processes:
@@ -264,6 +290,7 @@ Now, let's move to list of commands to work with processes:
 I opted for `procs` over `ps` mainly because it displays the bound ports of each process.
 Configuration can be done through a TOML file.
 
+{% code() %}
 ```bash
 $ procs
 PID:   User             | State Nice CPU MEM   VmSize    VmRSS | TCP          UDP             Read Write | Docker | Command
@@ -274,6 +301,7 @@ PID:   User             | State Nice CPU MEM   VmSize    VmRSS | TCP          UD
 1567   mort             | S        0 0.0 0.0 299.582M   5.500M | []           []                 0     0 |        | xss-lock -- XSECURELOCK_FONT=sans xsecurelock
 1568   mort             | S        0 0.0 0.6   3.534G 182.824M | [8080]       []                 0     0 |        | test-app                                                                    >
 ```
+{% end %}
 
 #### [btop](https://github.com/aristocratos/btop)
 
@@ -287,12 +315,14 @@ Resource monitor that shows usage and stats for processor, memory, disks, networ
 You can configure your btop by putting the config file in the `~/.config/btop/btop.conf` path.
 
 For example, this is my config file:
+{% code(filename="btop.conf") %}
 ```toml
 color_theme = "tokyo-night"
 rounded_corners = False
 theme_background = False
 update_ms = 1000
 ```
+{% end %}
 
 #### [kmon](https://github.com/orhun/kmon)
 

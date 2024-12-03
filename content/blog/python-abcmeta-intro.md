@@ -18,6 +18,7 @@ The challenge arises when a derived class doesn't follow the expected signature 
 
 Abstract class:
 
+{% code(filename="base.py") %}
 ```python,linenos
 from abc import ABC, abstractmethod
 
@@ -33,8 +34,10 @@ class Database(ABC):
     def query(self, query: str) -> list[dict]:
         pass
 ```
+{% end %}
 
 Derived classes:
+{% code(filename="derived.py") %}
 ```python,linenos
 from database import Database
 
@@ -56,22 +59,27 @@ class MySQL(Database):
         print("running MySQL query")
         return [{"data": "something else"}]
 ```
+{% end %}
 
 Test:
+{% code(filename="test.py") %}
 ```python,linenos
 from database import MySQL
 MySQL().connect()
 output = MySQL().query("where 1")
 print(output)
 ```
+{% end %}
 
 Output:
-```bashe
+{% code() %}
+```bash
 $ python test.py
 MySQL trying to establish a connection
 running MySQL query
 [{'data': 'something else'}]
 ```
+{% end %}
 
 In this particular scenario, everything functions smoothly without any issues.
 However, as a project expands and more individuals become involved, there is a possibility that some might not follow the
@@ -80,6 +88,7 @@ Python itself doesn't prevent this.
 
 Consider this implementation of the MySQL class, which completely deviates from the signatures of the abstract class:
 
+{% code(filename="derived.py") %}
 ```python,linenos,hl_lines=16 18,hide_lines=3-11
 from database import Database
 
@@ -100,21 +109,26 @@ class MySQL(Database):
         print("running MySQL query")
         return "something else"
 ```
+{% end %}
 
 Python test:
+{% code(filename="test.py") %}
 ```python,linenos
 from database import MySQL
 MySQL().connect()
 output = MySQL().query("where 1", 100)
 print(output)
 ```
+{% end %}
 Output:
+{% code() %}
 ```bash
 $ python test.py
 MySQL trying to establish a connection
 running MySQL query
 something else
 ```
+{% end %}
 
 As you can see, Python didn't check the signature at all.
 
@@ -123,25 +137,32 @@ Allowing this structure to merge into your codebase would violate the establishe
 Now, can we compel everyone to adhere to the abstract class signatures?
 This is where the [`abcmeta`](https://github.com/mortymacs/abcmeta) project comes into play.
 
+{% code() %}
 ```bash
 $ pip install abcmeta
 ```
+{% end %}
 
 The only thing needs to be changed in your code, is in your abstract class file:
 
 from:
+{% code(filename="base.py") %}
 ```python
 from abc import ABC, abstractmethod
 ```
+{% end %}
 to:
+{% code(filename="base.py") %}
 ```python
 from abcmeta import ABC, abstractmethod
 ```
+{% end %}
 
 This library then examines and ensures that all signatures align with the abstract class.
 
 Now, let's run the previous example and see what will happen:
 
+{% code() %}
 ```bash
 $ python test_db.py
 Traceback (most recent call last):
@@ -167,6 +188,7 @@ Signature of the derived method is not the same as parent class:
 + query(self, query, limit)
 Derived method expected to return in 'list[dict]' type, but returns 'typing.Any'
 ```
+{% end %}
 
 The error message clarifies that the signature differs from that of the abstract class, and explains with all details.
 
@@ -177,9 +199,11 @@ implying that it examines the class when the class is defined!
 
 Therefore, if you modify the test code to something like this:
 
+{% code(filename="test.py") %}
 ```python
 from database import MySQL
 ```
+{% end %}
 
 Then you'll get the same error result.
 

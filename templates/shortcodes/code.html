@@ -1,0 +1,17 @@
+<div class="window rounded-3 mb-2">
+    <div class="titlebar {% if not filename %}py-3{% endif %}">
+        <div class="window-controls" {% if not filename %}style="padding-bottom: 0px;" {% endif %}>
+            <button class="control-button close" aria-label="Close"></button>
+            <button class="control-button minimize" aria-label="Minimize"></button>
+            <button class="control-button maximize" aria-label="Maximize"></button>
+        </div>
+        <div class="tabs">
+            {% if filename %}
+            <button class="tab active rounded-3 rounded-bottom-0" data-tab="1">{{ filename }}</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="content rounded-3">
+        {{ body | markdown | safe }}
+    </div>
+</div>

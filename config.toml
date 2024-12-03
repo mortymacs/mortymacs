@@ -9,8 +9,8 @@ default_language = "en"
 build_search_index = true
 
 # RSS.
-generate_feed = true
-feed_filename = "rss.xml"
+generate_feeds = true
+feed_filenames = ["rss.xml"]
 
 # Sitemap.xml.
 generate_sitemap = true
@@ -24,7 +24,7 @@ minify_html = false
 
 [markdown]
 highlight_code = true
-highlight_theme = "my-ayu-dark"
+highlight_theme = "two-dark"
 extra_syntaxes_and_themes = ["highlight_themes"]
 render_emoji = true
 external_links_target_blank = true

@@ -24,6 +24,7 @@ Exa is the `ls` command replacement.
 It displays a list of files and directories, akin to the `ls` command, but with added features such as colorized outputs,
 Git integration, icons, support for a tree view, and more.
 
+{% code() %}
 ```bash
 $ exa --git -lh --octal-permissions --color-scale
 Octal Permissions Size User Date Modified Git Name
@@ -36,11 +37,15 @@ Octal Permissions Size User Date Modified Git Name
 0644  .rw-r--r--  2.3k mort 17 Nov 12:31   -- README.md
 0755  drwxr-xr-x     - mort  6 Jul 23:48   -- static
 ```
+{% end %}
 
 To simplify usage and avoid the need to remember all the flags, you can create an alias, similar to what I've done:
+
+{% code() %}
 ```bash
 alias l="exa --git -lh --octal-permissions --color-scale --icons"
 ```
+{% end %}
 
 #### [z](https://github.com/rupa/z) / [zoxide](https://github.com/ajeetdsouza/zoxide)
 If you're seeking a convenient way to navigate to a directory without specifying the entire path, consider using `z` or `zoxide`.
@@ -50,10 +55,12 @@ While both `z` and `zoxide` can address the primary concern, if you're seeking s
 you'll need to examine each project individually for more information.
 
 I personally use `zoxide`, and in this example, I was searching for my "dotfiles" directory. I simply mentioned "dot" and here is the output:
+{% code() %}
 ```bash
 $ z dot
 mort/.../dotfiles $
 ```
+{% end %}
 
 ### Search & Lookup
 Enhancing productivity in the terminal involves finding the best matches in files and directories.
@@ -62,6 +69,7 @@ In this section, we'll discuss some of the ones I find most useful.
 #### [fzf](https://github.com/junegunn/fzf)
 You might be familiar with it, fzf is a fuzzy finder designed to assist you in swiftly and interactively locating your desired file or directory path.
 
+{% code() %}
 ```bash
 $ fzf
 > go < 3/4
@@ -69,11 +77,13 @@ $ fzf
   go.sum
   main.go
 ```
+{% end %}
 
 When I'm engaged in a project, I often need to swiftly locate files, read snippets from them, and if it's the correct file, open it in Neovim.
 Fzf serves as the ideal solution. It recursively indexes your directory, allowing you to search for a file while simultaneously previewing its content.
 To enhance this process, you can utilize fzf's `--preview` parameter and pair it with the [`bat`](/blog/2023/08/30/handy-cli-utilities-part-1/#bat) command.
 
+{% code() %}
 ```bash
 $ fzf --preview 'bat {} --style=numbers --color=always'
 > main < 1/4
@@ -82,25 +92,33 @@ $ fzf --preview 'bat {} --style=numbers --color=always'
                                                                      | 3
                                                                      | 4 func main() {
 ```
+{% end %}
+
 So, as you see, the `bat` command proves to be quite useful when working with `fzf`.
 
 Additionally, you have the option to modify the default command behind the fzf command.
 Personally, I opt for [`fd`](https://github.com/sharkdp/fd) due to its speed and efficiency:
+{% code() %}
 ```zsh
 export FZF_DEFAULT_COMMAND='fd --type f'
 ```
+{% end %}
 
 I've also configured `f` and `o` aliases in my [zsh_aliases file](https://github.com/mortymacs/dotfiles/blob/main/home-manager/common/zsh/aliases.nix)
 for swiftly accomplishing what I need:
+{% code() %}
 ```zsh
 alias f="fzf --preview 'bat {} --style=numbers --color=always'"
 alias o="nvim `f || echo '-c :quitall'`"
 ```
+{% end %}
 
 You can leverage `fzf` to perform text searches, such as finding the PID of a process:
+{% code() %}
 ```bash
 $ procs | fzf
 ```
+{% end %}
 
 #### [mcfly](https://github.com/cantino/mcfly)
 
@@ -112,17 +130,20 @@ Personally, I opt for `fzf` to search my history.
 Many individuals utilize `ripgrep` for recursive searches, and to extend the search capabilities to include PDFs, Ebooks, archived, compressed,
 and other file types, you can make use of the `ripgrep-all` package.
 
+{% code() %}
 ```bash
 $ rg main
 main.go
 1:package main
 59:func main() {
 ```
+{% end %}
 
 #### [bat-extras](https://github.com/eth-p/bat-extras)
 `bat-extras` encompasses various commands related to `bat`.
 One notable example is `batgrep`, which combines `ripgrep` and the `bat` command to enhance the output for a better experience:
 
+{% code() %}
 ```go
 $ batgrep -i main
 --------------------------------------------------------------------------------------------------------------------
@@ -138,6 +159,7 @@ $ batgrep -i main
   61
 --------------------------------------------------------------------------------------------------------------------
 ```
+{% end %}
 
 Once installed, you can utilize its commands, such as `batman` and `batdiff`.
 
@@ -149,6 +171,7 @@ somewhere in your README file. If you were to use the `grep` or `ripgrep` comman
 whereas you're specifically searching for functions in your source code.
 
 In this instance, I'm searching for any type of function that takes no parameters:
+{% code() %}
 ```go
 $ ast-grep run -p 'func $A()'
 ./main.go
@@ -160,9 +183,11 @@ $ ast-grep run -p 'func $A()'
 32|
 33|}
 ```
+{% end %}
 
 Now, I'm searching for functions with only one parameter:
 
+{% code() %}
 ```go
 $ ast-grep -p 'func $A($B)'
 ./main.go
@@ -171,6 +196,7 @@ $ ast-grep -p 'func $A($B)'
 23|	return ""
 24|}
 ```
+{% end %}
 
 As the result indicates, `ast-grep` is a perfect choiece for these use cases.
 
@@ -186,6 +212,7 @@ When you need to clone a project, you can provide the URL to `ghq`, and it autom
 search and navigate to your desired project.
 
 Let's clone a project:
+{% code() %}
 ```bash
 $ ghq get https://github.com/neovim/neovim.git
      clone https://github.com/neovim/neovim.git -> /home/mort/Workspaces/github.com/neovim/neovim
@@ -198,9 +225,11 @@ remote: Total 224216 (delta 43285), reused 43125 (delta 43112), pack-reused 1803
 Receiving objects: 100% (224216/224216), 179.78 MiB | 6.65 MiB/s, done.
 Resolving deltas: 100% (179868/179868), done.
 ```
+{% end %}
 As the output indicates, it stores the project in the `/home/mort/Workspaces/github.com/neovim/neovim` path without me explicitly specifying it.
 
 Now, let's see the list of projects:
+{% code() %}
 ```bash
 $ ghq list
 github.com/mortymacs/abcmeta
@@ -208,8 +237,10 @@ github.com/mortymacs/dotfiles
 github.com/neovim/neovim
 github.com/mortymacs/nvim_context_vt
 ```
+{% end %}
 
 We can employ `fzf` to search for a project and cd to its directory:
+{% code() %}
 ```bash
 $ cd $GHQ_ROOT/$(ghq list | fzf -e)
 > vim  < 2/4
@@ -219,6 +250,7 @@ $ cd $GHQ_ROOT/$(ghq list | fzf -e)
 mort/.../neovim $ pwd
 /home/mort/Workspaces/github.com/neovim/neovim
 ```
+{% end %}
 
 {% quote(type="important") %}
 <code>GHQ_ROOT</code> is a crucial variable that the <code>ghq</code> command is attentive to.

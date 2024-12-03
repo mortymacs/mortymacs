@@ -1,6 +1,6 @@
 +++
 sort_by = "date"
-generate_feed = true
+generate_feeds = true
 template = "blog.html"
 [extra]
 category = "NONE"

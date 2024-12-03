@@ -23,25 +23,32 @@ AWK is a domain-specific language designed for text processing and typically use
 {% end %}
 
 Let's say you have a sample file like this:
+
+{% code() %}
 ```
 a 10 30
 b 2  25
 c 15 5
 ```
+{% end %}
 
 And you want to filter the output with this query: "Get the sum of the second and third columns for all records where the third column is greater than or equal to 10."
 You can easily do this with AWK:
 
+{% code() %}
 ```bash
 awk '$3 >= 10 { print $1, $2 + $3}' input.txt
 ```
+{% end %}
 
 And the output will be:
 
+{% code() %}
 ```
 a 40
 b 27
 ```
+{% end %}
 
 ### Let's get started!
 
@@ -49,23 +56,23 @@ In our scenario, we have a CSV file, and we want to go through multiple steps to
 
 Sample input CSV file:
 
-_input.csv_
-
+{% code(filename="input.csv") %}
 ```csv
 Origin
 https://www.gnu.org
 https://0t1.me
 ```
+{% end %}
 
 Sample output CSV file:
 
-_output.csv_
-
+{% code(filename="output.csv") %}
 ```csv
 Origin,Status,Title,ContentType,IP,Country,City,PhoneCode
 https://gnu.org,OK,The GNU Operating System and the Free Software Movement,text/html,209.51.188.116,United States,Boston,+1
 https://0t1.me,OK,ZeroToOne - Home,text/html,104.21.84.218,Canada,Toronto,+1
 ```
+{% end %}
 
 We need to follow these steps to achieve the output:
 
@@ -76,11 +83,13 @@ We need to follow these steps to achieve the output:
 5. Use the IP address from step 4 to determine the geo location.
 6. Use the geo location from step 5 to find the phone code for that area.
 
+{% code(filename="flow.ascii") %}
 ```
 +-------------+     +------------+     +------------------+     +---------------+     +-----------------+     +---------------+
 | FetchStatus | --> | FetchTitle | --> | FetchContentType | --> | FindIPAddress | --> | FindGeoLocation | --> | FindPhoneCode |
 +-------------+     +------------+     +------------------+     +---------------+     +-----------------+     +---------------+
 ```
+{% end %}
 
 To create a final clean code, we should define each step as a separate function.
 This makes the code more readable and easier to maintain.
@@ -90,7 +99,7 @@ First, we need to create an AWK file with a different delimiter since the input 
 
 We'll set `FS` to `","` to parse based on commas, and `OFS` to an empty string to ensure the output has no extra spaces around each element.
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos
 #!/usr/bin/awk -f
 
@@ -99,8 +108,10 @@ BEGIN {
     OFS = ""
 }
 ```
+{% end %}
 
 Now, we need to ignore the first line as well, since it's the header line:
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=9-12
 #!/usr/bin/awk -f
 
@@ -116,8 +127,10 @@ BEGIN {
     }
 }
 ```
+{% end %}
 
 Next, we need a normalizer to clean up our input addresses and prepare them for processing:
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=8-11,hl_lines=19,hl_lines=21
 #!/usr/bin/awk -f
 
@@ -142,28 +155,33 @@ function normalize_origin(origin) {
     print origin
 }
 ```
+{% end %}
 
 Also, make sure to grant execute permission to the file:
 
+{% code(filename="") %}
 ```bash
 $ chmox u+x ./pipeline.awk
 ```
+{% end %}
 
 Now, let's run our code by passing the input file to make sure it works as expected:
+{% code() %}
 ```bash
 $ ./pipeline.awk input.csv
 ```
-
+{% end %}
 And the output will be just what we expected, showing only the Origins column:
+{% code() %}
 ```
 https://gnu.org
 https://0t1.me
 ```
+{% end %}
 
 {% quote(type="info") %}
 Sometimes, the path to your `awk` might be different from what’s mentioned in this article.
 To make the script work, you can call the `awk` command directly:
-
 ```bash
 $ awk -f ./pipeline.awk input.csv
 ```
@@ -174,16 +192,18 @@ Now, let's get started with the flow.
 #### Step1 (Fetch Status)
 
 Based on the flow, we need to fetch the website's status. To do this, we can use a `curl` command to get the HTTP code of the website:
+{% code() %}
 ```bash
 $ curl -s -w '%{http_code}' URL -o /dev/null
 ```
+{% end %}
 
 We use `-s` to make `curl` silent, and `-o` to discard the website content.
 Without these options, `curl` would print the entire content, which could interfere with our other processing logic.
 
 Now, let's implement this inside the AWK file:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=12-21,hl_lines=30,hl_lines=32
 #!/usr/bin/awk -f
 
@@ -219,6 +239,7 @@ function get_website_status(origin) {
     print origin, ",", status
 }
 ```
+{% end %}
 
 {% quote(type="important") %}
 Don’t forget to include `","` (comma) between variables in the `print` statement, as we want the output in CSV format!
@@ -226,24 +247,29 @@ Don’t forget to include `","` (comma) between variables in the `print` stateme
 
 Let's run it to see the results:
 
+{% code() %}
 ```bash
 $ ./pipeline.awk input.csv
 https://gnu.org,OK
 https://0t1.me,OK
 ```
+{% end %}
 
 Great! Now let's move on to the next step: fetching the title of the website.
 
 #### Step2 (Fetch Title)
 
 To complete this step, we need a tool to process HTML content. Here, we use [htmlq](https://github.com/mgdm/htmlq) for that purpose.
+
+{% code() %}
 ```bash
 curl -s URL | htmlq title -t
 ```
+{% end %}
 
 Now, let's add this inside the AWK file:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=16-26,hl_lines=36,hl_lines=38
 #!/usr/bin/awk -f
 
@@ -285,6 +311,7 @@ function fetch_website_title(origin) {
     print origin, ",", status, ",", title
 }
 ```
+{% end %}
 
 To parse various types of website content, you'll need different tools.
 For more information about these tools, check out my other post: [Handy Command-Line Utilities - Part 1](https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/#jq-xq-yq-htmlq-jless-fq).
@@ -293,15 +320,17 @@ For more information about these tools, check out my other post: [Handy Command-
 
 Now, let's fetch the website's `Content-Type` value using `curl`, `grep` and `cut`:
 
+{% code() %}
 ```bash
 curl -s -L -I URL | grep -i '^Content-Type: ' | cut -d' ' -f2
 ```
+{% end %}
 
 We use the `-I` flag to fetch only the headers.
 
 Inside the AWK file:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=20-28,hl_lines=39,hl_lines=41
 #!/usr/bin/awk -f
 
@@ -346,18 +375,21 @@ function fetch_website_content_type(origin) {
     print origin, ",", status, ",", title, ",", content_type
 }
 ```
+{% end %}
 
 #### Step4 (Find IP Address)
 
 Now, it's time to find the IP address of the website. There are several options for this, but I’ve chosen the `dig` command.
+{% code() %}
 ```bash
 dig +short HOST
 ```
+{% end %}
 
 Since the `dig` command requires the HOST, not the full website address, we need to remove the `http` and `https` prefixes.
 AWK has the `sub` function for finding and replacing strings based on regex. Let’s use it to implement our function:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=24-33,hl_lines=45,hl_lines=47
 #!/usr/bin/awk -f
 
@@ -408,15 +440,18 @@ function find_website_ip(origin) {
     print origin, ",", status, ",", title, ",", content_type, ",", ip
 }
 ```
+{% end %}
 
 
 Let’s run it to see the results:
 
+{% code() %}
 ```bash
 $ awk -f ./pipeline.awk input.csv
 https://gnu.org,OK,The GNU Operating System and the Free Software Movement,text/html,209.51.188.116
 https://0t1.me,OK,ZeroToOne - Home,text/html,188.114.97.0
 ```
+{% end %}
 
 Awesome! We’ve got some results now!
 
@@ -428,13 +463,15 @@ Here, I’ll use the ip-api service: `http://ip-api.com/json/{IP}`.
 
 The output of this URL is in JSON format. So, we can use the [`jq`](https://github.com/jqlang/jq) command to parse it:
 
+{% code() %}
 ```bash
 curl -s http://ip-api.com/json/{IP} | jq -r '.country + "," + .city'
 ```
+{% end %}
 
 Now, let's add this inside the AWK file:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=28-36,hl_lines=49,hl_lines=51
 #!/usr/bin/awk -f
 
@@ -489,15 +526,18 @@ function find_ip_location(ip) {
     print origin, ",", status, ",", title, ",", content_type, ",", ip, ",", location
 }
 ```
+{% end %}
 
 Now, let's see the output:
 
+{% code() %}
 ```bash
 $ ./pipeline.awk input.csv
 https://gnu.org,OK,The GNU Operating System and the Free Software Movement,text/html,209.51.188.116,United States
 ,Boston
 https://0t1.me,OK,ZeroToOne - Home,text/html,188.114.97.0,Canada,Toronto
 ```
+{% end %}
 
 #### Step6 (Find Phone Code)
 
@@ -512,7 +552,7 @@ AWK's built-in `split` and `tolower` functions can help us achieve this.
 
 So, let's implement the step:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=32-43,hl_lines=57-58,hl_lines=60
 #!/usr/bin/awk -f
 
@@ -576,15 +616,18 @@ function find_location_phone_code(country) {
     print origin, ",", status, ",", title, ",", content_type, ",", ip, ",", location, ",", phone_code
 }
 ```
+{% end %}
 
 Let's run it:
 
+{% code() %}
 ```bash
 $ ./pipeline.awk input.csv
 https://gnu.org,OK,The GNU Operating System and the Free Software Movement,text/html,209.51.188.116,United States
 ,Boston,+1
 https://0t1.me,OK,ZeroToOne - Home,text/html,188.114.97.0,Canada,Toronto,+1
 ```
+{% end %}
 
 #### Finalization
 
@@ -592,11 +635,14 @@ Now that we have the results we're looking for, the only remaining step is to pr
 
 As we wanted to achieve this output structure:
 
+{% code() %}
 ```csv
 Origin,Status,Title,ContentType,IP,Country,City,PhoneCode
 ```
+{% end %}
 
 We need to include a header in our output file, so we should add a `print` statement in the `BEGIN` section:
+{% code(filename="pipeline.awk") %}
 ```awk,linenos,hl_lines=4
 BEGIN {
     FS = ","
@@ -604,10 +650,11 @@ BEGIN {
     print "Origin,Status,Title,ContentType,IP,Country,City,PhoneCode"
 }
 ```
+{% end %}
 
 So, all in one place:
 
-_pipeline.awk_
+{% code(filename="pipeline.awk") %}
 ```awk,linenos
 #!/usr/bin/awk -f
 
@@ -707,10 +754,12 @@ function find_location_phone_code(country) {
     print origin, ",", status, ",", title, ",", content_type, ",", ip, ",", location, ",", phone_code
 }
 ```
+{% end %}
 
 Finally, run the script and store the results in _output.csv_.
 You can use [csview](https://github.com/wfxr/csview) to present the CSV file.
 
+{% code() %}
 ```bash
 $ ./pipeline.awk input.csv > output.csv
 $ csview -s ascii2 output.csv
@@ -719,6 +768,7 @@ $ csview -s ascii2 output.csv
   https://gnu.org | OK     | The GNU Operating System and the Free Software Movement | text/html   | 209.51.188.116 | United States | Boston  | +1
   https://0t1.me  | OK     | ZeroToOne - Home                                        | text/html   | 188.114.97.0   | Canada        | Toronto | +1
 ```
+{% end %}
 
 ### Conclusion
 
