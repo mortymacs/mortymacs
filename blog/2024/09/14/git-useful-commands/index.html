@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>ZeroToOne - Git Useful Commands</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="As a software engineer using Git almost every day, it’s essential for me to master this tool to efficiently manage my code and tasks.
+In this discussion, I’ll go over some Git commands that have significantly boosted my productivity during development and maintenance.
+">
+        <meta name="author" content="Morteza (Mort) NourelahiAlamdari">
+
+        <!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://0t1.me/img/favicon.png">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://0t1.me/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://0t1.me/css/style.css">
+
+<!-- Javascript -->
+<script src="https://0t1.me/js/jquery.min.js"></script>
+<script src="https://0t1.me/js/bootstrap.min.js"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="https://0t1.me/img/logo.png">
+<meta property="og:image:type" content="image/png">
+
+<!-- Search -->
+<script async src="https://0t1.me/elasticlunr.min.js"></script>
+<script async src="https://0t1.me/search_index.en.js"></script>
+<script async src="https://0t1.me/js/search.js"></script>
+
+    </head>
+    <body class="p-3 d-flex flex-column min-vh-100">
+        <div class="d-flex flex-column flex-grow-1" id="main">
+            <div id="search-result" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h6 class="modal-title">Search Result</h6>
+                <button type="button" class="btn-close rounded-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="search-result-box" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark p-0 mb-2">
+    <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
+        data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="top-navbar">
+        <ul class="navbar-nav me-auto">
+            <a class="navbar-brand fw-bold px-3" title="Home" href="https:&#x2F;&#x2F;0t1.me">#!/bin/mort</a>
+            <li class="nav-item">
+                <a class="nav-link" title="Blog" href="https:&#x2F;&#x2F;0t1.me/blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/dotfiles">Dotfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                    target="_blank">Appointment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="About" href="https:&#x2F;&#x2F;0t1.me/about">About</a>
+            </li>
+        </ul>
+        <div class="d-flex px-2" role="search">
+            <div class="input-group" id="search-box">
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0" type="search"
+                    placeholder="Search" aria-label="Search">
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0"> Enter</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            </div>
+
+            <div class="mt-1 flex-grow-1">
+                
+
+<div class="mb-3">
+    <div class="article-title d-inline">
+        <a href="https:&#x2F;&#x2F;0t1.me&#x2F;blog&#x2F;2024&#x2F;09&#x2F;14&#x2F;git-useful-commands&#x2F;" class="text-capitalize fw-bold d-inline-block">
+            Git Useful Commands
+        </a>
+        
+    </div>
+    <div>
+        <small class="fst-italic">Saturday, Sep 14, 2024</small>
+    </div>
+    <div class="article-toc">
+    
+        <h4 class="mt-3">Table of Contents</h4>
+        <ul>
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#alias">Alias</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#gitignore">Gitignore</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#commands">Commands</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#note">Note</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#worktree">Worktree</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#cherry-pick">Cherry pick</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#add-patch">Add Patch</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#bisect">Bisect</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#rev-list">Rev-List</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2024/09/14/git-useful-commands/#conclusion">Conclusion</a>
+                
+        
+        </ul>
+    
+    </div>
+    <div class="article-body">
+        <p>As a software engineer using Git almost every day, it’s essential for me to master this tool to efficiently manage my code and tasks.
+In this discussion, I’ll go over some Git commands that have significantly boosted my productivity during development and maintenance.</p>
+<span id="continue-reading"></span><h3 id="alias">Alias</h3>
+<h4 id="gitignore"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/gitignore">Gitignore</a></h4>
+<p>You’re probably already familiar with it, but that’s not the focus here.
+Instead, I’ll show you how to generate a gitignore list for your project.
+The main purpose of a gitignore file is to prevent certain file types from being committed or tracked in your repository.</p>
+<p>There’s an API available that allows you to generate a custom gitignore file based on your needs: <code>https://www.toptal.com/developers/gitignore/api/$args</code>.
+This can be a quick and convenient way to create a gitignore list tailored to your project.</p>
+<p>I believe the best approach is to create a simple function that utilizes the API for generating a custom gitignore file.
+This way, you can easily automate the process:</p>
+<p>for bash:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">gitignore</span><span>() { </span><span style="color:#ffb454;">curl</span><span style="color:#f29718;"> -s </span><span style="color:#c2d94c;">&quot;https://www.toptal.com/developers/gitignore/api/$</span><span>1</span><span style="color:#c2d94c;">&quot;</span><span style="color:#f29668;">; </span><span>}
+</span></code></pre>
+
+</div>
+</p>
+<p>for fish:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="fish" style="background-color:#070a0d;color:#fcfcfc;" class="language-fish "><code class="language-fish" data-lang="fish"><span style="color:#ff7733;">function </span><span style="color:#ffb454;">gitignore
+</span><span>    </span><span style="color:#ffb454;">curl </span><span style="color:#f29718;">-s </span><span style="color:#c2d94c;">&quot;https://www.toptal.com/developers/gitignore/api/</span><span>$argv</span><span style="color:#c2d94c;">&quot;</span><span style="color:#f29668;">;
+</span><span style="color:#ff7733;">end
+</span></code></pre>
+
+</div>
+</p>
+<p>Now, you can use it easily:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> gitignore go </span><span style="color:#f29668;">&gt;</span><span> .gitignore
+</span></code></pre>
+
+</div>
+<h3 id="commands">Commands</h3>
+<h4 id="note"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-notes">Note</a></h4>
+<p>Sometimes you might need to add a note about a commit or mention something related to it without altering the commit itself.
+For instance, you might want to note that a commit was tested by X, Y, and Z.
+In such cases, you can use <code>git note</code> to add this additional information.</p>
+<p>For example, if you want to add a note to a commit indicating that it needs a better implementation due to resource constraints:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git notes add 9cc33538u8</span><span style="color:#f29718;"> -m </span><span style="color:#c2d94c;">&quot;it needs a better implementation due to resource constraints&quot;
+</span></code></pre>
+
+</div>
+<p>Output in <code>git log</code>:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="gitlog" style="background-color:#070a0d;color:#fcfcfc;" class="language-gitlog "><code class="language-gitlog" data-lang="gitlog"><span>$ git log</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span style="font-weight:bold;color:#ff7733;">...
+</span><span>commit 9cc33537d7da32cf6c5e108df6faa0784d134ab2 (tag: v3.1.0)</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sun Dec 10 16:16:27 2023 +0100
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Release v3.1.0
+</span><span>
+</span><span>Notes:
+</span><span>    it needs a better implementation
+</span><span>...
+</span></code></pre>
+
+</div>
+</p>
+<p>This way, you can keep track of important details or improvements needed without modifying the original commit.</p>
+<p>and to remove the note if you want:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git notes remove 9cc33538u8
+</span></code></pre>
+
+</div>
+</p>
+<h4 id="worktree"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-worktree">Worktree</a></h4>
+<p>When you’re refactoring, developing, or making changes in your current branch,
+you might need to debug or check something in the production version of the system. With <code>git worktree</code>,
+you can quickly create a separate working directory for the desired branch without stashing or altering your current code.
+This allows you to test and debug in a separate environment and easily remove it when you’re done.
+It’s a straightforward and efficient solution!</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git worktree add debug origin/main
+</span></code></pre>
+
+</div>
+<p>Now, go to the <code>debug</code> directory (<code>cd debug</code>) and perform whatever tasks or testing you need to do.
+Once you’re finished, you can easily remove the directory by:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git worktree remove debug
+</span></code></pre>
+
+</div>
+<h4 id="cherry-pick"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-cherry-pick">Cherry pick</a></h4>
+<p>You’ve probably heard this before, and I don’t want to bore you with the usual details.
+My goal here is to give you a practical idea of when to use cherry-picking.
+For example, you might get a pull request (PR) that gets rejected or canceled due to internal decisions.
+Or maybe a PR gets merged into the development branch, but you only need one specific commit from it to fix something in production.
+That’s where cherry-picking can be really useful.</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git fetch</span><span style="color:#f29718;"> --all
+</span><span style="color:#ffb454;">$</span><span> git checkout main
+</span><span style="color:#ffb454;">$</span><span> git cherry-pick ef003e4facea1f33b2020fadc2ea844933e176b3
+</span><span style="color:#ffb454;">[master</span><span> 31c2135] Fix memory leak
+</span><span> </span><span style="color:#ffb454;">Date:</span><span> Sat Sep 14 16:59:58 2024 +0200
+</span><span> </span><span style="color:#ffb454;">1</span><span> file changed, 9 insertions(+)</span><span style="color:#ffb454;">,</span><span> 1 deletion(-)
+</span></code></pre>
+
+</div>
+<p>Let’s review what we have so far:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="gitlog" style="background-color:#070a0d;color:#fcfcfc;" class="language-gitlog "><code class="language-gitlog" data-lang="gitlog"><span>$ git log</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span>commit 31c2135dbbfbf623978aa0372c336c1c033f75d4 (HEAD -&gt; master)</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 16:59:58 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Fix memory leak
+</span><span style="color:#ff3333;">....
+</span></code></pre>
+
+</div>
+</p>
+<h4 id="add-patch"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-add">Add Patch</a></h4>
+<p>Sometimes, when making changes to a file, you might only want to commit a few specific lines rather than the entire file.
+In the past, I’d use <code>git stash</code>, manually apply the changes I wanted, and then add the file.
+Now, though, I can use <code>git add -p</code> to selectively stage only the lines I want to commit, skipping the rest of the file.</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git add</span><span style="color:#f29718;"> -p
+</span></code></pre>
+
+</div>
+<p>Now, it provides an interactive environment where you can commit only the specific parts you want:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="diff" style="background-color:#070a0d;color:#fcfcfc;" class="language-diff "><code class="language-diff" data-lang="diff"><span>diff --git a/a.c b/a.c
+</span><span>index 1261f00..0653a06 100644
+</span><span style="color:#c594c5;">--- a/a.c
+</span><span style="color:#c594c5;">+++ b/a.c
+</span><span style="color:#c594c5;">@@ -2,8 +2,16 @@
+</span><span> #include &lt;stdlib.h&gt;
+</span><span> #include &lt;string.h&gt;
+</span><span>
+</span><span style="color:#c2d94c;">+void free_char(char **p) {
+</span><span style="color:#c2d94c;">+    if (p &amp;&amp; *p) {
+</span><span style="color:#c2d94c;">+        free(*p);
+</span><span style="color:#c2d94c;">+        *p = NULL;
+</span><span style="color:#c2d94c;">+    }
+</span><span style="color:#c2d94c;">+}
+</span><span style="color:#c2d94c;">+
+</span><span> int main() {
+</span><span style="color:#f07178;">-    char *name = (char *)malloc(sizeof(char) * 15);
+</span><span style="color:#c2d94c;">+    char *name __attribute__((cleanup(free_char))) = (char *)malloc(sizeof(char) * 15);
+</span><span>     strcpy(name, &quot;world&quot;);
+</span><span>     printf(&quot;welcome: %s&quot;, name);
+</span><span style="color:#c2d94c;">+    printf(&quot;goodbye\n&quot;);
+</span><span> }
+</span><span>(1/1) Stage this hunk [y,n,q,a,d,s,e,?]?
+</span></code></pre>
+
+</div>
+</p>
+<p>Here, we only want to add the last line, <code>print("goodbye\n");</code>, and leave the rest unchanged.</p>
+<p>As shown in the last line, <code>git add -p</code> provides a menu that lets you choose how to proceed.
+Initially, you can add all the changes, but since we only want to include a specific line, you type <code>s</code> to split the current hunk into smaller chunks.</p>
+<p>You can type <code>?</code> to see the full menu of options:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="y - stage this hunk" style="background-color:#070a0d;color:#fcfcfc;" class="language-y - stage this hunk "><code class="language-y - stage this hunk" data-lang="y - stage this hunk"><span>n - do not stage this hunk
+</span><span>q - quit; do not stage this hunk or any of the remaining ones
+</span><span>a - stage this hunk and all later hunks in the file
+</span><span>d - do not stage this hunk or any of the later hunks in the file
+</span><span>s - split the current hunk into smaller hunks
+</span><span>e - manually edit the current hunk
+</span><span>? - print help
+</span></code></pre>
+
+</div>
+</p>
+<p>After typing <code>s</code>, it now shows us this:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="diff" style="background-color:#070a0d;color:#fcfcfc;" class="language-diff "><code class="language-diff" data-lang="diff"><span>Split into 3 hunks.
+</span><span style="color:#c594c5;">@@ -2,4 +2,11 @@
+</span><span> #include &lt;stdlib.h&gt;
+</span><span> #include &lt;string.h&gt;
+</span><span>
+</span><span style="color:#c2d94c;">+void free_char(char **p) {
+</span><span style="color:#c2d94c;">+    if (p &amp;&amp; *p) {
+</span><span style="color:#c2d94c;">+        free(*p);
+</span><span style="color:#c2d94c;">+        *p = NULL;
+</span><span style="color:#c2d94c;">+    }
+</span><span style="color:#c2d94c;">+}
+</span><span style="color:#c2d94c;">+
+</span><span> int main() {
+</span><span>(3/3) Stage this hunk [y,n,q,a,d,K,g,/,e,?]?
+</span></code></pre>
+
+</div>
+</p>
+<p>But that’s not what we’re looking for. Let’s type <code>n</code>, which means “do not stage this hunk”, to move to the next chunk.
+We’ll continue doing this until we find the part we want to add.</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="diff" style="background-color:#070a0d;color:#fcfcfc;" class="language-diff "><code class="language-diff" data-lang="diff"><span style="color:#c594c5;">@@ -7,3 +14,4 @@
+</span><span>     strcpy(name, &quot;world&quot;);
+</span><span>     printf(&quot;welcome: %s&quot;, name);
+</span><span style="color:#c2d94c;">+    printf(&quot;goodbye\n&quot;);
+</span><span> }
+</span><span>(3/3) Stage this hunk [y,n,q,a,d,K,g,/,e,?]?
+</span></code></pre>
+
+</div>
+<p>Now we type <code>y</code>, which means “stage this hunk”. That’s it! Next, let’s run <code>git diff --staged</code> to review what we’ve added:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="diff" style="background-color:#070a0d;color:#fcfcfc;" class="language-diff "><code class="language-diff" data-lang="diff"><span>$ git diff --staged
+</span><span>diff --git a/a.c b/a.c
+</span><span>index 1261f00..d12075d 100644
+</span><span style="color:#c594c5;">--- a/a.c
+</span><span style="color:#c594c5;">+++ b/a.c
+</span><span style="color:#c594c5;">@@ -6,4 +6,5 @@ </span><span style="color:#59c2ff;">int main() {
+</span><span>     char *name = (char *)malloc(sizeof(char) * 15);
+</span><span>     strcpy(name, &quot;world&quot;);
+</span><span>     printf(&quot;welcome: %s&quot;, name);
+</span><span style="color:#c2d94c;">+    printf(&quot;goodbye\n&quot;);
+</span><span> }
+</span></code></pre>
+
+</div>
+</p>
+<p>This is exactly what we wanted.
+If you run <code>git status</code>, you’ll see that the file appears in both staged and non-staged sections, as we only selected a part of the file for our upcoming commit.</p>
+<h4 id="bisect"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-bisect">Bisect</a></h4>
+<p><code>git bisect</code> is a valuable tool for debugging.
+It allows you to navigate through past commits and run tests or commands to identify which commit introduced a problem.
+By testing a range of commits, you can pinpoint the exact commit where the issue began.</p>
+<p>For instance, if you notice a memory leak in the code on the main branch and want to identify which commit introduced it,
+you can use <code>git bisect</code> to help pinpoint the source. In C/C++, tools like Valgrind can be used to detect the memory leak.
+For example:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="c" style="background-color:#070a0d;color:#fcfcfc;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#ff7733;">#include </span><span style="color:#c2d94c;">&lt;stdio.h&gt;
+</span><span style="color:#ff7733;">#include </span><span style="color:#c2d94c;">&lt;stdlib.h&gt;
+</span><span style="color:#ff7733;">#include </span><span style="color:#c2d94c;">&lt;string.h&gt;
+</span><span>
+</span><span style="color:#ff7733;">int </span><span style="color:#ffb454;">main</span><span>() {
+</span><span>    </span><span style="color:#ff7733;">char </span><span style="color:#f29668;">*</span><span>name </span><span style="color:#f29668;">= </span><span>(</span><span style="color:#ff7733;">char </span><span style="color:#f29668;">*</span><span>)</span><span style="color:#f07178;">malloc</span><span>(</span><span style="color:#ff7733;">sizeof</span><span>(</span><span style="color:#ff7733;">char</span><span>) </span><span style="color:#f29668;">* </span><span style="color:#f29718;">10</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f07178;">strcpy</span><span>(name</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;test&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#f07178;">printf</span><span>(</span><span style="color:#c2d94c;">&quot;</span><span style="color:#f29718;">%s</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> name)</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+
+</div>
+<p>When I compile and run the code, it works fine, but it has a memory leak that never gets released. To track it down, we use Valgrind:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;"></span><span>  valgrind</span><span style="color:#f29718;"> --leak-check</span><span style="color:#f29668;">=</span><span>full</span><span style="color:#f29718;"> --error-exitcode</span><span style="color:#f29668;">=</span><span>1 ./a.out
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">=325762== </span><span style="color:#ffb454;">Memcheck,</span><span> a memory error detector
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">=325762== </span><span style="color:#ffb454;">Copyright</span><span> (C) </span><span style="color:#ffb454;">2002-2022,</span><span> and GNU GPL</span><span style="color:#c2d94c;">&#39;d, by Julian Seward et al.
+</span><span style="color:#c2d94c;">==325762== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+</span><span style="color:#c2d94c;">==325762== Command: ./a.out
+</span><span style="color:#c2d94c;">==325762==
+</span><span style="color:#c2d94c;">test==325762==
+</span><span style="color:#c2d94c;">==325762== HEAP SUMMARY:
+</span><span style="color:#c2d94c;">==325762==     in use at exit: 10 bytes in 1 blocks
+</span><span style="color:#c2d94c;">==325762==   total heap usage: 2 allocs, 1 frees, 1,034 bytes allocated
+</span><span style="color:#c2d94c;">==325762==
+</span><span style="color:#c2d94c;">==325762== LEAK SUMMARY:
+</span><span style="color:#c2d94c;">==325762==    definitely lost: 10 bytes in 1 blocks
+</span><span style="color:#c2d94c;">==325762==    indirectly lost: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==325762==      possibly lost: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==325762==    still reachable: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==325762==         suppressed: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==325762== Rerun with --leak-check=full to see details of leaked memory
+</span><span style="color:#c2d94c;">==325762==
+</span><span style="color:#c2d94c;">==325762== For lists of detected and suppressed errors, rerun with: -s
+</span><span style="color:#c2d94c;">==325762== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+</span></code></pre>
+
+</div>
+<p>As indicated, there are <code>2 allocs</code> and <code>1 frees</code>, with the <code>LEAK SUMMARY</code> section providing more details on the issue.</p>
+<p>Now, imagine your code was working perfectly, but suddenly, when you try to push your changes, you discover a memory leak.
+You need to figure out which commit introduced the issue to determine if you can fix it with a patch or if other versions are affected as well.</p>
+<p>Let’s first take a look at our commit history:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="gitlog" style="background-color:#070a0d;color:#fcfcfc;" class="language-gitlog "><code class="language-gitlog" data-lang="gitlog"><span>$ git log</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span>commit 996b0dfc6ffbc5fddb78767f26e7790aacfaa71d (HEAD -&gt; master)</span><span style="background-color:#bfbab007;color:#fcfcfc;">
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 15:23:57 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Remove dead code
+</span><span>
+</span><span style="background-color:#bfbab007;color:#ff7733;">commit </span><span style="background-color:#bfbab007;color:#f29718;">e98cd3903bbe8066fe0240acfc2cdbc33075bb50
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 15:23:44 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Fix name value to &#39;world&#39;
+</span><span>
+</span><span style="background-color:#bfbab007;color:#ff7733;">commit </span><span style="background-color:#bfbab007;color:#f29718;">995e8283162da6a6587877c0d60b57b869a354ab
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 15:23:00 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Change name length
+</span><span>
+</span><span style="background-color:#bfbab007;color:#ff7733;">commit </span><span style="background-color:#bfbab007;color:#f29718;">c97e07d10ff6906570c3170e55c22163e5b83f04
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 15:22:45 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Update message
+</span><span>
+</span><span style="background-color:#bfbab007;color:#ff7733;">commit </span><span style="background-color:#bfbab007;color:#f29718;">1f223b694dac72ebbf595aafbb81132c3e0de014
+</span><span style="background-color:#bfbab007;color:#ff7733;">Author</span><span style="background-color:#bfbab007;color:#bfbab0cc;">: </span><span style="background-color:#bfbab007;color:#c2d94c;">Morteza NourelahiAlamdari &lt;</span><span style="background-color:#bfbab007;color:#59c2ff;">m</span><span style="background-color:#bfbab007;color:#bfbab0cc;">@</span><span style="background-color:#bfbab007;color:#59c2ff;">0t1</span><span style="background-color:#bfbab007;color:#bfbab0cc;">.</span><span style="background-color:#bfbab007;color:#59c2ff;">me</span><span style="background-color:#bfbab007;color:#c2d94c;">&gt;
+</span><span style="background-color:#bfbab007;color:#ff7733;">Date</span><span style="background-color:#bfbab007;color:#bfbab0cc;">:   </span><span style="background-color:#bfbab007;color:#c2d94c;">Sat Sep 14 15:22:28 2024 +0200
+</span><span>
+</span><span style="font-weight:bold;color:#ff7733;">    Init repo
+</span></code></pre>
+
+</div>
+</p>
+<p>The only thing we know is that the current branch, which we’ll call “bad,” has the issue.
+To find the problematic commit, we need to identify a “good” commit to set our testing range.
+In this case, I’ll use the “Init repo” commit, <code>1f223b694dac72ebbf595aafbb81132c3e0de014</code>, as our reference for the “good” commit.</p>
+<p>Now let’s get started:</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git bisect start
+</span><span style="color:#ffb454;">status:</span><span> waiting for both good and bad commits
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> git bisect bad HEAD
+</span><span style="color:#ffb454;">status:</span><span> waiting for good commit(s)</span><span style="color:#ffb454;">,</span><span> bad commit known
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> git bisect good 1f223b694dac72ebbf595aafbb81132c3e0de014
+</span><span style="color:#ffb454;">Bisecting:</span><span> 1 revision left to test after this (roughly 1 step)
+</span><span style="color:#ffb454;">[995e8283162da6a6587877c0d60b57b869a354ab]</span><span> Change name length
+</span><span>
+</span><span style="color:#ffb454;">$</span><span> git bisect run bash</span><span style="color:#f29718;"> -c </span><span style="color:#c2d94c;">&#39;gcc a.c -o debug.out &amp;&amp; valgrind --leak-check=full --error-exitcode=1 ./debug.out&#39;
+</span><span style="color:#ffb454;"></span><span>  git bisect run bash</span><span style="color:#f29718;"> -c </span><span style="color:#c2d94c;">&#39;gcc a.c -o debug.out &amp;&amp; valgrind --leak-check=full --error-exitcode=1 ./debug.out&#39;
+</span><span style="color:#ffb454;">running </span><span style="color:#c2d94c;">&#39;bash&#39; &#39;-c&#39; &#39;gcc a.c -o debug.out &amp;&amp; valgrind --leak-check=full --error-exitcode=1 ./debug.out&#39;
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">=405388== </span><span style="color:#ffb454;">Memcheck,</span><span> a memory error detector
+</span><span style="color:#f29668;">=</span><span style="color:#c2d94c;">=405388== </span><span style="color:#ffb454;">Copyright</span><span> (C) </span><span style="color:#ffb454;">2002-2022,</span><span> and GNU GPL</span><span style="color:#c2d94c;">&#39;d, by Julian Seward et al.
+</span><span style="color:#c2d94c;">==405388== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+</span><span style="color:#c2d94c;">==405388== Command: ./debug.out
+</span><span style="color:#c2d94c;">==405388==
+</span><span style="color:#c2d94c;">welcome: world==405388==
+</span><span style="color:#c2d94c;">==405388== HEAP SUMMARY:
+</span><span style="color:#c2d94c;">==405388==     in use at exit: 15 bytes in 1 blocks
+</span><span style="color:#c2d94c;">==405388==   total heap usage: 2 allocs, 1 frees, 1,039 bytes allocated
+</span><span style="color:#c2d94c;">==405388==
+</span><span style="color:#c2d94c;">==405388== 15 bytes in 1 blocks are definitely lost in loss record 1 of 1
+</span><span style="color:#c2d94c;">==405388==    at 0x484576B: malloc (in /libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+</span><span style="color:#c2d94c;">==405388==    by 0x401193: main (in /home/mort/c/debug.out)
+</span><span style="color:#c2d94c;">==405388==
+</span><span style="color:#c2d94c;">==405388== LEAK SUMMARY:
+</span><span style="color:#c2d94c;">==405388==    definitely lost: 15 bytes in 1 blocks
+</span><span style="color:#c2d94c;">==405388==    indirectly lost: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==405388==      possibly lost: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==405388==    still reachable: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==405388==         suppressed: 0 bytes in 0 blocks
+</span><span style="color:#c2d94c;">==405388==
+</span><span style="color:#c2d94c;">==405388== For lists of detected and suppressed errors, rerun with: -s
+</span><span style="color:#c2d94c;">==405388== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+</span><span style="color:#c2d94c;">e98cd3903bbe8066fe0240acfc2cdbc33075bb50 is the first bad commit
+</span><span style="color:#c2d94c;">commit e98cd3903bbe8066fe0240acfc2cdbc33075bb50
+</span><span style="color:#c2d94c;">Author: Morteza NourelahiAlamdari &lt;m@0t1.me&gt;
+</span><span style="color:#c2d94c;">Date:   Sat Sep 14 15:23:44 2024 +0200
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;">    Fix name value to &#39;</span><span>world</span><span style="color:#c2d94c;">&#39;
+</span><span style="color:#c2d94c;">
+</span><span style="color:#c2d94c;"> a.c | 4 ++--
+</span><span style="color:#c2d94c;"> 1 file changed, 2 insertions(+), 2 deletions(-)
+</span><span style="color:#c2d94c;">bisect found first bad commit
+</span></code></pre>
+
+</div>
+<p>Look, we’ve identified the commit that introduced the memory leak! Let’s examine the changes:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="diff" style="background-color:#070a0d;color:#fcfcfc;" class="language-diff "><code class="language-diff" data-lang="diff"><span>$ git show e98cd3903bbe8066fe0240acfc2cdbc33075bb50
+</span><span>commit e98cd3903bbe8066fe0240acfc2cdbc33075bb50
+</span><span>Author: Morteza NourelahiAlamdari &lt;m@0t1.me&gt;
+</span><span>Date:   Sat Sep 14 15:23:44 2024 +0200
+</span><span>
+</span><span>    Fix name value to &#39;world&#39;
+</span><span>
+</span><span>diff --git a/a.c b/a.c
+</span><span>index 7ddec09..c862215 100644
+</span><span style="color:#c594c5;">--- a/a.c
+</span><span style="color:#c594c5;">+++ b/a.c
+</span><span style="color:#c594c5;">@@ -10,7 +10,7 @@ </span><span style="color:#59c2ff;">void free_char(char **p) {
+</span><span> }
+</span><span>
+</span><span> int main() {
+</span><span style="color:#f07178;">-    char *name __attribute__((cleanup(free_char))) = (char *)malloc(sizeof(char) * 15);
+</span><span style="color:#f07178;">-    strcpy(name, &quot;test&quot;);
+</span><span style="color:#c2d94c;">+    char *name = (char *)malloc(sizeof(char) * 15);
+</span><span style="color:#c2d94c;">+    strcpy(name, &quot;world&quot;);
+</span><span>     printf(&quot;welcome: %s&quot;, name);
+</span><span> }
+</span></code></pre>
+
+</div>
+</p>
+<p>As soon as the <code>__attribute__((cleanup(free_char)))</code> was removed, we started encountering the memory leak.</p>
+<p>Finally, run the reset command to return to the master branch:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git biset reset
+</span><span style="color:#ffb454;">Previous</span><span> HEAD position was e98cd39 Fix name value to </span><span style="color:#c2d94c;">&#39;world&#39;
+</span><span style="color:#ffb454;">Switched</span><span> to branch </span><span style="color:#c2d94c;">&#39;master&#39;
+</span></code></pre>
+
+</div>
+</p>
+<h4 id="rev-list"><a rel="noopener" target="_blank" href="https://git-scm.com/docs/git-rev-list">Rev-List</a></h4>
+<p>One of my favorite ways to recover a deleted file is using this method.
+For example, if I removed a config or source code file from the project six months ago and now need to see what was in
+that file to copy a single line for use in my current branch, this approach is perfect.</p>
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git rev-list</span><span style="color:#f29718;"> -1 --all</span><span style="color:#f29668;"> --</span><span> /path/to/deleted-file
+</span><span style="color:#ffb454;">1c55d557f214b4c70ab2c2a0130f080762d0a3d0
+</span></code></pre>
+
+</div>
+<ul>
+<li><code>-1</code> refers to just the first commit.</li>
+<li><code>--all</code> includes all the commits.</li>
+</ul>
+<p>Now, we need to checkout that commit hash to recover the file.
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git checkout 1c55d557f214b4c70ab2c2a0130f080762d0a3d0^</span><span style="color:#f29668;"> --</span><span> /path/to/deleted-file
+</span></code></pre>
+
+</div>
+</p>
+<p>Now, if you check the output of <code>git status</code>:
+<div class="code mb-2 p-1">
+    
+    <pre data-lang="bash" style="background-color:#070a0d;color:#fcfcfc;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">$</span><span> git status
+</span><span style="color:#ffb454;">On</span><span> branch main
+</span><span style="color:#ffb454;">Changes</span><span> to be committed:
+</span><span>  (</span><span style="color:#ffb454;">use </span><span style="color:#c2d94c;">&quot;git restore --staged &lt;file&gt;...&quot;</span><span> to unstage)
+</span><span>	</span><span style="color:#ffb454;">new</span><span> file:   /path/to/deleted-file
+</span></code></pre>
+
+</div>
+</p>
+<p>Here’s an interesting thread on Stack Overflow about restoring a deleted folder in a Git repository: <a rel="noopener" target="_blank" href="https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo">https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo</a></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Git is an incredibly useful tool for tracking changes in complex scenarios.
+For example, you can find only changed files using <code>git grep</code>, trigger pipelines by committing with an empty message, and more.
+It all depends on your needs. I recommend reading the official documentation, and if you like,
+you can set up a bunch of aliases in your shell or Git to streamline your workflow and make processes easier to handle.</p>
+
+    </div>
+    <div>
+        
+    </div>
+    
+    <div>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#cli</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#git</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#utilities</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#tools</label>
+        
+    </div>
+    
+    
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    
+</div>
+
+<script src="https://giscus.app/client.js"
+        data-repo="mortymacs/mortymacs"
+        data-repo-id="R_kgDOLJ_j-Q"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOLJ_j-c4Ccuug"
+        data-mapping="url"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+        </div>
+        <footer class="footer mt-auto">
+            <div class="d-flex">
+    <div class="p-1 px-2 copyright-1">
+        &copy;Morteza NourelahiAlamdari. All rights reserved.
+    </div>
+    <div class="p-1 px-2 flex-fill text-end copyright-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="1em">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288H584.4L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320H199.3L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z" />
+        </svg>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+    </div>
+    <div class="p-1 px-2 text-end git-status">
+        <a class="px-1" href="https://github.com/mortymacs/mortymacs" title="Git" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                height="1em"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                    d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+            </svg>
+            origin/main
+        </a>
+    </div>
+    <div class="p-1 px-2 text-end links">
+        <a class="px-1" title="Github" href="https://github.com/mortymacs" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            </svg></a>
+        <a class="px-1 text-body" title="LinkedIn" href="https://www.linkedin.com/in/mortymacs/" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+            </svg></a>
+        <a class="px-1 text-body" title="RSS" href="https:&#x2F;&#x2F;0t1.me/rss.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+            </svg></a>
+        <a class="px-1 text-body" title="Sitemap" href="https:&#x2F;&#x2F;0t1.me/sitemap.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z" />
+            </svg></a>
+    </div>
+</div>
+
+        </footer>
+    </body>
+</html>

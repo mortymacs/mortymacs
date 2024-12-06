@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://0t1.me/</loc>
+    </url>
+    <url>
+        <loc>https://0t1.me/about/</loc>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/</loc>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/</loc>
+        <lastmod>2023-10-21</lastmod>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/2023/11/18/handy-cli-utilities-part-2/</loc>
+        <lastmod>2023-11-18</lastmod>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/2023/12/21/enforce-adherence-of-derived-classes-to-parent-signatures-in-python/</loc>
+        <lastmod>2023-12-21</lastmod>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/2024/09/01/practical-awk/</loc>
+        <lastmod>2024-09-01</lastmod>
+    </url>
+    <url>
+        <loc>https://0t1.me/blog/2024/09/14/git-useful-commands/</loc>
+        <lastmod>2024-09-14</lastmod>
+    </url>
+    <url>
+        <loc>https://0t1.me/dotfiles/</loc>
+    </url>
+</urlset>
