@@ -83,7 +83,7 @@ We need to follow these steps to achieve the output:
 5. Use the IP address from step 4 to determine the geo location.
 6. Use the geo location from step 5 to find the phone code for that area.
 
-{% code(filename="flow.ascii") %}
+{% code() %}
 ```
 +-------------+     +------------+     +------------------+     +---------------+     +-----------------+     +---------------+
 | FetchStatus | --> | FetchTitle | --> | FetchContentType | --> | FindIPAddress | --> | FindGeoLocation | --> | FindPhoneCode |

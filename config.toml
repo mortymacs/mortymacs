@@ -24,7 +24,7 @@ minify_html = false
 
 [markdown]
 highlight_code = true
-highlight_theme = "two-dark"
+highlight_theme = "my-ayu-dark"
 extra_syntaxes_and_themes = ["highlight_themes"]
 render_emoji = true
 external_links_target_blank = true

@@ -7,7 +7,7 @@
     --color2: #CF3034;
     --color3: #121920;
     --color4: #18212B;
-    --color5: #F07F2D;
+    --color5: #f8961e;
     --color6: #293D54;
     --color7: #495057;
     --color8: #973C64;
@@ -15,6 +15,7 @@
     --color10: #070A0D;
     --color11: #151515;
     --color12: #030507;
+    --color13: #e76f51;
     --border-size: 1px;
 }
 
@@ -96,6 +97,13 @@ h4 {
     color: var(--color0);
 }
 
+code,
+kbd,
+pre,
+samp {
+    font-family: "monospace", monospace;
+}
+
 /* Navbar */
 .navbar-dark {
     background-color: var(--color3);
@@ -132,7 +140,6 @@ h4 {
     border-left: 1px solid var(--color7);
     border-right: 1px solid var(--color7);
     font-family: "monospace", monospace;
-
     svg {
         fill: var(--color0);
     }
@@ -183,10 +190,12 @@ h4 {
 
 /* Article */
 .article-title a {
-    color: var(--color9);
+    color: var(--color5);
     text-decoration: none;
-    /* background-color: var(--color2); */
+    background: linear-gradient(45deg, var(--color13), var(--color5));
     font-size: 30px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .article-tag {
@@ -259,35 +268,35 @@ blockquote.important::before {
 }
 
 /* Code */
-code,
-kbd,
-pre,
-samp {
-    font-family: "monospace", monospace;
+.code {
+    background-color: var(--color10);
+    overflow: hidden;
+    border: var(--border-size) solid var(--color3);
+    overflow: auto;
 }
 
-#main pre {
+.code pre {
     padding: 10px;
     line-height: 20px;
     font-size: medium;
     margin: 0;
 }
 
-#main pre table {
+.code pre table {
     width: 100%;
 }
 
-#main pre table tbody tr td {
+.code pre table tbody tr td {
     padding: 0;
 }
 
-#main pre mark {
+.code pre mark {
     color: var(--color0);
     display: block;
 }
 
 /** Line numbers. */
-#main .window pre table tbody tr td:first-child {
+.code pre table tbody tr td:first-child {
     border-right: 1px solid var(--color7);
     padding-right: 10px;
     text-align: right;
@@ -296,105 +305,19 @@ samp {
 }
 
 /** Code lines. */
-#main .window pre table tbody tr td:nth-child(2) {
+.code pre table tbody tr td:nth-child(2) {
     padding-left: 10px;
 }
 
-#main blockquote pre {
+.code blockquote pre {
     border: var(--border-size) solid var(--color3);
+}
+
+.code .title {
+    color: var(--color7);
 }
 
 /* Image */
 .img-fluid {
     border: var(--border-size) solid var(--color7);
-}
-
-/* Window */
-.window {
-    background-color: var(--color11);
-    overflow: hidden;
-    border: var(--border-size) solid var(--color3);
-    box-shadow: 0 0 20px var(--color12);
-}
-
-.window .titlebar {
-    display: flex;
-    align-items: center;
-    background-color: var(--color11);
-    border-bottom: none;
-    padding: 8px 8px 0px 15px;
-    overflow: hidden;
-}
-
-.window .window-controls {
-    display: flex;
-    gap: 8px;
-    margin-right: 16px;
-    padding-bottom: 5px;
-}
-
-.window .control-button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-}
-
-.window .close {
-    background-color: #f72585;
-}
-
-.window .minimize {
-    background-color: #b5179e;
-}
-
-.window .maximize {
-    background-color: #7209b7;
-}
-
-.window .tabs {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-grow: 1;
-}
-
-.window .tab {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    white-space: nowrap;
-    font-size: initial;
-}
-
-.window .tab.active {
-    background-color: var(--color10);
-    color: var(--color9);
-    position: relative;
-    z-index: 1;
-    margin-bottom: -1px;
-}
-
-.window .content {
-    background-color: var(--color10);
-    padding: 16px;
-    overflow: auto;
-    border: none;
-    border-top: none;
-}
-
-@media (max-width: 480px) {
-    .window-controls {
-        margin-bottom: 8px;
-    }
-
-    .tabs {
-        width: 100%;
-        justify-content: space-around;
-    }
 }
