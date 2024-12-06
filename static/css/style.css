@@ -110,7 +110,7 @@ samp {
 }
 
 .navbar-brand {
-    background: linear-gradient(45deg, var(--color4), var(--color3));
+    background: linear-gradient(45deg, var(--color1), var(--color3));
     color: var(--color5) !important;
     padding: 2.5px;
     margin: 0;
@@ -139,6 +139,7 @@ samp {
     border-left: 1px solid var(--color7);
     border-right: 1px solid var(--color7);
     font-family: "monospace", monospace;
+
     svg {
         fill: var(--color0);
     }
