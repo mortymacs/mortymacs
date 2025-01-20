@@ -167,7 +167,9 @@ crate-type = ["staticlib"]
 
 ## Note
 
-You can release memory allocated by Rust in C++ using free(result), but this is not recommended.
+{% quote(type="important") %}
+You can release memory allocated by Rust in C++ using `free(result)`, but this is not recommended.
 Rust's memory management includes safety checks and allocation context that C++ lacks. Using free in C++ can lead to errors or undefined behavior in Rust.
 Similarly, C++ resources should not be freed directly in Rust.
 It's safest to let each language manage its own resources.
+{% end %}
