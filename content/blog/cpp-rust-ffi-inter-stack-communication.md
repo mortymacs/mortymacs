@@ -1,18 +1,18 @@
 +++
-title = "C++ Rust FFI Inter-Stack Communication"
+title = "C++ Rust FFI Inter-Stack Communication Concerns"
 date = "2025-01-20"
 draft = false
-path = "blog/2024/09/14/cpp-rust-fii-inter-stack-communication"
+path = "blog/2024/09/14/cpp-rust-fii-inter-stack-communication-concerns"
 lang = "en"
 [extra]
 category = "DEV"
 tags = ["cpp", "rust", "ffi"]
 comment = true
 +++
-In this article, I'll discuss internal communication aspects of C++ and Rust by using FFI.
+In this article, I'll discuss internal communication aspects of C++ and Rust by using FFI to address two important concerns.
 <!-- more -->
 
-## Inter-Stack Communication Concerns
+## Communication Concerns
 
 * How will data be transferred between stacks?
 * How does the owner release the memory?
@@ -32,7 +32,7 @@ Pointers allow us to reference the exact memory address, avoiding data duplicati
 
 Regarding the memory management, each stack is responsible for releasing its own allocated memory, either directly or by providing functionality that can be invoked by other stacks.
 
-### Example
+## Example
 
 This is the directory structure of the example:
 
