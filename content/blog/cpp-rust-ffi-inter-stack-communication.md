@@ -2,7 +2,7 @@
 title = "C++ Rust FFI Inter-Stack Communication Concerns"
 date = "2025-01-20"
 draft = false
-path = "blog/2024/09/14/cpp-rust-fii-inter-stack-communication-concerns"
+path = "blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns"
 lang = "en"
 [extra]
 category = "DEV"
