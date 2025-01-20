@@ -148,3 +148,19 @@ check:
 	valgrind --leak-check=full ./main
 ```
 {% end %}
+
+Also, the Cargo file:
+
+{% code(filename="Cargo.toml") %}
+```toml
+[package]
+name = "strtest"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+```
+{% end %}
