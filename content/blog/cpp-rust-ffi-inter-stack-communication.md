@@ -53,7 +53,7 @@ In this example, we have a Rust project functioning as a library and C++ as the 
 Here we have a `print_and_return` function that takes a char pointer, converts it into Rust's string data type, process it, and finally generates a new string as output, retriving its memory address.
 
 {% code(filename="src/lib.rs") %}
-```rust
+```rust,linenos
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 
@@ -88,7 +88,7 @@ In this case we defined a `free_string` function, allowing the top-layer stack t
 This is the C++ example, that uses the Rust library to call the `print_and_return` function inside Rust, retrive its output, and perform any desired operations, afterward, it releases the memory allocated by Rust by calling the `free_string` function.
 
 {% code(filename="main.cpp") %}
-```c++
+```c++,linenos
 #include <iostream>
 #include "bindings.h"
 
@@ -135,7 +135,7 @@ This confirms that we have achieved an efficient way to transfer data between th
 This is also the way to compile the project, if you wish to do so:
 
 {% code(filename="Makefile") %}
-```make
+```make,linenos
 all:
 	cbindgen --config ./cbindgen.toml --crate strtest --output ./bindings.h
 	cargo build
