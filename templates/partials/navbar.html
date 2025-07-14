@@ -3,31 +3,31 @@
         data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="top-navbar">
+    <div class="collapse navbar-collapse fw-semibold text-uppercase" id="top-navbar">
         <ul class="navbar-nav me-auto">
-            <a class="navbar-brand fw-bold px-3" title="Home" href="{{ config.base_url }}">#!/bin/mort</a>
+            <a class="navbar-brand fw-bold px-3 p-1 m-0 text-lowercase" title="Home" href="{{ config.base_url }}">#!/bin/mort</a>
             <li class="nav-item">
-                <a class="nav-link" title="Blog" href="{{ config.base_url }}/blog">Blog</a>
+                <a class="nav-link p-1 me-1" title="Blog" href="{{ config.base_url }}/blog">Blog</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+                <a class="nav-link p-1 me-1" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" title="About" href="{{ config.base_url }}/dotfiles">Dotfiles</a>
+                <a class="nav-link p-1 me-1" title="About" href="{{ config.base_url }}/dotfiles">Dotfiles</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                <a class="nav-link p-1 me-1" title="Appointment" href="https://calendly.com/mortymacs/30min"
                     target="_blank">Appointment</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" title="About" href="{{ config.base_url }}/about">About</a>
+                <a class="nav-link p-1" title="About" href="{{ config.base_url }}/about">About</a>
             </li>
         </ul>
         <div class="d-flex px-2" role="search">
             <div class="input-group" id="search-box">
-                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0" type="search"
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0 border-0 shadow-none" type="search"
                     placeholder="Search" aria-label="Search">
-                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0"> Enter</button>
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0 border-0"> Enter</button>
             </div>
         </div>
     </div>
