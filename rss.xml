@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>ZeroToOne</title>
+      <link>https://0t1.me</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://0t1.me/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Mon, 20 Jan 2025 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>C++ Rust FFI Inter-Stack Communication Concerns</title>
+          <pubDate>Mon, 20 Jan 2025 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/</link>
+          <guid>https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/</guid>
+          <description xml:base="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/">&lt;p&gt;In this article, I’ll discuss internal communication aspects of C++ and Rust by using FFI to address two important concerns.&lt;&#x2F;p&gt;</description>
+      </item>
+      <item>
+          <title>Git Useful Commands</title>
+          <pubDate>Sat, 14 Sep 2024 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2024/09/14/git-useful-commands/</link>
+          <guid>https://0t1.me/blog/2024/09/14/git-useful-commands/</guid>
+          <description xml:base="https://0t1.me/blog/2024/09/14/git-useful-commands/">&lt;p&gt;As a software engineer using Git almost every day, it’s essential for me to master this tool to efficiently manage my code and tasks.
+In this discussion, I’ll go over some Git commands that have significantly boosted my productivity during development and maintenance.&lt;&#x2F;p&gt;</description>
+      </item>
+      <item>
+          <title>Practical AWK</title>
+          <pubDate>Sun, 01 Sep 2024 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2024/09/01/practical-awk/</link>
+          <guid>https://0t1.me/blog/2024/09/01/practical-awk/</guid>
+          <description xml:base="https://0t1.me/blog/2024/09/01/practical-awk/">&lt;p&gt;Sometimes, we need to run a series of commands or API calls, gather their outputs, and store them in an organized way.
+For example, imagine we have a CSV file and want to use multiple cURL commands to fetch information about the data in it.
+Then, we might need to clean up and format the results from each step and use them as inputs for other cURL calls or commands.
+In this article, I’ll show how to handle these real-life scenarios using a powerful tool called AWK.&lt;&#x2F;p&gt;</description>
+      </item>
+      <item>
+          <title>Enforce adherence of derived classes to parent signatures in Python</title>
+          <pubDate>Thu, 21 Dec 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2023/12/21/enforce-adherence-of-derived-classes-to-parent-signatures-in-python/</link>
+          <guid>https://0t1.me/blog/2023/12/21/enforce-adherence-of-derived-classes-to-parent-signatures-in-python/</guid>
+          <description xml:base="https://0t1.me/blog/2023/12/21/enforce-adherence-of-derived-classes-to-parent-signatures-in-python/">&lt;p&gt;When we’re developing an object oriented systems in Python, there are often instances where we have to create &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Abstract_type&quot;&gt;abstract classes&lt;&#x2F;a&gt;.
+These classes define a basic structure that we expect other parts of the code to implement.
+or instance, in the context of databases, we create an abstract class that contains fundamental structure for a database class.
+The derived classes then need to implement the abstract methods to form a complete structure.
+The challenge arises when a derived class doesn’t follow the expected signature of the abstract class.&lt;&#x2F;p&gt;</description>
+      </item>
+      <item>
+          <title>handy command-line utilities - part 2</title>
+          <pubDate>Sat, 18 Nov 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2023/11/18/handy-cli-utilities-part-2/</link>
+          <guid>https://0t1.me/blog/2023/11/18/handy-cli-utilities-part-2/</guid>
+          <description xml:base="https://0t1.me/blog/2023/11/18/handy-cli-utilities-part-2/">&lt;p&gt;This marks the second installment in a series about useful CLI utilities.
+In this article, I’ll delve into additional command-line tools that can enhance your productivity in the terminal.
+While the &lt;a href=&quot;&#x2F;blog&#x2F;2023&#x2F;10&#x2F;21&#x2F;handy-cli-utilities-part-1&#x2F;&quot;&gt;first article&lt;&#x2F;a&gt; covered text and file processing tools, as well as process management,
+this one will focus on topics like searching within files and directories, along with project management.&lt;&#x2F;p&gt;</description>
+      </item>
+      <item>
+          <title>handy command-line utilities - part 1</title>
+          <pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/</link>
+          <guid>https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/</guid>
+          <description xml:base="https://0t1.me/blog/2023/10/21/handy-cli-utilities-part-1/">&lt;p&gt;As I heavily depend on the terminal for a range of activities such as browsing, handling files, coding, and converting videos,
+I wanted to share the collection of tools I use regularly. This blog post is divided into three sections, and in the final part,
+I’ll walk you through my shortcuts and aliases.&lt;&#x2F;p&gt;</description>
+      </item>
+    </channel>
+</rss>
