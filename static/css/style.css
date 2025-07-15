@@ -144,7 +144,7 @@ samp {
 }
 
 .footer .links a svg {
-    fill: var(--ofreground);
+    fill: var(--foreground);
 }
 
 /* Badge */
