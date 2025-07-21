@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+    <head>
+        <title>ZeroToOne - C++ Rust FFI Inter-Stack Communication Concerns</title>
+
+        <!-- Page meta -->
+        <meta name="description" content="In this article, I’ll discuss internal communication aspects of C++ and Rust by using FFI to address two important concerns.">
+        <meta name="author" content="Morteza (Mort) NourelahiAlamdari">
+
+        <!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="https://0t1.me/img/favicon.png">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://0t1.me/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://0t1.me/css/style.css">
+
+<!-- Javascript -->
+<script src="https://0t1.me/js/jquery.min.js"></script>
+<script src="https://0t1.me/js/bootstrap.min.js"></script>
+
+<!-- Social networks -->
+<meta property="og:image" content="https://0t1.me/img/logo.png">
+<meta property="og:image:type" content="image/png">
+
+<!-- Search -->
+<script async src="https://0t1.me/elasticlunr.min.js"></script>
+<script async src="https://0t1.me/search_index.en.js"></script>
+<script async src="https://0t1.me/js/search.js"></script>
+
+    </head>
+    <body class="p-3 container fs-5">
+        <div class="d-flex flex-column flex-grow-1" id="main">
+            <div id="search-result" class="modal fade">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h6 class="modal-title">Search Result</h6>
+                <button type="button" class="btn-close rounded-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="search-result-box" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-dark p-0 mb-2">
+    <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
+        data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse fw-semibold text-uppercase" id="top-navbar">
+        <ul class="navbar-nav me-auto">
+            <a class="navbar-brand fw-bold px-3 p-1 m-0 text-lowercase" title="Home" href="https:&#x2F;&#x2F;0t1.me">#!/bin/mort</a>
+            <li class="nav-item">
+                <a class="nav-link p-1 me-1" title="Blog" href="https:&#x2F;&#x2F;0t1.me/blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link p-1 me-1" title="Projects" href="https://github.com/mortymacs" target="_blank">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link p-1 me-1" title="About" href="https:&#x2F;&#x2F;0t1.me/dotfiles">Dotfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link p-1 me-1" title="Appointment" href="https://calendly.com/mortymacs/30min"
+                    target="_blank">Appointment</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link p-1" title="About" href="https:&#x2F;&#x2F;0t1.me/about">About</a>
+            </li>
+        </ul>
+        <div class="d-flex px-2" role="search">
+            <div class="input-group" id="search-box">
+                <input id="search" class="form-control form-control-sm focus-ring-dark rounded-0 border-0 shadow-none" type="search"
+                    placeholder="Search" aria-label="Search">
+                <button id="search-btn" type="button" class="btn btn-sm btn-success rounded-0 border-0"> Enter</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+            </div>
+
+            <div class="mt-1 flex-grow-1">
+                
+
+<div class="mb-3">
+    <div class="article-title d-inline">
+        <a href="https:&#x2F;&#x2F;0t1.me&#x2F;blog&#x2F;2025&#x2F;01&#x2F;20&#x2F;cpp-rust-fii-inter-stack-communication-concerns&#x2F;" class="text-capitalize fw-bold d-inline-block link-underline link-underline-opacity-0">
+            C++ Rust FFI Inter-Stack Communication Concerns
+        </a>
+        
+    </div>
+    <div>
+        <small class="fst-italic">Monday, Jan 20, 2025</small>
+    </div>
+    <div class="article-toc">
+    
+        <h4 class="mt-3">Table of Contents</h4>
+        <ul>
+        
+            <li>
+                <a href="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/#communication-concerns">Communication Concerns</a>
+                
+                <ul>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/#passing-data">Passing data</a>
+                </li>
+                
+                <li>
+                    <a href="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/#memory-management">Memory management</a>
+                </li>
+                
+                </ul>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/#example">Example</a>
+                
+        
+            <li>
+                <a href="https://0t1.me/blog/2025/01/20/cpp-rust-fii-inter-stack-communication-concerns/#note">Note</a>
+                
+        
+        </ul>
+    
+    </div>
+    <div class="article-body">
+        <p>In this article, I’ll discuss internal communication aspects of C++ and Rust by using FFI to address two important concerns.</p>
+<span id="continue-reading"></span><h2 id="communication-concerns">Communication Concerns</h2>
+<ul>
+<li>How will data be transferred between stacks?</li>
+<li>How does the owner release the memory?</li>
+</ul>
+<p>I will focus on two key concerns: first, effiecent data transfer between C++ and Rust, and second: determing ownership of memory allocation and resource management.</p>
+<h3 id="passing-data">Passing data</h3>
+<ul>
+<li>Pointers</li>
+</ul>
+<p>When passing data between different stacks, as you all you, using pointers is the most efficent option.
+Pointers allow us to reference the exact memory address, avoiding data duplication of passing by value.</p>
+<h3 id="memory-management">Memory management</h3>
+<ul>
+<li>Each stack is responsible:
+<ul>
+<li>Release the allocated resources.</li>
+<li>Providing release functionalities for use by other stacks.</li>
+</ul>
+</li>
+</ul>
+<p>Regarding the memory management, each stack is responsible for releasing its own allocated memory, either directly or by providing functionality that can be invoked by other stacks.</p>
+<h2 id="example">Example</h2>
+<p>This is the directory structure of the example:</p>
+<div class="code mb-2 p-1">
+    
+    <pre style="background-color:#070a0d;color:#fcfcfc;"><code><span> strtest
+</span><span>├──  src
+</span><span>│   └──  lib.rs
+</span><span>├──  Cargo.lock
+</span><span>├──  Cargo.toml
+</span><span>├──  cbindgen.toml
+</span><span>├──  main.cpp
+</span><span>└──  Makefile
+</span></code></pre>
+
+</div>
+<p>In this example, we have a Rust project functioning as a library and C++ as the top-layer stack.
+Here we have a <code>print_and_return</code> function that takes a char pointer, converts it into Rust’s string data type, process it, and finally generates a new string as output, retriving its memory address.</p>
+<div class="code mb-2 p-1">
+    
+    <i class="title px-2">src&#x2F;lib.rs</i>
+    
+    <pre data-linenos data-lang="rust" style="background-color:#070a0d;color:#fcfcfc;" class="language-rust "><code class="language-rust" data-lang="rust"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">use </span><span>std</span><span style="color:#f29668;">::</span><span>ffi</span><span style="color:#f29668;">::</span><span>{CStr</span><span style="color:#bfbab0cc;">,</span><span> CString}</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>2</td><td><span style="color:#ff7733;">use </span><span>std</span><span style="color:#f29668;">::</span><span>os</span><span style="color:#f29668;">::</span><span>raw</span><span style="color:#f29668;">::</span><span style="color:#ff7733;">c_char</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>3</td><td><span>
+</span></td></tr><tr><td>4</td><td><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">no_mangle</span><span>]
+</span></td></tr><tr><td>5</td><td><span style="color:#ff7733;">pub extern </span><span style="color:#c2d94c;">&quot;C&quot; </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">print_and_return</span><span>(</span><span style="color:#f29718;">input_str</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">*const</span><span> c_char) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="color:#ff7733;">*mut</span><span> c_char {
+</span></td></tr><tr><td>6</td><td><span>    </span><span style="font-style:italic;color:#5c6773;">// Convert the C string to a Rust string
+</span></td></tr><tr><td>7</td><td><span>    </span><span style="color:#ff7733;">let c_str </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">unsafe </span><span>{ CStr</span><span style="color:#f29668;">::</span><span>from_ptr(input_str) }</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>8</td><td><span>    </span><span style="color:#ff7733;">let</span><span> rust_str </span><span style="color:#f29668;">= </span><span style="color:#ff7733;">c_str</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_str</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">unwrap</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>9</td><td><span>
+</span></td></tr><tr><td>10</td><td><span>    </span><span style="font-style:italic;color:#5c6773;">// Using the rust_str here...
+</span></td></tr><tr><td>11</td><td><span>
+</span></td></tr><tr><td>12</td><td><span>    </span><span style="font-style:italic;color:#5c6773;">// Create a new CString to return
+</span></td></tr><tr><td>13</td><td><span>    </span><span style="font-style:italic;color:#5c6773;">// let output = ....
+</span></td></tr><tr><td>14</td><td><span>    </span><span style="color:#ff7733;">let</span><span> output_cstring </span><span style="color:#f29668;">= </span><span>CString</span><span style="color:#f29668;">::</span><span>new(output)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">unwrap</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>15</td><td><span>    output_cstring</span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_raw</span><span>()
+</span></td></tr><tr><td>16</td><td><span>}
+</span></td></tr><tr><td>17</td><td><span>
+</span></td></tr><tr><td>18</td><td><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">no_mangle</span><span>]
+</span></td></tr><tr><td>19</td><td><span style="color:#ff7733;">pub extern </span><span style="color:#c2d94c;">&quot;C&quot; </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">free_string</span><span>(</span><span style="color:#f29718;">ptr</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">*mut</span><span> c_char) {
+</span></td></tr><tr><td>20</td><td><span>    </span><span style="color:#ff7733;">if </span><span style="color:#f29668;">!</span><span>ptr</span><span style="color:#f29668;">.</span><span style="color:#f07178;">is_null</span><span>() {
+</span></td></tr><tr><td>21</td><td><span>        </span><span style="color:#ff7733;">unsafe </span><span>{
+</span></td></tr><tr><td>22</td><td><span>            </span><span style="color:#ff7733;">let </span><span style="color:#f29668;">_ = </span><span>CString</span><span style="color:#f29668;">::</span><span>from_raw(ptr)</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>23</td><td><span>        }
+</span></td></tr><tr><td>24</td><td><span>    }
+</span></td></tr><tr><td>25</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+
+</div>
+<p>As mentioned, the stack should either release its resources or provide a release functionality for the top-layer stack.
+In this case we defined a <code>free_string</code> function, allowing the top-layer stack to release the memory allocated by Rust by calling this function, which targets the char pointer address.</p>
+<p>This is the C++ example, that uses the Rust library to call the <code>print_and_return</code> function inside Rust, retrive its output, and perform any desired operations, afterward, it releases the memory allocated by Rust by calling the <code>free_string</code> function.</p>
+<div class="code mb-2 p-1">
+    
+    <i class="title px-2">main.cpp</i>
+    
+    <pre data-linenos data-lang="c++" style="background-color:#070a0d;color:#fcfcfc;" class="language-c++ "><code class="language-c++" data-lang="c++"><table><tbody><tr><td>1</td><td><span style="color:#ff7733;">#include </span><span style="color:#c2d94c;">&lt;iostream&gt;
+</span></td></tr><tr><td>2</td><td><span style="color:#ff7733;">#include </span><span style="color:#c2d94c;">&quot;bindings.h&quot;
+</span></td></tr><tr><td>3</td><td><span>
+</span></td></tr><tr><td>4</td><td><span style="color:#ff7733;">int </span><span style="color:#ffb454;">main</span><span>() {
+</span></td></tr><tr><td>5</td><td><span>    std</span><span style="color:#f29668;">::</span><span>string </span><span style="color:#ffb454;">data</span><span>{</span><span style="color:#c2d94c;">&quot;Hello from C++&quot;</span><span>}</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>6</td><td><span>    </span><span style="color:#ff7733;">char</span><span style="color:#f29668;">*</span><span> result </span><span style="color:#f29668;">= </span><span style="color:#ffb454;">print_and_return</span><span>(data</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">c_str</span><span>())</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>7</td><td><span>    </span><span style="font-style:italic;color:#5c6773;">// Performing any desired operation on the result.
+</span></td></tr><tr><td>8</td><td><span>    </span><span style="color:#ffb454;">free_string</span><span>(result)</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>9</td><td><span>    </span><span style="color:#ff7733;">return </span><span style="color:#f29718;">0</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>10</td><td><span>}
+</span></td></tr></tbody></table></code></pre>
+
+</div>
+<p>For resources allocated in C++, since we are using the standard C++ library for the string data type, the allocated resources will be automatically released when the string goes out of scope.</p>
+<p>After checking the resources by Valgrind tool, we observed 4 allocations and 4 releases, indicating that there are no memory leaks.</p>
+<div class="code mb-2 p-1">
+    
+    <pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>...
+</span><span>==685024== HEAP SUMMARY:
+</span><span>==685024==     in use at exit: 0 bytes in 0 blocks
+</span><span>==685024==   total heap usage: 4 allocs, 4 frees, 74,815 bytes allocated
+</span><span>==685024==
+</span><span>==685024== All heap blocks were freed -- no leaks are possible
+</span><span>...
+</span></code></pre>
+
+</div>
+<p>Here is the output of the sample code, which demonstrates that the C++ string points to the same address as the Rust string, and vice versa.</p>
+<div class="code mb-2 p-1">
+    
+    <pre style="background-color:#070a0d;color:#fcfcfc;"><code><span>C++ input address: 0x7fffa7430cb0
+</span><span>Rust received address: 0x7fffa7430cb0
+</span><span>Rust returning address: 0x2f277ad0
+</span><span>C++ recevied address: 0x2f277ad0
+</span></code></pre>
+
+</div>
+<p>This confirms that we have achieved an efficient way to transfer data between the two stacks.</p>
+<p>This is also the way to compile the project, if you wish to do so:</p>
+<div class="code mb-2 p-1">
+    
+    <i class="title px-2">Makefile</i>
+    
+    <pre data-linenos data-lang="make" style="background-color:#070a0d;color:#fcfcfc;" class="language-make "><code class="language-make" data-lang="make"><table><tbody><tr><td>1</td><td><span style="color:#ffb454;">all</span><span style="color:#f29668;">:
+</span></td></tr><tr><td>2</td><td><span>	</span><span style="color:#ffb454;">cbindgen</span><span style="color:#f29718;"> --config</span><span> ./cbindgen.toml</span><span style="color:#f29718;"> --crate</span><span> strtest</span><span style="color:#f29718;"> --output</span><span> ./bindings.h
+</span></td></tr><tr><td>3</td><td><span>	</span><span style="color:#ffb454;">cargo</span><span> build
+</span></td></tr><tr><td>4</td><td><span>	</span><span style="color:#ffb454;">g++</span><span> main.cpp</span><span style="color:#f29718;"> -o</span><span> main</span><span style="color:#f29718;"> -L</span><span> ./target/debug</span><span style="color:#f29718;"> -lstrtest -I</span><span>.</span><span style="color:#f29718;"> -pthread
+</span></td></tr><tr><td>5</td><td><span style="color:#ffb454;">prod</span><span style="color:#f29668;">:
+</span></td></tr><tr><td>6</td><td><span>	</span><span style="color:#ffb454;">cbindgen</span><span style="color:#f29718;"> --config</span><span> ./cbindgen.toml</span><span style="color:#f29718;"> --crate</span><span> strtest</span><span style="color:#f29718;"> --output</span><span> ./bindings.h
+</span></td></tr><tr><td>7</td><td><span>	</span><span style="color:#ffb454;">cargo</span><span> build</span><span style="color:#f29718;"> --release
+</span></td></tr><tr><td>8</td><td><span>	</span><span style="color:#ffb454;">g++</span><span> main.cpp</span><span style="color:#f29718;"> -o</span><span> main</span><span style="color:#f29718;"> -L</span><span> ./target/release</span><span style="color:#f29718;"> -lstrtest -I</span><span>.</span><span style="color:#f29718;"> -pthread
+</span></td></tr><tr><td>9</td><td><span style="color:#ffb454;">check</span><span style="color:#f29668;">:
+</span></td></tr><tr><td>10</td><td><span>	</span><span style="color:#ffb454;">valgrind</span><span style="color:#f29718;"> --leak-check</span><span style="color:#f29668;">=</span><span>full ./main
+</span></td></tr></tbody></table></code></pre>
+
+</div>
+<p>Also, the Cargo file:</p>
+<div class="code mb-2 p-1">
+    
+    <i class="title px-2">Cargo.toml</i>
+    
+    <pre data-lang="toml" style="background-color:#070a0d;color:#fcfcfc;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#59c2ff;">package</span><span>]
+</span><span style="color:#59c2ff;">name </span><span>= </span><span style="color:#c2d94c;">&quot;strtest&quot;
+</span><span style="color:#59c2ff;">version </span><span>= </span><span style="color:#c2d94c;">&quot;0.1.0&quot;
+</span><span style="color:#59c2ff;">edition </span><span>= </span><span style="color:#c2d94c;">&quot;2021&quot;
+</span><span>
+</span><span>[</span><span style="color:#59c2ff;">lib</span><span>]
+</span><span style="color:#59c2ff;">crate-type </span><span>= [</span><span style="color:#c2d94c;">&quot;staticlib&quot;</span><span>]
+</span><span>
+</span><span>[</span><span style="color:#59c2ff;">dependencies</span><span>]
+</span></code></pre>
+
+</div>
+<h2 id="note">Note</h2>
+<div class="alert alert-important border-0 rounded-0 py-1 px-3">
+    <p><p>You can release memory allocated by Rust in C++ using <code>free(result)</code>, but this is not recommended.
+Rust’s memory management includes safety checks and allocation context that C++ lacks. Using free in C++ can lead to errors or undefined behavior in Rust.
+Similarly, C++ resources should not be freed directly in Rust.
+It’s safest to let each language manage its own resources.</p>
+</p>
+</div>
+
+    </div>
+    <div>
+        
+    </div>
+    
+    <div>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#cpp</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#rust</label>
+        
+        <label class="badge p-0 article-tag fs-6 mx-1">#ffi</label>
+        
+    </div>
+    
+    
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    
+</div>
+
+<script src="https://giscus.app/client.js"
+        data-repo="mortymacs/mortymacs"
+        data-repo-id="R_kgDOLJ_j-Q"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOLJ_j-c4Ccuug"
+        data-mapping="url"
+        data-reactions-enabled="0"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+            </div>
+        </div>
+        <footer class="footer mt-auto">
+            <div class="d-flex">
+    <div class="p-1 px-2 copyright-1">
+        &copy;Morteza NourelahiAlamdari. All rights reserved.
+    </div>
+    <div class="p-1 px-2 flex-fill text-end copyright-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="1em">
+            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+                d="M384 32H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H398.4c-5.2 25.8-22.9 47.1-46.4 57.3V448H512c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-23.5-10.3-41.2-31.6-46.4-57.3H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c14.6-19.4 37.8-32 64-32s49.4 12.6 64 32zm55.6 288H584.4L512 195.8 439.6 320zM512 416c-62.9 0-115.2-34-126-78.9c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C627.2 382 574.9 416 512 416zM126.8 195.8L54.4 320H199.3L126.8 195.8zM.9 337.1c-2.6-11 1-22.3 6.7-32.1l95.2-163.2c5-8.6 14.2-13.8 24.1-13.8s19.1 5.3 24.1 13.8l95.2 163.2c5.7 9.8 9.3 21.1 6.7 32.1C242 382 189.7 416 126.8 416S11.7 382 .9 337.1z" />
+        </svg>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
+    </div>
+    <div class="p-1 px-2 text-end git-status">
+        <a class="px-1" href="https://github.com/mortymacs/mortymacs" title="Git" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                height="1em"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                    d="M80 104a24 24 0 1 0 0-48 24 24 0 1 0 0 48zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zM80 456a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+            </svg>
+            origin/main
+        </a>
+    </div>
+    <div class="p-1 px-2 text-end links">
+        <a class="px-1" title="Github" href="https://github.com/mortymacs" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            </svg></a>
+        <a class="px-1 text-body" title="LinkedIn" href="https://www.linkedin.com/in/mortymacs/" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+            </svg></a>
+        <a class="px-1 text-body" title="RSS" href="https:&#x2F;&#x2F;0t1.me/rss.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+            </svg></a>
+        <a class="px-1 text-body" title="Sitemap" href="https:&#x2F;&#x2F;0t1.me/sitemap.xml" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z" />
+            </svg></a>
+    </div>
+</div>
+
+        </footer>
+    </body>
+</html>
