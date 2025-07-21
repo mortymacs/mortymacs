@@ -17,26 +17,19 @@ You can find it on GitHub at the following [link](https://github.com/mortymacs/d
 My environment config. I tried to keep it minimal and simple as much as I could.
 
 ## General config
-
 | Category | Tool |
 |----------|------|
 | Distro | [NixOS](https://nixos.org/) |
-| Window Manager | [Sway](https://github.com/swaywm/sway) |
-| Status Bar | [i3status-rust](https://github.com/greshake/i3status-rust) |
-| Mako | [Mako](https://github.com/emersion/mako) |
+| Desktop | [Gnome](https://www.gnome.org) |
 | Terminal | [Alacritty](https://alacritty.org) |
 | Shell | [Fish](https://fishshell.com) |
 | Shell Prompt | [Starship](https://github.com/starship/starship) |
 | Terminal Multiplexer | [Tmux](https://github.com/tmux/tmux) |
 | Editor/IDE | [Neovim](https://github.com/neovim/neovim) |
 | DB | [dbcli tools](https://github.com/dbcli) |
-| Fonts | Display: [Lexend](https://github.com/googlefonts/lexend), [VarizMatn](https://github.com/rastikerdar/vazirmatn), Monospace: [JetBrainsMono Nerd Font](https://www.nerdfonts.com), [Noto Color Emoji](https://github.com/C1710/blobmoji) |
-| File Manager | [Broot](https://github.com/Canop/broot) |
-| Launcher | [Rofi-Wayland](https://github.com/lbonn/rofi) |
+| Fonts | Display: [Adwaita Sans](https://gitlab.gnome.org/GNOME/adwaita-fonts), [VarizMatn](https://github.com/rastikerdar/vazirmatn), Monospace: [CodeNewRoman Nerd Font](https://www.nerdfonts.com), [Noto Color Emoji](https://github.com/C1710/blobmoji) |
 | Browser | [Firefox](https://www.mozilla.org) |
-| GTK Theme | [Yaru](https://github.com/ubuntu/yaru) |
-| Icon | [Yaru](https://github.com/ubuntu/yaru) |
-| Wallpaper | Created by me, under the same license as this repository. |
+| [Wallpaper](./home-manager/common/desktop/wallpaper.jpg) | Created by me, under the same license as this repository. |
 
 #### Screenshot
 
