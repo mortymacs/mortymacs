@@ -1,28 +1,25 @@
-+++
-title = "handy command-line utilities - part 1"
-date = "2023-10-21"
-draft = false
-path = "blog/2023/10/21/handy-cli-utilities-part-1"
-lang = "en"
-[extra]
-category = "TOOLS"
-part = 1
-tags = ["cli", "tui", "utilities"]
-comment = true
-+++
+---
+title: "handy command-line utilities - part 1"
+date: "2023-10-21"
+draft: false
+slug: "2023/10/21/handy-cli-utilities-part-1"
+categories: ["TOOLS"]
+tags: ["cli", "tui", "utilities"]
+comment: true
+---
 As I heavily depend on the terminal for a range of activities such as browsing, handling files, coding, and converting videos,
 I wanted to share the collection of tools I use regularly. This blog post is divided into three sections, and in the final part,
 I'll walk you through my shortcuts and aliases.
-<!-- more -->
+<!--more-->
 
-### File
+## File
 Let's begin our exploration of tools designed for reading and parsing files.
 
-#### [bat](https://github.com/sharkdp/bat)
+### [bat](https://github.com/sharkdp/bat)
 
 Bat functions similarly to the `cat` command, offering additional features such as syntax highlighting,
 Git integration, and more. It's used just like the `cat` command:
-{% code() %}
+{{< code  >}}
 ```cpp
 $ bat main.cpp
 -------+--------------------------------------------------------------------------------------------
@@ -35,16 +32,16 @@ $ bat main.cpp
    5   | }
 -------+--------------------------------------------------------------------------------------------
 ```
-{% end %}
+{{< /code >}}
 
 You can set up an alias to substitute your regular `cat` command with `bat`:
-{% code() %}
+{{< code  >}}
 ```zsh
 alias cat=bat
 ```
-{% end %}
+{{< /code >}}
 
-#### [jq](https://jqlang.github.io/jq/) / xq  / [yq](https://github.com/kislyuk/yq) / [htmlq](https://github.com/mgdm/htmlq) / [jless](https://jless.io/) / [fq](https://github.com/wader/fq)
+### [jq](https://jqlang.github.io/jq/) / xq  / [yq](https://github.com/kislyuk/yq) / [htmlq](https://github.com/mgdm/htmlq) / [jless](https://jless.io/) / [fq](https://github.com/wader/fq)
 
 Let's employ an API to retrieve our present location details, such as country, city, and more.
 
@@ -53,41 +50,41 @@ The API that we're going to use is: [http://ip-api.com](http://ip-api.com)
 **JSON:**<br>
 To get the result in JSON format, we need to call `http://ip-api.com/json` address.
 So, for example, we want to show the country, city, and region name of the current machine:
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s http://ip-api.com/json | jq ".country,.city,.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
-{% end %}
+{{< /code >}}
 
 **XML:**<br>
 To the same data result in XML format, we need to call `http://ip-api.com/xml/{IP}` address.
 Like the previous call but in XML format:
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s http://ip-api.com/xml/188.114.97.0 | xq ".query.country,.query.city,.query.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
-{% end %}
+{{< /code >}}
 
 **YAML:**<br>
 It's similar to the `jq` command:
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s http://ip-api.com/json | yq ".country,.city,.regionName"
 "Netherlands"
 "Amsterdam"
 "North Holland"
 ```
-{% end %}
+{{< /code >}}
 
 **HTML:**<br>
 In this case, we're planning to retrieve a webpage and extract both the `title` and an element identified by its ID.
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s https://0t1.me | htmlq title
 <title>ZERO/TO/ONE - Home</title>
@@ -95,10 +92,10 @@ $ curl -s https://0t1.me | htmlq title
 $ curl -s https://0t1.me | htmlq '#search'
 <input aria-label="Search" class="form-control form-control-sm focus-ring-dark" id="search" placeholder="Search" type="search">
 ```
-{% end %}
+{{< /code >}}
 
 For a more interactive experience when dealing with large JSON and YAML files, it's advisable to use `jless`.
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s http://ip-api.com/json | jless
 {
@@ -136,10 +133,10 @@ $ curl -s http://ip-api.com/json | jless --yaml
   "query": "87.210.88.217"
 }
 ```
-{% end %}
+{{< /code >}}
 
 You can make it work with XML as well, by piping the result of XML to `xq`:
-{% code() %}
+{{< code  >}}
 ```bash
 $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
 {
@@ -161,15 +158,15 @@ $ curl -s http://ip-api.com/xml/188.114.97.0 | xq . | jless
   }
 }
 ```
-{% end %}
+{{< /code >}}
 
 **Binary:**<br>
 
-#### [fq](https://github.com/wader/fq)
+### [fq](https://github.com/wader/fq)
 
 We can get a binary file information with the similar way in the `jq` command.
 In this example, we're going to get all tags of a binary file and requesting for one of them:
-{% code() %}
+{{< code  >}}
 ```bash
 $ fq . session2.mp4
           |00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15|0123456789abcdef012345|.{}: session2.mp4 (mp4)
@@ -191,13 +188,13 @@ $ fq .boxes session2.mp4
 0x22cd8482|00 00 00 00 00 00 00 00 00 00 00 00 03 e8 00 6f d1 a0 00 01 00 00|...............o......|
 *         |until 0x231b4e8d.7 (end) (5098014)                               |                      |
 ```
-{% end %}
+{{< /code >}}
 
-#### [hexyl](https://github.com/sharkdp/hexyl)
+### [hexyl](https://github.com/sharkdp/hexyl)
 
 For reading a binary file, hexyl is the go-to tool:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ hexyl session2.mp4
 +--------+-------------------------+-------------------------+--------+--------+
@@ -210,10 +207,10 @@ $ hexyl session2.mp4
 |00000060| 34 31 32 31             |                         |4121    |        |
 +--------+-------------------------+-------------------------+--------+--------+
 ```
-{% end %}
+{{< /code >}}
 
 You can change the base to binary:
-{% code() %}
+{{< code  >}}
 ```bash
 $ hexyl --base binary session2.mp4
 +--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
@@ -226,13 +223,13 @@ $ hexyl --base binary session2.mp4
 |00000060| 00110100 00110001 00110010 00110001                                     |                                                                         |4121    |        |
 +--------+-------------------------------------------------------------------------+-------------------------------------------------------------------------+--------+--------+
 ```
-{% end %}
+{{< /code >}}
 
-#### [tokei](https://github.com/XAMPPRocky/tokei)
+### [tokei](https://github.com/XAMPPRocky/tokei)
 
 In order to get an aggregated information about source codes, you need Tokei:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ tokei
 ===============================================================================
@@ -250,11 +247,11 @@ $ tokei
  Total                  27         1887         1311          291          285
 ===============================================================================
 ```
-{% end %}
+{{< /code >}}
 
 You can use it with `-o` flag to define the output format.
 For example, we want to get only list of Golang files:
-{% code() %}
+{{< code  >}}
 ```bash
 $ tokei -o json | jq '.Go.reports[].name'
 "./cmd/mark.go"
@@ -280,17 +277,17 @@ $ tokei -o json | jq '.Go.reports[].name'
 "./cmd/delete.go"
 "./cmd/list.go"
 ```
-{% end %}
+{{< /code >}}
 
-### Process
+## Process
 Now, let's move to list of commands to work with processes:
 
-#### [procs](https://github.com/dalance/procs)
+### [procs](https://github.com/dalance/procs)
 
 I opted for `procs` over `ps` mainly because it displays the bound ports of each process.
 Configuration can be done through a TOML file.
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ procs
 PID:   User             | State Nice CPU MEM   VmSize    VmRSS | TCP          UDP             Read Write | Docker | Command
@@ -301,66 +298,66 @@ PID:   User             | State Nice CPU MEM   VmSize    VmRSS | TCP          UD
 1567   mort             | S        0 0.0 0.0 299.582M   5.500M | []           []                 0     0 |        | xss-lock -- XSECURELOCK_FONT=sans xsecurelock
 1568   mort             | S        0 0.0 0.6   3.534G 182.824M | [8080]       []                 0     0 |        | test-app                                                                    >
 ```
-{% end %}
+{{< /code >}}
 
-#### [btop](https://github.com/aristocratos/btop)
+### [btop](https://github.com/aristocratos/btop)
 
 This is part of my morning routine—running this command every day to keep an eye on my system.
 
 Based on the documentation:
-{% quote(type="info") %}
+{{< quote type="info" >}}
 Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
-{% end %}
+{{< /quote >}}
 
 You can configure your btop by putting the config file in the `~/.config/btop/btop.conf` path.
 
 For example, this is my config file:
-{% code(filename="btop.conf") %}
+{{< code filename="btop.conf" >}}
 ```toml
 color_theme = "tokyo-night"
 rounded_corners = False
 theme_background = False
 update_ms = 1000
 ```
-{% end %}
+{{< /code >}}
 
-#### [kmon](https://github.com/orhun/kmon)
+### [kmon](https://github.com/orhun/kmon)
 
 Similar to `btop`, but only for monitoring the Kernel.
 
 Based on the documentation:
-{% quote(type="info") %}
+{{< quote type="info" >}}
 <code>kmon</code> provides a text-based user interface for managing the Linux kernel modules and monitoring the kernel activities.
 By managing, it means loading, unloading, blacklisting and showing the information of a module.
 These updates in the kernel modules, logs about the hardware and other kernel messages can be tracked with the real-time
 activity monitor in kmon. Since the usage of different tools like dmesg and kmod are required for these tasks in Linux,
 kmon aims to gather them in a single terminal window and facilitate the usage as much as possible while keeping the functionality.
-{% end %}
+{{< /quote >}}
 
 Recently, while using kmon, I noticed an error in my Linux kernel related to writing to a pipe.
 This could serve as a starting point to investigate and identify the root cause of the issue.
 
-#### [ctop](https://github.com/bcicen/ctop)
+### [ctop](https://github.com/bcicen/ctop)
 
 Similar to `btop` or `kmon`, but only for monitoring the containers.
 
 Based on the documentation:
-{% quote(type="info") %}
+{{< quote type="info" >}}
 <code>ctop</code> provides a concise and condensed overview of real-time metrics for multiple containers,
 as well as a single container view for inspecting a specific container. <code>ctop</code> comes with built-in support for Docker and runC;
 connectors for other container and cluster systems are planned for future releases.
-{% end %}
+{{< /quote >}}
 
 I don't use this tool often since I primarily employ Docker for testing and deploying local services.
 However, when needed, it proves helpful in easily monitoring container usage.
 
-#### [sysz](https://github.com/joehillen/sysz)
+### [sysz](https://github.com/joehillen/sysz)
 
 This tool combines `fzf` and systemctl, simplifying the process for users to manage daemons effortlessly.
 Utilizing `fzf` allows for quickly locating the desired daemon and promptly taking action through `systemctl` commands.<br>
 For instance, you can swiftly locate and restart the Docker service using this tool.
 
-### Conclusion
+## Conclusion
 
 Numerous CLI tools are available on the internet to help you accomplish your objectives.<br>
 If you're aware of other tools worth exploring, please share them with me.

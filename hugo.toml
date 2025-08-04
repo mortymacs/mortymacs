@@ -1,0 +1,83 @@
+baseURL = "https://0t1.me"
+languageCode = "en-us"
+title = "ZeroToOne"
+# theme = ""
+
+# Content management
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+enableGitInfo = true
+
+# RSS feeds
+[outputFormats]
+  [outputFormats.RSS]
+    mediatype = "application/rss"
+    baseName = "rss"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+# Markup settings
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "modus-vivendi"
+    lineNos = true
+    codeFences = true
+
+# Site parameters
+[params]
+  logo = "#include<0t1>"
+  author = "Morteza NourelahiAlamdari"
+  description = "Personal blog and portfolio"
+
+# Menu configuration
+[menu]
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 10
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 20
+  [[menu.main]]
+    name = "Dotfiles"
+    url = "/dotfiles/"
+    weight = 30
+
+# Sidebar configuration
+[params.sidebar]
+  [[params.sidebar.projects]]
+    name = "wait4x"
+    url = "https://github.com/wait4x/wait4x"
+    percentage = 100
+  [[params.sidebar.projects]]
+    name = "ABCMeta"
+    url = "https://github.com/mortymacs/abcmeta"
+    percentage = 100
+
+  [[params.sidebar.links]]
+    name = "GitHub"
+    url = "https://github.com/mortymacs"
+    icon = "fab fa-github"
+  [[params.sidebar.links]]
+    name = "LinkedIn"
+    url = "https://linkedin.com/in/mortymacs"
+    icon = "fab fa-linkedin"
+  [[params.sidebar.links]]
+    name = "Twitter"
+    url = "https://x.com/mortymacs"
+    icon = "fab fa-twitter"
+  [[params.sidebar.links]]
+    name = "RSS Feed"
+    url = "/rss.xml"
+    icon = "fas fa-rss"
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"

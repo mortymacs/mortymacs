@@ -1,0 +1,7 @@
+<div class="code mb-2">
+    {{ if .Get "filename" }}
+    <i class="title px-2">{{ .Get "filename" }}</i>
+    <hr class="p-0 m-0">
+    {{ end }}
+    {{ .Inner | markdownify }}
+</div>

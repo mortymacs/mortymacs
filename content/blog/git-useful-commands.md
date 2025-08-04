@@ -1,21 +1,19 @@
-+++
-title = "Git Useful Commands"
-date = "2024-09-14"
-draft = false
-path = "blog/2024/09/14/git-useful-commands"
-lang = "en"
-[extra]
-category = "TOOLS"
-tags = ["cli", "git", "utilities", "tools"]
-comment = true
-+++
+---
+title: "Git Useful Commands"
+date: "2024-09-14"
+draft: false
+slug: "2024/09/14/git-useful-commands"
+categories: ["TOOLS"]
+tags: ["cli", "git", "utilities", "tools"]
+comment: true
+---
 As a software engineer using Git almost every day, it's essential for me to master this tool to efficiently manage my code and tasks.
 In this discussion, I'll go over some Git commands that have significantly boosted my productivity during development and maintenance.
-<!-- more -->
+<!--more-->
 
-### Alias
+## Alias
 
-#### [Gitignore](https://git-scm.com/docs/gitignore)
+### [Gitignore](https://git-scm.com/docs/gitignore)
 
 You’re probably already familiar with it, but that's not the focus here.
 Instead, I’ll show you how to generate a gitignore list for your project.
@@ -28,32 +26,32 @@ I believe the best approach is to create a simple function that utilizes the API
 This way, you can easily automate the process:
 
 for bash:
-{% code() %}
+{{< code  >}}
 ```bash
 gitignore() { curl -s "https://www.toptal.com/developers/gitignore/api/$1"; }
 ```
-{% end %}
+{{< /code >}}
 
 for fish:
-{% code() %}
+{{< code  >}}
 ```fish
 function gitignore
     curl -s "https://www.toptal.com/developers/gitignore/api/$argv";
 end
 ```
-{% end %}
+{{< /code >}}
 
 Now, you can use it easily:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ gitignore go > .gitignore
 ```
-{% end %}
+{{< /code >}}
 
-### Commands
+## Commands
 
-#### [Note](https://git-scm.com/docs/git-notes)
+### [Note](https://git-scm.com/docs/git-notes)
 
 Sometimes you might need to add a note about a commit or mention something related to it without altering the commit itself.
 For instance, you might want to note that a commit was tested by X, Y, and Z.
@@ -61,15 +59,15 @@ In such cases, you can use `git note` to add this additional information.
 
 For example, if you want to add a note to a commit indicating that it needs a better implementation due to resource constraints:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git notes add 9cc33538u8 -m "it needs a better implementation due to resource constraints"
 ```
-{% end %}
+{{< /code >}}
 
 Output in `git log`:
-{% code() %}
-```gitlog
+{{< code  >}}
+```text
 $ git log
 ...
 commit 9cc33537d7da32cf6c5e108df6faa0784d134ab2 (tag: v3.1.0)
@@ -82,18 +80,18 @@ Notes:
     it needs a better implementation
 ...
 ```
-{% end %}
+{{< /code >}}
 
 This way, you can keep track of important details or improvements needed without modifying the original commit.
 
 and to remove the note if you want:
-{% code() %}
+{{< code  >}}
 ```bash
 $ git notes remove 9cc33538u8
 ```
-{% end %}
+{{< /code >}}
 
-#### [Worktree](https://git-scm.com/docs/git-worktree)
+### [Worktree](https://git-scm.com/docs/git-worktree)
 
 When you're refactoring, developing, or making changes in your current branch,
 you might need to debug or check something in the production version of the system. With `git worktree`,
@@ -101,22 +99,22 @@ you can quickly create a separate working directory for the desired branch witho
 This allows you to test and debug in a separate environment and easily remove it when you're done.
 It's a straightforward and efficient solution!
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git worktree add debug origin/main
 ```
-{% end %}
+{{< /code >}}
 
 Now, go to the `debug` directory (`cd debug`) and perform whatever tasks or testing you need to do.
 Once you're finished, you can easily remove the directory by:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git worktree remove debug
 ```
-{% end %}
+{{< /code >}}
 
-#### [Cherry pick](https://git-scm.com/docs/git-cherry-pick)
+### [Cherry pick](https://git-scm.com/docs/git-cherry-pick)
 
 You’ve probably heard this before, and I don’t want to bore you with the usual details.
 My goal here is to give you a practical idea of when to use cherry-picking.
@@ -124,8 +122,8 @@ For example, you might get a pull request (PR) that gets rejected or canceled du
 Or maybe a PR gets merged into the development branch, but you only need one specific commit from it to fix something in production.
 That’s where cherry-picking can be really useful.
 
-{% code() %}
-``` bash
+{{< code  >}}
+```bash
 $ git fetch --all
 $ git checkout main
 $ git cherry-pick ef003e4facea1f33b2020fadc2ea844933e176b3
@@ -133,11 +131,11 @@ $ git cherry-pick ef003e4facea1f33b2020fadc2ea844933e176b3
  Date: Sat Sep 14 16:59:58 2024 +0200
  1 file changed, 9 insertions(+), 1 deletion(-)
 ```
-{% end %}
+{{< /code >}}
 
 Let's review what we have so far:
-{% code() %}
-```gitlog
+{{< code  >}}
+```text
 $ git log
 commit 31c2135dbbfbf623978aa0372c336c1c033f75d4 (HEAD -> master)
 Author: Morteza NourelahiAlamdari <m@0t1.me>
@@ -146,22 +144,22 @@ Date:   Sat Sep 14 16:59:58 2024 +0200
     Fix memory leak
 ....
 ```
-{% end %}
+{{< /code >}}
 
-#### [Add Patch](https://git-scm.com/docs/git-add)
+### [Add Patch](https://git-scm.com/docs/git-add)
 
 Sometimes, when making changes to a file, you might only want to commit a few specific lines rather than the entire file.
 In the past, I’d use `git stash`, manually apply the changes I wanted, and then add the file.
 Now, though, I can use `git add -p` to selectively stage only the lines I want to commit, skipping the rest of the file.
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git add -p
 ```
-{% end %}
+{{< /code >}}
 
 Now, it provides an interactive environment where you can commit only the specific parts you want:
-{% code() %}
+{{< code  >}}
 ```diff
 diff --git a/a.c b/a.c
 index 1261f00..0653a06 100644
@@ -187,7 +185,7 @@ index 1261f00..0653a06 100644
  }
 (1/1) Stage this hunk [y,n,q,a,d,s,e,?]?
 ```
-{% end %}
+{{< /code >}}
 
 Here, we only want to add the last line, `print("goodbye\n");`, and leave the rest unchanged.
 
@@ -195,8 +193,9 @@ As shown in the last line, `git add -p` provides a menu that lets you choose how
 Initially, you can add all the changes, but since we only want to include a specific line, you type `s` to split the current hunk into smaller chunks.
 
 You can type `?` to see the full menu of options:
-{% code() %}
-```y - stage this hunk
+{{< code  >}}
+```text {linenos=false}
+y - stage this hunk
 n - do not stage this hunk
 q - quit; do not stage this hunk or any of the remaining ones
 a - stage this hunk and all later hunks in the file
@@ -205,10 +204,10 @@ s - split the current hunk into smaller hunks
 e - manually edit the current hunk
 ? - print help
 ```
-{% end %}
+{{< /code >}}
 
 After typing `s`, it now shows us this:
-{% code() %}
+{{< code  >}}
 ```diff
 Split into 3 hunks.
 @@ -2,4 +2,11 @@
@@ -225,12 +224,12 @@ Split into 3 hunks.
  int main() {
 (3/3) Stage this hunk [y,n,q,a,d,K,g,/,e,?]?
 ```
-{% end %}
+{{< /code >}}
 
 But that's not what we're looking for. Let's type `n`, which means "do not stage this hunk", to move to the next chunk.
 We’ll continue doing this until we find the part we want to add.
 
-{% code() %}
+{{< code  >}}
 ```diff
 @@ -7,3 +14,4 @@
      strcpy(name, "world");
@@ -239,10 +238,10 @@ We’ll continue doing this until we find the part we want to add.
  }
 (3/3) Stage this hunk [y,n,q,a,d,K,g,/,e,?]?
 ```
-{% end %}
+{{< /code >}}
 
 Now we type `y`, which means "stage this hunk". That's it! Next, let's run `git diff --staged` to review what we’ve added:
-{% code() %}
+{{< code  >}}
 ```diff
 $ git diff --staged
 diff --git a/a.c b/a.c
@@ -256,12 +255,12 @@ index 1261f00..d12075d 100644
 +    printf("goodbye\n");
  }
 ```
-{% end %}
+{{< /code >}}
 
 This is exactly what we wanted.
 If you run `git status`, you’ll see that the file appears in both staged and non-staged sections, as we only selected a part of the file for our upcoming commit.
 
-#### [Bisect](https://git-scm.com/docs/git-bisect)
+### [Bisect](https://git-scm.com/docs/git-bisect)
 
 `git bisect` is a valuable tool for debugging.
 It allows you to navigate through past commits and run tests or commands to identify which commit introduced a problem.
@@ -271,7 +270,7 @@ For instance, if you notice a memory leak in the code on the main branch and wan
 you can use `git bisect` to help pinpoint the source. In C/C++, tools like Valgrind can be used to detect the memory leak.
 For example:
 
-{% code() %}
+{{< code  >}}
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -283,11 +282,11 @@ int main() {
     printf("%s", name);
 }
 ```
-{% end %}
+{{< /code >}}
 
 When I compile and run the code, it works fine, but it has a memory leak that never gets released. To track it down, we use Valgrind:
 
-{% code() %}
+{{< code  >}}
 ```bash
   valgrind --leak-check=full --error-exitcode=1 ./a.out
 ==325762== Memcheck, a memory error detector
@@ -311,7 +310,7 @@ test==325762==
 ==325762== For lists of detected and suppressed errors, rerun with: -s
 ==325762== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
-{% end %}
+{{< /code >}}
 
 As indicated, there are `2 allocs` and `1 frees`, with the `LEAK SUMMARY` section providing more details on the issue.
 
@@ -319,7 +318,7 @@ Now, imagine your code was working perfectly, but suddenly, when you try to push
 You need to figure out which commit introduced the issue to determine if you can fix it with a patch or if other versions are affected as well.
 
 Let's first take a look at our commit history:
-{% code() %}
+{{< code  >}}
 ```gitlog
 $ git log
 commit 996b0dfc6ffbc5fddb78767f26e7790aacfaa71d (HEAD -> master)
@@ -352,7 +351,7 @@ Date:   Sat Sep 14 15:22:28 2024 +0200
 
     Init repo
 ```
-{% end %}
+{{< /code >}}
 
 The only thing we know is that the current branch, which we’ll call "bad," has the issue.
 To find the problematic commit, we need to identify a "good" commit to set our testing range.
@@ -360,7 +359,7 @@ In this case, I'll use the "Init repo" commit, `1f223b694dac72ebbf595aafbb81132c
 
 Now let's get started:
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git bisect start
 status: waiting for both good and bad commits
@@ -409,10 +408,10 @@ Date:   Sat Sep 14 15:23:44 2024 +0200
  1 file changed, 2 insertions(+), 2 deletions(-)
 bisect found first bad commit
 ```
-{% end %}
+{{< /code >}}
 
 Look, we've identified the commit that introduced the memory leak! Let's examine the changes:
-{% code() %}
+{{< code  >}}
 ```diff
 $ git show e98cd3903bbe8066fe0240acfc2cdbc33075bb50
 commit e98cd3903bbe8066fe0240acfc2cdbc33075bb50
@@ -436,44 +435,44 @@ index 7ddec09..c862215 100644
      printf("welcome: %s", name);
  }
 ```
-{% end %}
+{{< /code >}}
 
 As soon as the `__attribute__((cleanup(free_char)))` was removed, we started encountering the memory leak.
 
 Finally, run the reset command to return to the master branch:
-{% code() %}
+{{< code  >}}
 ```bash
 $ git biset reset
 Previous HEAD position was e98cd39 Fix name value to 'world'
 Switched to branch 'master'
 ```
-{% end %}
+{{< /code >}}
 
-#### [Rev-List](https://git-scm.com/docs/git-rev-list)
+### [Rev-List](https://git-scm.com/docs/git-rev-list)
 
 One of my favorite ways to recover a deleted file is using this method.
 For example, if I removed a config or source code file from the project six months ago and now need to see what was in
 that file to copy a single line for use in my current branch, this approach is perfect.
 
-{% code() %}
+{{< code  >}}
 ```bash
 $ git rev-list -1 --all -- /path/to/deleted-file
 1c55d557f214b4c70ab2c2a0130f080762d0a3d0
 ```
-{% end %}
+{{< /code >}}
 
 * `-1` refers to just the first commit.
 * `--all` includes all the commits.
 
 Now, we need to checkout that commit hash to recover the file.
-{% code() %}
+{{< code  >}}
 ```bash
 $ git checkout 1c55d557f214b4c70ab2c2a0130f080762d0a3d0^ -- /path/to/deleted-file
 ```
-{% end %}
+{{< /code >}}
 
 Now, if you check the output of `git status`:
-{% code() %}
+{{< code  >}}
 ```bash
 $ git status
 On branch main
@@ -481,11 +480,11 @@ Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
 	new file:   /path/to/deleted-file
 ```
-{% end %}
+{{< /code >}}
 
 Here's an interesting thread on Stack Overflow about restoring a deleted folder in a Git repository: [https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo](https://stackoverflow.com/questions/30875205/restore-a-deleted-folder-in-a-git-repo)
 
-### Conclusion
+## Conclusion
 
 Git is an incredibly useful tool for tracking changes in complex scenarios.
 For example, you can find only changed files using `git grep`, trigger pipelines by committing with an empty message, and more.

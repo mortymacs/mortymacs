@@ -1,9 +1,7 @@
-+++
-title = "Dotfiles"
-draft = false
-[extra]
-comment = true
-+++
+---
+title: "Dotfiles"
+comment: true
+---
 
 Here is my configuration for the environment. I aimed to keep it as minimal and straightforward as possible.
 You can find it on GitHub at the following [link](https://github.com/mortymacs/dotfiles).
