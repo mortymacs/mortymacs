@@ -1,4 +1,1 @@
 User-agent: *
-Disallow:
-Allow: /
-Sitemap: https://0t1.me/sitemap.xml

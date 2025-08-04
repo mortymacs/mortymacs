@@ -9,7 +9,8 @@
     --link-fg: #03B5AA;
 
     /* Navbar */
-    --navbar-bg: #18212B;
+    --navbar-bg: #11121a;
+    --navbar-border-fg: #1A1C29;
     --navbar-brand-fg: #ED4A4A;
 
     /* Alerts */
@@ -54,7 +55,18 @@
     font-style: normal;
 }
 
+@font-face {
+    src: url("../fonts/Bitcount-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf");
+    font-family: "brand";
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* Body */
+html, body {
+    height: 100%;
+}
+
 body {
     background: var(--background);
     color: var(--foreground);
@@ -71,7 +83,6 @@ a:hover {
     color: var(--link-fg);
 }
 
-
 h1,
 h2,
 h3,
@@ -86,14 +97,22 @@ samp {
     font-family: "monospace", monospace;
 }
 
+hr {
+    border-color: var(--border-fg);
+    border-width: 0.5px;
+}
+
 /* Navbar */
 .navbar-dark {
     background-color: var(--navbar-bg);
+    border-bottom: var(--border-size) solid var(--navbar-border-fg);
 }
 
 .navbar-brand {
     color: var(--navbar-brand-fg) !important;
-    font-family: "monospace", monospace;
+    font-family: "brand", monospace;
+    font-weight: lighter;
+    font-size: 1.7rem;
 }
 
 .navbar-dark .nav-link {
@@ -103,7 +122,8 @@ samp {
 
 /* Footer */
 .footer {
-    border-top: var(--border-size) solid var(--border-fg);
+    background-color: var(--navbar-bg);
+    border-top: var(--border-size) solid var(--navbar-border-fg);
 }
 
 .footer .copyright-2 svg {
@@ -137,6 +157,41 @@ samp {
 
 .modal-content .modal-header {
     border-bottom: var(--border-size) solid var(--border-fg);
+}
+
+/* Content */
+.main-content {
+    border-right: var(--border-size) solid transparent;
+    border-image: linear-gradient(to bottom, transparent, var(--border-fg), transparent) 1 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h5 {
+    color: var(--foreground);
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    display: block;
+}
+
+.sidebar ul li a i {
+    color: var(--link-fg);
+}
+
+.sidebar .project-item {
+    display: block;
+}
+
+.project-percentage {
+    font-family: "monospace", monospace;
+    color: var(--link-fg);
+    float: right;
 }
 
 /* Search */
