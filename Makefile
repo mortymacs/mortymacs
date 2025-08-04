@@ -1,2 +1,5 @@
 all:
-	nix-shell --command "zola serve"
+	nix-shell --command "hugo server"
+
+clean:
+	rm -rf public/

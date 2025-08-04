@@ -1,0 +1,34 @@
+<div class="sidebar py-2">
+    <div class="sidebar-content">
+        {{ if .Site.Params.sidebar.projects }}
+        <h4>Active Projects</h4>
+        <ul class="list-unstyled">
+            {{ range .Site.Params.sidebar.projects }}
+            <li class="mb-2">
+                {{ if .percentage }}
+                <a href="{{ .url }}" class="text-decoration-none project-item rounded p-1" style="background: linear-gradient(to right, rgba(65, 103, 136, 0.3) {{ .percentage }}%, transparent {{ .percentage }}%);">
+                    {{ .name }}<span class="project-percentage">{{ printf "%3d%%" .percentage }}</span>
+                </a>
+                {{ else }}
+                <a href="{{ .url }}" class="text-decoration-none project-item rounded p-1">
+                    {{ .name }}<span class="project-percentage">    </span>
+                </a>
+                {{ end }}
+            </li>
+            {{ end }}
+        </ul>
+        {{ end }}
+
+        <h4>Links</h4>
+        <ul class="list-unstyled">
+            {{ range .Site.Params.sidebar.links }}
+            <li class="mb-2">
+                <a href="{{ .url }}" target="_blank" class="text-decoration-none">
+                    {{ if .icon }}<i class="{{ .icon }}"></i>{{ end }}
+                    {{ .name }}
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+</div>

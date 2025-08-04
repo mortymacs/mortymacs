@@ -2,10 +2,10 @@
 with pkgs;
 mkShell {
     buildInputs = [
-        zola
+        hugo
     ];
     shellHook = ''
         echo "Run:"
-        echo 'zola serve'
+        echo 'make'
     '';
 }

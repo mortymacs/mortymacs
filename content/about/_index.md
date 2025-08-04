@@ -1,10 +1,8 @@
-+++
-title = "About"
-draft = false
-[extra]
-comment = false
-+++
-
+---
+title: "About"
+draft: false
+comment: false
+---
 <pre style="border:none">
 888b     d888 .d88888b. 8888888b.88888888888
 8888b   d8888d88P" "Y88b888   Y88b   888
@@ -16,9 +14,6 @@ comment = false
 888       888 "Y88888P" 888   T88b   888
 </pre>
 
-Hi, I'm Mort!<br>
-A passionate developer with 15 years of experience and a deep enthusiasm for open
-source. I have a strong technical background, particularly in C, C++, Go, Python, Lua, and Nix
-programming languages, as well as the GNU/Linux platform.
+I'm Morteza, a passionate developer with more than 15 years of experience and a deep enthusiasm for open source. I have a strong technical background, particularly in C/C++, Go, and Python programming languages, as well as the GNU/Linux platform.
 
 Feel free to contact me at [m@0t1.me](mailto:m@0t1.me)

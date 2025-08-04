@@ -1,0 +1,20 @@
+{{ define "main" }}
+{{ $blog := site.GetPage "/blog" }}
+{{ range $blog.Pages }}
+<div class="mb-3">
+    <div>
+        <div class="article-title d-inline">
+            <a href="{{ .Permalink }}" class="text-capitalize fw-bold d-inline-block link-underline link-underline-opacity-0">
+                {{ .Title }}
+            </a>
+        </div>
+    </div>
+    <div>
+        <small class="fst-italic">{{ .Date.Format "Monday, Jan 2, 2006" }}</small>
+    </div>
+    <div class="article-body">
+        {{ .Summary | safeHTML }}
+    </div>
+</div>
+{{ end }}
+{{ end }}

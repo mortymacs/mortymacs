@@ -1,0 +1,48 @@
+{{ define "title" }}{{ .Title }}{{ end }}
+{{ define "description" }}{{ .Summary | plainify | truncate 150 }}{{ end }}
+{{ define "main" }}
+
+<div class="mb-3">
+    <div class="article-title d-inline">
+        <a href="{{ .Permalink }}" class="text-capitalize fw-bold d-inline-block link-underline link-underline-opacity-0">
+            {{ .Title }}
+        </a>
+    </div>
+    <div>
+        <small class="fst-italic">{{ .Date.Format "Monday, Jan 2, 2006" }}</small>
+    </div>
+    <div class="article-toc">
+    {{ if .TableOfContents }}
+        <h4 class="mt-3">Table of Contents</h4>
+        {{ .TableOfContents }}
+    {{ end }}
+    </div>
+    <div class="article-body">
+        {{ .Content }}
+    </div>
+    <div>
+        {{ if .Params.references }}
+        <h5>References:</h5>
+        <ul>
+            {{ range .Params.references }}
+            <li><a href="{{ index . 1 }}" target="_blank">{{ index . 0 }}</a></li>
+            {{ end }}
+        </ul>
+        {{ end }}
+    </div>
+    {{ if .Params.tags }}
+    <div>
+        {{ range .Params.tags }}
+        <label class="badge p-0 article-tag fs-6 mx-1">#{{ . }}</label>
+        {{ end }}
+    </div>
+    {{ end }}
+    {{ if .Params.comment }}
+        <div class="mb-3"></div>
+        <div class="giscus"></div>
+    {{ end }}
+</div>
+{{ if .Params.comment }}
+{{ partial "comment.html" . }}
+{{ end }}
+{{ end }}
