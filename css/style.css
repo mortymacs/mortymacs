@@ -62,8 +62,13 @@
     font-style: normal;
 }
 
+.text-mono {
+    font-family: "monospace", monospace;
+}
+
 /* Body */
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -102,22 +107,28 @@ hr {
     border-width: 0.5px;
 }
 
+/* Border */
+.border-s1 {
+    border-color: var(--navbar-border-fg) !important;
+}
+
 /* Navbar */
 .navbar-dark {
     background-color: var(--navbar-bg);
     border-bottom: var(--border-size) solid var(--navbar-border-fg);
+    border-top: var(--border-size) solid var(--navbar-border-fg);
 }
 
 .navbar-brand {
     color: var(--navbar-brand-fg) !important;
     font-family: "brand", monospace;
     font-weight: lighter;
-    font-size: 1.7rem;
+    font-size: 2rem;
 }
 
 .navbar-dark .nav-link {
     color: var(--foreground) !important;
-    font-family: "display", sans-serif;
+    font-family: "monospace", monospace;
 }
 
 /* Footer */
@@ -161,7 +172,7 @@ hr {
 
 /* Content */
 .main-content {
-    border-right: var(--border-size) solid transparent;
+    /* border-right: var(--border-size) solid transparent; */
     border-image: linear-gradient(to bottom, transparent, var(--border-fg), transparent) 1 100%;
 }
 
@@ -303,4 +314,31 @@ hr {
 /* Image */
 .img-fluid {
     border: var(--border-size) solid var(--border-fg);
+}
+
+/* ASCII */
+.ascii-art {
+    white-space: pre;
+    line-height: 1.2;
+    font-family: "monospace", monospace;
+}
+
+/* Letter colors */
+.letter-m {
+    color: #94d2bd;
+}
+
+/* Purple */
+.letter-o {
+    color: #0a9396;
+}
+
+/* Red */
+.letter-r {
+    color: #005f73;
+}
+
+/* Green */
+.letter-t {
+    color: #004452;
 }
