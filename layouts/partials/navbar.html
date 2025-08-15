@@ -1,12 +1,17 @@
+<header class="container p-2">
+    <a class="navbar-brand text-lowercase" title="Home" href="{{ .Site.BaseURL }}">#!/bin/mort</a>
+</header>
 <nav class="navbar navbar-expand-lg navbar-dark shadow">
     <div class="container">
         <button type="button" class="navbar-toggler py-1 px-2" aria-controls="top-navbar" data-bs-target="#top-navbar"
             data-bs-toggle="collapse" aria-expanded="false" aria-label="toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse fw-semibold text-uppercase" id="top-navbar">
-            <ul class="navbar-nav me-auto">
-                <a class="navbar-brand text-lowercase" title="Home" href="{{ .Site.BaseURL }}">#!/bin/mort</a>
+        <div class="collapse navbar-collapse justify-content-left" id="top-navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" title="Home" href="{{ .Site.BaseURL }}">Home</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" title="Blog" href="{{ "/blog" | relURL }}">Blog</a>
                 </li>
@@ -17,8 +22,10 @@
                     <a class="nav-link" title="Dotfiles" href="{{ "/dotfiles" | relURL }}">Dotfiles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min"
-                        target="_blank">Appointment</a>
+                    <a class="nav-link" title="Appointment" href="https://calendly.com/mortymacs/30min" target="_blank">Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" title="Strengths" href="{{ "/strengths" | relURL }}">Strengths</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" title="About" href="{{ "/about" | relURL }}">About</a>
@@ -27,3 +34,4 @@
         </div>
     </div>
 </nav>
+
