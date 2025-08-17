@@ -4,15 +4,14 @@ draft: false
 comment: false
 ---
 
-<div class="ascii-art">
-<span class="letter-m">888b     d888</span> <span class="letter-o">.d88888b.</span> <span class="letter-r">8888888b.</span><span class="letter-t">88888888888</span>
-<span class="letter-m">8888b   d8888</span><span class="letter-o">d88P" "Y88b</span><span class="letter-r">888   Y88b</span>   <span class="letter-t">888</span>
-<span class="letter-m">88888b.d88888</span><span class="letter-o">888     888</span><span class="letter-r">888    888</span>   <span class="letter-t">888</span>
-<span class="letter-m">888Y88888P888</span><span class="letter-o">888     888</span><span class="letter-r">888   d88P</span>   <span class="letter-t">888</span>
-<span class="letter-m">888 Y888P 888</span><span class="letter-o">888     888</span><span class="letter-r">8888888P"</span>    <span class="letter-t">888</span>
-<span class="letter-m">888  Y8P  888</span><span class="letter-o">888     888</span><span class="letter-r">888 T88b</span>     <span class="letter-t">888</span>
-<span class="letter-m">888   "   888</span><span class="letter-o">Y88b. .d88P</span><span class="letter-r">888  T88b</span>    <span class="letter-t">888</span>
-<span class="letter-m">888       888</span> <span class="letter-o">"Y88888P"</span> <span class="letter-r">888   T88b</span>   <span class="letter-t">888</span>
+<div class="ascii-art">&nbsp;<span class="letter-m">_______</span>&nbsp;<span class="letter-o">_______</span>&nbsp;<span class="letter-r">_______</span>&nbsp;<span class="letter-t">_______</span>&nbsp;
+<span class="letter-m">|\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/|</span><span class="letter-o">\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/|</span><span class="letter-r">\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/|</span><span class="letter-t">\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/|</span>
+<span class="letter-m">|&nbsp;+---+&nbsp;|</span>&nbsp;<span class="letter-o">+---+&nbsp;|</span>&nbsp;<span class="letter-r">+---+&nbsp;|</span>&nbsp;<span class="letter-t">+---+&nbsp;|</span>
+<span class="letter-m">|&nbsp;|&nbsp;&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-o">|&nbsp;&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-r">|&nbsp;&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-t">|&nbsp;&nbsp;&nbsp;|&nbsp;|</span>
+<span class="letter-m">|&nbsp;|M&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-o">|o&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-r">|r&nbsp;&nbsp;|&nbsp;|</span>&nbsp;<span class="letter-t">|t&nbsp;&nbsp;|&nbsp;|</span>
+<span class="letter-m">|&nbsp;+---+&nbsp;|</span>&nbsp;<span class="letter-o">+---+&nbsp;|</span>&nbsp;<span class="letter-r">+---+&nbsp;|</span>&nbsp;<span class="letter-t">+---+&nbsp;|</span>
+<span class="letter-m">|/_____\|</span><span class="letter-o">/_____\|</span><span class="letter-r">/_____\|</span><span class="letter-t">/_____\|</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
 
 I'm Morteza, a passionate developer with more than 15 years of experience and a deep enthusiasm for open source. I have a strong technical background, particularly in C/C++, Go, and Python programming languages, as well as the GNU/Linux platform.
