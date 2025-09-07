@@ -10,6 +10,7 @@
 
     /* Navbar */
     --navbar-bg: #11121a;
+    --navbar-fg: #F5E2C8;
     --navbar-border-fg: #1A1C29;
     --navbar-brand-fg: #ED4A4A;
 
@@ -127,18 +128,19 @@ hr {
 }
 
 .navbar-dark .nav-link {
-    color: var(--foreground) !important;
+    color: var(--navbar-fg) !important;
     font-family: "monospace", monospace;
 }
 
 /* Footer */
 .footer {
     background-color: var(--navbar-bg);
+    color: var(--navbar-fg);
     border-top: var(--border-size) solid var(--navbar-border-fg);
 }
 
 .footer .copyright-2 svg {
-    fill: var(--foreground);
+    fill: var(--navbar-fg);
 }
 
 .footer .git-status {
@@ -147,12 +149,12 @@ hr {
     font-family: "monospace", monospace;
 
     svg {
-        fill: var(--foreground);
+        fill: var(--navbar-fg);
     }
 }
 
 .footer .links a svg {
-    fill: var(--foreground);
+    fill: var(--navbar-fg);
 }
 
 /* Badge */
