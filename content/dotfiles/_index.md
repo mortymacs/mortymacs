@@ -15,6 +15,7 @@ You can find it on GitHub at the following [link](https://github.com/mortymacs/d
 My environment config. I tried to keep it minimal and simple as much as I could.
 
 ## General config
+
 | Category | Tool |
 |----------|------|
 | Distro | [NixOS](https://nixos.org/) |
@@ -22,7 +23,7 @@ My environment config. I tried to keep it minimal and simple as much as I could.
 | Status Bar | [i3status-rust](https://github.com/greshake/i3status-rust) |
 | Launcher | [Rofi-Wayland](https://github.com/lbonn/rofi) |
 | GTK Theme + Icon | [Yaru](https://github.com/ubuntu/yaru) |
-| Terminal | [Alacritty](https://alacritty.org) |
+| Terminal | [Foot](https://codeberg.org/dnkl/foot) |
 | Shell | [Fish](https://fishshell.com) |
 | Shell Prompt | [Starship](https://github.com/starship/starship) |
 | Terminal Multiplexer | [Tmux](https://github.com/tmux/tmux) |
