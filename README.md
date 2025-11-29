@@ -1,8 +1,7 @@
 ## Hi!
 
-I'm Mort!<br>
-I'm a passionate software engineer and open-source enthusiast with a deep interest in GNU/Linux.
-My love for coding is evident in every line of the code I write, and I never shy away from a challenge.
+> ⚠️ **Notice:** I've moved my primary development activity to **[Sourcehut](https://sr.ht/~mortymacs/)**.
+> This Github account is only checked for Github-based projects/organizations where I'm not the only main owner (and thus can't decide to move them). **No new projects or updates will be posted here.**
+> For my latest work, **visit my [Sourcehut page](https://sr.ht/~mortymacs/)**.
 
-My website: [0t1.me](https://0t1.me)<br>
-Feel free to contact me at [m@0t1.me](mailto:m@0t1.me)
+My website: [0g1.org](https://0g1.org)<br>
